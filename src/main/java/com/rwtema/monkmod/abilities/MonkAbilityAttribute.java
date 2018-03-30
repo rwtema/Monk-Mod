@@ -31,8 +31,11 @@ public abstract class MonkAbilityAttribute extends MonkAbility {
 		IAttributeInstance entityAttribute = player.getEntityAttribute(attribute);
 		AttributeModifier modifier = entityAttribute.getModifier(uuid);
 		if (canApply(player)) {
-			double amount = getAmount(level);
+			double amount = getAmount(level, player);
 			if (modifier == null || modifier.getAmount() != amount) {
+				if (modifier != null) {
+					entityAttribute.removeModifier(uuid);
+				}
 				AttributeModifier attributeModifier = new AttributeModifier(uuid, name, amount, operation);
 				entityAttribute.applyModifier(attributeModifier);
 			}
@@ -47,7 +50,7 @@ public abstract class MonkAbilityAttribute extends MonkAbility {
 
 	}
 
-	public double getAmount(int level) {
+	public double getAmount(int level, EntityPlayer player) {
 		return levels[level];
 	}
 

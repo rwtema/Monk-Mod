@@ -67,11 +67,11 @@ public class MonkManager {
 		return player.getCapability(MonkData.MONKLEVELDATA, null);
 	}
 
-	public int getLevel(EntityPlayer player, MonkAbility ability) {
-		return 0;
+	public static int getAbilityLevel(EntityPlayer player, MonkAbility ability) {
+		return MonkLevelManager.getAbilities( get(player).getLevel()).getOrDefault(ability, -1);
 	}
 
-	public boolean hasAbility(EntityPlayer player, MonkAbility ability) {
-		return getLevel(player, ability) > 0;
+	public static boolean hasAbility(EntityPlayer player, MonkAbility ability) {
+		return getAbilityLevel(player, ability) >= 0;
 	}
 }

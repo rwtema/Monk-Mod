@@ -2,7 +2,7 @@ package com.rwtema.monkmod.levels;
 
 import com.google.common.collect.HashMultimap;
 import com.google.common.collect.ImmutableList;
-import com.rwtema.monkmod.abilities.Abilities;
+import static com.rwtema.monkmod.abilities.Abilities.*;
 import com.rwtema.monkmod.abilities.MonkAbility;
 
 public class MonkLevels {
@@ -15,13 +15,17 @@ public class MonkLevels {
 				level -> {
 					for (MonkAbility monkAbility : monkLevels.abilityHashMultimap.get(level)) {
 						int ability_level = 0;
-						for (int i = 0; i <= level; i++) {
+						for (int i = 0; i < level; i++) {
 							if (monkLevels.abilityHashMultimap.get(i).contains(monkAbility)) {
 								ability_level++;
 							}
 						}
 
-						MonkLevelManager.register(level, monkAbility, ability_level);
+						try {
+							MonkLevelManager.register(level, monkAbility, ability_level);
+						}catch (Exception err){
+							throw new RuntimeException("Unable to register: " + level + " " + monkAbility.name + " " + ability_level, err);
+						}
 					}
 				}
 		);
@@ -33,21 +37,21 @@ public class MonkLevels {
 	}
 
 	public void loadData() {
-		register(1, Abilities.ARMOR, Abilities.STRENGTH, Abilities.SPEED);
-		register(2, Abilities.ARMOR, Abilities.HEALTH);
-		register(3, Abilities.STRENGTH, Abilities.SPEED);
-		register(4, Abilities.ARMOR);
-		register(5, Abilities.SPEED);
-		register(6, Abilities.STRENGTH);
-		register(7, Abilities.HEALTH);
-		register(8, Abilities.ARMOR, Abilities.SPEED);
-		register(9, Abilities.STRENGTH);
-		register(12, Abilities.STRENGTH, Abilities.ARMOR_TOUGH);
-		register(13, Abilities.HEALTH, Abilities.SPEED);
-		register(15, Abilities.STRENGTH);
-		register(16, Abilities.ARMOR, Abilities.ARMOR_TOUGH);
-		register(18, Abilities.ARMOR_TOUGH, Abilities.SPEED);
-		register(20, Abilities.HEALTH);
+		register(1, ARMOR, STRENGTH, SPEED, MINING);
+		register(2, ARMOR, HEALTH);
+		register(3, STRENGTH, SPEED);
+		register(4, ARMOR, MINING);
+		register(5, SPEED);
+		register(6, STRENGTH);
+		register(7, HEALTH, MINING);
+		register(8, ARMOR, SPEED);
+		register(9, STRENGTH);
+		register(12, STRENGTH, ARMOR_TOUGH, MINING);
+		register(13, HEALTH, SPEED);
+		register(15, STRENGTH);
+		register(16, ARMOR, ARMOR_TOUGH);
+		register(18, ARMOR_TOUGH, SPEED);
+		register(20, HEALTH);
 
 	}
 
