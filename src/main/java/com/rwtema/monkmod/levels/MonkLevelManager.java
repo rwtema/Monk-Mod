@@ -11,17 +11,17 @@ import java.util.Set;
 public class MonkLevelManager {
 	public final static int MAX_LEVEL = 20;
 
-	private final HashMultimap<Integer, Entry> abilities = HashMultimap.create();
-	private HashMultimap<Integer, Entry> cachedAbilities = null;
+	private static final HashMultimap<Integer, Entry> abilities = HashMultimap.create();
+	private static HashMultimap<Integer, Entry> cachedAbilities = null;
 
-	public void register(int level, MonkAbility ability, int abilitiy_level) {
+	public static void register(int level, MonkAbility ability, int abilitiy_level) {
 		Validate.isTrue(abilitiy_level < ability.maxlevel);
 		cachedAbilities = null;
 		abilities.put(level, new Entry(ability, abilitiy_level));
 	}
 
-	public Set<Entry> getAbilities(int level) {
-		HashMultimap<Integer, Entry> cachedAbilities = this.cachedAbilities;
+	public static Set<Entry> getAbilities(int level) {
+		HashMultimap<Integer, Entry> cachedAbilities = MonkLevelManager.cachedAbilities;
 		if (cachedAbilities == null) {
 			cachedAbilities = HashMultimap.create();
 			HashMultimap<Integer, Entry> finalCachedAbilities = cachedAbilities;
@@ -39,8 +39,8 @@ public class MonkLevelManager {
 	}
 
 	public static class Entry {
-		final MonkAbility ability;
-		final int level;
+		public final MonkAbility ability;
+		public final int level;
 
 		public Entry(MonkAbility ability, int level) {
 			this.ability = ability;

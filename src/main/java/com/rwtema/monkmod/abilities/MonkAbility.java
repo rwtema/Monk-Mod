@@ -53,7 +53,7 @@ public class MonkAbility {
 		return checkForContraband(player, ARMOR_SLOTS, ARMOR_MODIFIERS);
 	}
 
-	public void tickServer(EntityPlayer player) {
+	public void tickServer(EntityPlayer player, int level) {
 
 	}
 
