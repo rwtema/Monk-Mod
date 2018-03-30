@@ -64,7 +64,7 @@ public class Abilities {
 	public static final MonkAbility MINING;
 
 	static {
-		float[] speeds = {2, 4, 6, 8, 12};
+		float[] speeds = {2, 4, 6, 8, 12, 16, 20};
 		Set<String> validBlocks = ImmutableSet.of("", "pickaxe", "shovel", "axe");
 		MINING = new MonkAbility("mine_speed", speeds.length) {
 			@SubscribeEvent
