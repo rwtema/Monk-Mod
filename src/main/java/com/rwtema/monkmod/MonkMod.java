@@ -2,6 +2,7 @@ package com.rwtema.monkmod;
 
 import com.rwtema.monkmod.command.CommandMonkLevelManip;
 import com.rwtema.monkmod.data.MonkData;
+import com.rwtema.monkmod.levels.MonkLevels;
 import net.minecraft.nbt.NBTBase;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.EnumFacing;
@@ -24,7 +25,7 @@ public class MonkMod {
 	public static final String NAME = "Monk";
 	public static final String VERSION = "1.0";
 
-	private static Logger logger;
+	public static Logger logger;
 
 	@EventHandler
 	public void preInit(FMLPreInitializationEvent event) {
@@ -42,6 +43,7 @@ public class MonkMod {
 			}
 		}, MonkData::new);
 		MinecraftForge.EVENT_BUS.register(MonkManager.class);
+		MonkLevels.init();
 	}
 
 	@EventHandler

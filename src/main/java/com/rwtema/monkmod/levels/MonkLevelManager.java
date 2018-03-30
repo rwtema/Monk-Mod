@@ -3,6 +3,7 @@ package com.rwtema.monkmod.levels;
 import com.google.common.collect.HashMultimap;
 import com.google.common.collect.ImmutableMap;
 import com.rwtema.monkmod.abilities.MonkAbility;
+import net.minecraft.util.math.MathHelper;
 import org.apache.commons.lang3.Validate;
 
 import java.util.HashMap;
@@ -23,18 +24,19 @@ public class MonkLevelManager {
 	}
 
 	public static Map<MonkAbility, Integer> getAbilities(int level) {
-		HashMap<Integer,  Map<MonkAbility, Integer> > cachedAbilities = MonkLevelManager.cachedAbilities;
+		HashMap<Integer,  Map<MonkAbility, Integer>> cachedAbilities = MonkLevelManager.cachedAbilities;
 		if (cachedAbilities == null) {
 			cachedAbilities = new HashMap<>();
 
 			HashMap<MonkAbility, Integer> levels = new HashMap<>();
-			for (int i = 0; i < MAX_LEVEL; i++) {
+			for (int i = 0; i <= MAX_LEVEL; i++) {
 				for (Entry entry : abilities.get(i)) {
 					levels.merge(entry.ability, entry.level, Math::max);
 				}
 				cachedAbilities.put(i, ImmutableMap.copyOf(levels));
 			}
 		}
+		level = MathHelper.clamp(level, 0, MAX_LEVEL);
 		return cachedAbilities.get(level);
 	}
 

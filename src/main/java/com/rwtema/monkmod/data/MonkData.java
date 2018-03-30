@@ -22,9 +22,14 @@ public class MonkData implements INBTSerializable<NBTTagCompound>, ICapabilityPr
 					.addInteger("experience", MonkData::getExperience, MonkData::setExperience)
 					.addInteger("ki", MonkData::getKi, MonkData::setKi);
 	@CapabilityInject(MonkData.class)
-	public static Capability<MonkData> MONKLEVELDATA = null;
+	public static final Capability<MonkData> MONKLEVELDATA = null;
 	private int level;
 	private int experience;
+
+	@CapabilityInject(MonkData.class)
+	public static void test(Capability<MonkData> cap){
+		MonkMod.logger.debug("Cap Registered");
+	}
 
 	public int getKi() {
 		return ki;
@@ -64,12 +69,14 @@ public class MonkData implements INBTSerializable<NBTTagCompound>, ICapabilityPr
 
 	@Override
 	public boolean hasCapability(@Nonnull Capability<?> capability, @Nullable EnumFacing facing) {
+		assert MONKLEVELDATA != null;
 		return capability == MONKLEVELDATA;
 	}
 
 	@Nullable
 	@Override
 	public <T> T getCapability(@Nonnull Capability<T> capability, @Nullable EnumFacing facing) {
+		assert MONKLEVELDATA != null;
 		return capability == MONKLEVELDATA ? MONKLEVELDATA.cast(this) : null;
 	}
 }

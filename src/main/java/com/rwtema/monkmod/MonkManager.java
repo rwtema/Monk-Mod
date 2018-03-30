@@ -4,8 +4,8 @@ import com.rwtema.monkmod.abilities.MonkAbility;
 import com.rwtema.monkmod.abilities.MonkAbilityAttribute;
 import com.rwtema.monkmod.data.MonkData;
 import com.rwtema.monkmod.levels.MonkLevelManager;
+import net.minecraft.entity.Entity;
 import net.minecraft.entity.ai.attributes.AbstractAttributeMap;
-import net.minecraft.entity.ai.attributes.AttributeModifier;
 import net.minecraft.entity.ai.attributes.IAttributeInstance;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
@@ -15,23 +15,22 @@ import net.minecraftforge.fml.common.gameevent.TickEvent;
 
 import java.util.HashSet;
 import java.util.Map;
-import java.util.Set;
-import java.util.UUID;
 
 public class MonkManager {
-	@SubscribeEvent
-	public static void registerCap(AttachCapabilitiesEvent<EntityPlayer> playerAttachCapabilitiesEvent) {
-		playerAttachCapabilitiesEvent.addCapability(MonkData.LOCATION, new MonkData());
-	}
-
 	private final static HashSet<EntityPlayer> dirtyPlayers = new HashSet<EntityPlayer>();
 
-	public static void markDirty(EntityPlayerMP playerMP){
+	@SubscribeEvent
+	public static void registerCap(AttachCapabilitiesEvent<Entity> playerAttachCapabilitiesEvent) {
+		if (playerAttachCapabilitiesEvent.getObject() instanceof EntityPlayer)
+			playerAttachCapabilitiesEvent.addCapability(MonkData.LOCATION, new MonkData());
+	}
+
+	public static void markDirty(EntityPlayerMP playerMP) {
 		dirtyPlayers.add(playerMP);
 	}
 
-	public static void serverTick(TickEvent.ServerTickEvent event){
-		if(!dirtyPlayers.isEmpty()){
+	public static void serverTick(TickEvent.ServerTickEvent event) {
+		if (!dirtyPlayers.isEmpty()) {
 			for (EntityPlayer dirtyPlayer : dirtyPlayers) {
 
 			}
