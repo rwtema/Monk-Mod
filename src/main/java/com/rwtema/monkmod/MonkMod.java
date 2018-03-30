@@ -1,5 +1,6 @@
 package com.rwtema.monkmod;
 
+import com.rwtema.monkmod.command.CommandMonkLevelManip;
 import com.rwtema.monkmod.data.MonkData;
 import net.minecraft.nbt.NBTBase;
 import net.minecraft.nbt.NBTTagCompound;
@@ -11,6 +12,8 @@ import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.Mod.EventHandler;
 import net.minecraftforge.fml.common.event.FMLInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
+import net.minecraftforge.fml.common.event.FMLServerAboutToStartEvent;
+import net.minecraftforge.fml.common.event.FMLServerStartingEvent;
 import org.apache.logging.log4j.Logger;
 
 import javax.annotation.Nullable;
@@ -44,5 +47,10 @@ public class MonkMod {
 	@EventHandler
 	public void init(FMLInitializationEvent event) {
 
+	}
+
+	@EventHandler
+	public void onServerStart(FMLServerStartingEvent event){
+		event.registerServerCommand(new CommandMonkLevelManip());
 	}
 }

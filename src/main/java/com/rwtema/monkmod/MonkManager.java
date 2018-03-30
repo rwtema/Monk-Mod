@@ -8,10 +8,12 @@ import net.minecraft.entity.ai.attributes.AbstractAttributeMap;
 import net.minecraft.entity.ai.attributes.AttributeModifier;
 import net.minecraft.entity.ai.attributes.IAttributeInstance;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraftforge.event.AttachCapabilitiesEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.gameevent.TickEvent;
 
+import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 import java.util.UUID;
@@ -20,6 +22,21 @@ public class MonkManager {
 	@SubscribeEvent
 	public static void registerCap(AttachCapabilitiesEvent<EntityPlayer> playerAttachCapabilitiesEvent) {
 		playerAttachCapabilitiesEvent.addCapability(MonkData.LOCATION, new MonkData());
+	}
+
+	private final static HashSet<EntityPlayer> dirtyPlayers = new HashSet<EntityPlayer>();
+
+	public static void markDirty(EntityPlayerMP playerMP){
+		dirtyPlayers.add(playerMP);
+	}
+
+	public static void serverTick(TickEvent.ServerTickEvent event){
+		if(!dirtyPlayers.isEmpty()){
+			for (EntityPlayer dirtyPlayer : dirtyPlayers) {
+
+			}
+			dirtyPlayers.clear();
+		}
 	}
 
 	@SubscribeEvent
