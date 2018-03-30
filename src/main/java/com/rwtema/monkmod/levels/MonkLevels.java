@@ -76,7 +76,7 @@ public class MonkLevels {
 		// Master
 		register(10, STRENGTH);
 
-
+		// Creeper
 		register(11);
 
 		register(12, STRENGTH, ARMOR_TOUGH, MINING);
