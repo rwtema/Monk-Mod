@@ -12,6 +12,7 @@ import net.minecraftforge.event.AttachCapabilitiesEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.gameevent.TickEvent;
 
+import java.util.Map;
 import java.util.Set;
 import java.util.UUID;
 
@@ -22,35 +23,28 @@ public class MonkManager {
 	}
 
 	@SubscribeEvent
-	public static void tick(TickEvent.PlayerTickEvent event){
-		if(event.player.world.isRemote) return;
+	public static void tick(TickEvent.PlayerTickEvent event) {
+		if (event.player.world.isRemote) return;
 		MonkData monkData = get(event.player);
 
-		Set<MonkLevelManager.Entry> abilities = MonkLevelManager.getAbilities(monkData.getLevel());
-		for (MonkLevelManager.Entry entry : abilities) {
-			entry.ability.tickServer(event.player, entry.level);
-		}
+		Map<MonkAbility, Integer> abilities = MonkLevelManager.getAbilities(monkData.getLevel());
+		abilities.forEach(
+				(ability, level) -> ability.tickServer(event.player, level)
+		);
+
 
 		AbstractAttributeMap attributeMap = event.player.getAttributeMap();
 		for (IAttributeInstance attributeInstance : attributeMap.getAllAttributes()) {
-			for (UUID uuid : MonkAbilityAttribute.uuids) {
-				attributeInstance.removeModifier(uuid);
-			}
+			MonkAbilityAttribute.uuids.forEach(
+					(uuid, monkAbilityAttribute) -> {
+						if (attributeInstance.getModifier(uuid) != null
+								&& !abilities.containsKey(monkAbilityAttribute)) {
+							attributeInstance.removeModifier(uuid);
+						}
+					}
+			);
 		}
-		for (MonkLevelManager.Entry entry : abilities) {
-			if(entry.ability instanceof MonkAbilityAttribute){
-				MonkAbilityAttribute abilityAttribute = (MonkAbilityAttribute) entry.ability;
-				IAttributeInstance attributeInstance = attributeMap.getAttributeInstance(((MonkAbilityAttribute) abilityAttribute).attribute);
-				attributeInstance.applyModifier(new AttributeModifier(
-						abilityAttribute.uuid,
-						abilityAttribute.name,
-						abilityAttribute.getAmount(entry.level),
-						abilityAttribute.operation
 
-
-				));
-			}
-		}
 	}
 
 	public static MonkData get(EntityPlayer player) {
