@@ -1,14 +1,21 @@
 package com.rwtema.monkmod;
 
+import com.rwtema.monkmod.abilities.MonkAbility;
 import com.rwtema.monkmod.data.MonkData;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraftforge.event.AttachCapabilitiesEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
+import net.minecraftforge.fml.common.gameevent.TickEvent;
 
 public class MonkManager {
 	@SubscribeEvent
 	public static void registerCap(AttachCapabilitiesEvent<EntityPlayer> playerAttachCapabilitiesEvent) {
 		playerAttachCapabilitiesEvent.addCapability(MonkData.LOCATION, new MonkData());
+	}
+
+	@SubscribeEvent
+	public static void tick(TickEvent.PlayerTickEvent event){
+
 	}
 
 	public static MonkData get(EntityPlayer player) {
