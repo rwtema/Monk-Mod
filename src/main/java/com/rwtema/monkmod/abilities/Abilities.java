@@ -12,6 +12,10 @@ import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import java.util.Set;
 
 public class Abilities {
+	public static final MonkAbilityHunger HUNGER = new MonkAbilityHunger("hunger");
+
+	public static final MonkAbilityWater WATER_BREATHING = new MonkAbilityWater("water", 2);
+
 	public static final MonkAbilityAttribute STRENGTH = new MonkAbilityAttribute("punch", SharedMonsterAttributes.ATTACK_DAMAGE, new double[]{
 			1, 2, 4, 8, 16, 32
 	}, 0) {

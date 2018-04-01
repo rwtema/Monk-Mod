@@ -2,15 +2,22 @@ package com.rwtema.monkmod.levels;
 
 import com.google.common.collect.HashMultimap;
 import com.google.common.collect.ImmutableList;
-import static com.rwtema.monkmod.abilities.Abilities.*;
 import com.rwtema.monkmod.abilities.MonkAbility;
+import com.rwtema.monkmod.advancements.MonkRequirement;
+import com.rwtema.monkmod.advancements.criteria.MonkRequirementBreakBlockBareHanded;
+import com.rwtema.monkmod.advancements.criteria.MonkRequirementSunriseSunset;
+
+import java.util.HashMap;
+
+import static com.rwtema.monkmod.abilities.Abilities.*;
 
 public class MonkLevels {
+	public static final HashMap<Integer, MonkRequirement> levelUpRequirements = new HashMap<>();
 	public HashMultimap<Integer, MonkAbility> abilityHashMultimap = HashMultimap.create();
 
 	public static void init() {
 		MonkLevels monkLevels = new MonkLevels();
-		monkLevels.loadData();
+		monkLevels.loadAbilities();
 		monkLevels.abilityHashMultimap.keySet().stream().sorted().forEach(
 				level -> {
 					for (MonkAbility monkAbility : monkLevels.abilityHashMultimap.get(level)) {
@@ -23,7 +30,7 @@ public class MonkLevels {
 
 						try {
 							MonkLevelManager.register(level, monkAbility, ability_level);
-						}catch (Exception err){
+						} catch (Exception err) {
 							throw new RuntimeException("Unable to register: " + level + " " + monkAbility.name + " " + ability_level, err);
 						}
 					}
@@ -36,17 +43,25 @@ public class MonkLevels {
 		abilityHashMultimap.putAll(level, ImmutableList.copyOf(monkAbilities));
 	}
 
-	public void loadData() {
+	public void loadAbilities() {
+
+		register(new MonkRequirementBreakBlockBareHanded(0, (world, pos, state) -> state.getBlock().isWood(world, pos), 1));
+
 		// Sapling
-		// Punch 40 tree logs with bare hands.
-		register(1, ARMOR, STRENGTH, SPEED, MINING);
+		// Punch 50 tree logs with bare hands.
+		register(1, MINING);
+		register(1, ARMOR, STRENGTH, SPEED);
+		register(new MonkRequirementBreakBlockBareHanded(1, (world, pos, state) -> state.getBlock().isWood(world, pos), 3));
 
 		// Chicken
-		// Meditate while watching a sunset or beneath a waterfall.
+		// Meditate while watching a sunset or sunrise.
+		register(1, HUNGER);
 		register(2, ARMOR, HEALTH);
+		register(new MonkRequirementSunriseSunset(2, 10 * 20));
 
 		// Squid
 		// Swim to the bottom of an ocean.
+		register(3, WATER_BREATHING);
 		register(3, STRENGTH, SPEED);
 
 		// Silverfish
@@ -90,4 +105,7 @@ public class MonkLevels {
 
 	}
 
+	private void register(MonkRequirement requirement) {
+		levelUpRequirements.put(requirement.levelToGrant, requirement);
+	}
 }

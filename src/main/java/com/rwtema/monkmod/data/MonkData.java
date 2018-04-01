@@ -19,12 +19,12 @@ public class MonkData implements INBTSerializable<NBTTagCompound>, ICapabilityPr
 	private static final NBTSerializer<MonkData> serializer =
 			NBTSerializer.<MonkData>createSerializer()
 					.addInteger("level", MonkData::getLevel, MonkData::setLevel)
-					.addInteger("experience", MonkData::getExperience, MonkData::setExperience)
+					.addInteger("progress", MonkData::getProgress, MonkData::setProgress)
 					.addInteger("ki", MonkData::getKi, MonkData::setKi);
 	@CapabilityInject(MonkData.class)
 	public static final Capability<MonkData> MONKLEVELDATA = null;
-	private int level;
-	private int experience;
+	private int level = -1;
+	private int progress;
 
 	@CapabilityInject(MonkData.class)
 	public static void test(Capability<MonkData> cap){
@@ -49,12 +49,12 @@ public class MonkData implements INBTSerializable<NBTTagCompound>, ICapabilityPr
 		this.level = level;
 	}
 
-	public int getExperience() {
-		return experience;
+	public int getProgress() {
+		return progress;
 	}
 
-	public void setExperience(int experience) {
-		this.experience = experience;
+	public void setProgress(int progress) {
+		this.progress = progress;
 	}
 
 	@Override
@@ -78,5 +78,9 @@ public class MonkData implements INBTSerializable<NBTTagCompound>, ICapabilityPr
 	public <T> T getCapability(@Nonnull Capability<T> capability, @Nullable EnumFacing facing) {
 		assert MONKLEVELDATA != null;
 		return capability == MONKLEVELDATA ? MONKLEVELDATA.cast(this) : null;
+	}
+
+	public void increaseProgress(int k) {
+		progress += k;
 	}
 }

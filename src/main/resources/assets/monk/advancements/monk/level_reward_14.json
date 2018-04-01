@@ -2,24 +2,24 @@
   "display": {
     "icon": {
       "item": "monk:monk_level",
-      "data": 0
+      "data": 14
     },
     "title": {
-      "translate": "monk.advancements.level.0"
+      "translate": "monk.advancements.reward.14"
     },
     "description": {
-      "translate": "monk.advancements.level.0.desc"
+      "translate": "monk.advancements.reward.14.desc"
     },
-    "background": "minecraft:textures/gui/advancements/backgrounds/stone.png",
-    "show_toast": true,
+    "show_toast": false,
     "announce_to_chat": false,
-    "hidden": false
+    "hidden": true
   },
+  "parent": "monk:monk/level_13",
   "criteria": {
     "level": {
       "trigger": "monk:levelup",
       "conditions": {
-        "level": 0
+        "level": 14
       }
     }
   }

@@ -1,6 +1,7 @@
 package com.rwtema.monkmod.advancements;
 
 import com.google.common.collect.HashMultimap;
+import com.google.common.collect.Lists;
 import com.google.gson.JsonDeserializationContext;
 import com.google.gson.JsonObject;
 import com.rwtema.monkmod.MonkMod;
@@ -45,7 +46,7 @@ public class MonkCriterionTrigger implements ICriterionTrigger<MonkCriterionTrig
 	}
 
 	public void trigger(EntityPlayerMP player, int level) {
-		for (Listener<Instance> listener : instances.get(player.getAdvancements())) {
+		for (Listener<Instance> listener : Lists.newArrayList(instances.get(player.getAdvancements()))) {
 			if (listener.getCriterionInstance().level == level) {
 				listener.grantCriterion(player.getAdvancements());
 			}
@@ -60,4 +61,6 @@ public class MonkCriterionTrigger implements ICriterionTrigger<MonkCriterionTrig
 			this.level = level;
 		}
 	}
+
+
 }

@@ -2,24 +2,24 @@
   "display": {
     "icon": {
       "item": "monk:monk_level",
-      "data": 1
+      "data": 10
     },
     "title": {
-      "translate": "monk.advancements.level.1"
+      "translate": "monk.advancements.level.10"
     },
     "description": {
-      "translate": "monk.advancements.level.1.desc"
+      "translate": "monk.advancements.level.10.desc"
     },
     "show_toast": true,
     "announce_to_chat": true,
     "hidden": false
   },
-  "parent": "monk:monk/root",
+  "parent": "monk:monk/level_9",
   "criteria": {
     "level": {
       "trigger": "monk:levelup",
       "conditions": {
-        "level": 1
+        "level": 10
       }
     }
   }
