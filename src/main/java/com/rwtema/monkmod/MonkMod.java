@@ -1,8 +1,10 @@
 package com.rwtema.monkmod;
 
+import com.rwtema.monkmod.advancements.MonkCriterionTrigger;
 import com.rwtema.monkmod.command.CommandMonkLevelManip;
 import com.rwtema.monkmod.data.MonkData;
 import com.rwtema.monkmod.levels.MonkLevels;
+import net.minecraft.advancements.CriteriaTriggers;
 import net.minecraft.nbt.NBTBase;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.EnumFacing;
@@ -26,6 +28,8 @@ public class MonkMod {
 	public static final String VERSION = "1.0";
 
 	public static Logger logger;
+
+	MonkCriterionTrigger TRIGGER = CriteriaTriggers.register(new MonkCriterionTrigger());
 
 	@EventHandler
 	public void preInit(FMLPreInitializationEvent event) {

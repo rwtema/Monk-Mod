@@ -1,0 +1,27 @@
+{
+  "display": {
+    "icon": {
+      "item": "minecraft:iron_sword"
+    },
+    "title": {
+      "translate": "monk.advancements.level.1"
+    },
+    "description": {
+      "translate": "monk.advancements.level.1.desc"
+    },
+    "parent": "monk/root",
+    "background": "minecraft:textures/gui/advancements/backgrounds/stone.png",
+    "show_toast": true,
+    "announce_to_chat": true
+  },
+
+  "criteria": {
+    "level":{
+      "trigger":"monk:levelup",
+      "conditions": {
+        "level": 1
+      }
+    }
+  }
+
+}
