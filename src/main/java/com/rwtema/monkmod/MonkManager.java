@@ -4,6 +4,8 @@ import com.rwtema.monkmod.abilities.MonkAbility;
 import com.rwtema.monkmod.abilities.MonkAbilityAttribute;
 import com.rwtema.monkmod.data.MonkData;
 import com.rwtema.monkmod.levels.MonkLevelManager;
+import com.rwtema.monkmod.network.MessageMonkLevelData;
+import com.rwtema.monkmod.network.MonkNetwork;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.ai.attributes.AbstractAttributeMap;
 import net.minecraft.entity.ai.attributes.IAttributeInstance;
@@ -11,6 +13,7 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraftforge.event.AttachCapabilitiesEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
+import net.minecraftforge.fml.common.gameevent.PlayerEvent;
 import net.minecraftforge.fml.common.gameevent.TickEvent;
 
 import java.util.HashSet;
@@ -25,23 +28,25 @@ public class MonkManager {
 			playerAttachCapabilitiesEvent.addCapability(MonkData.LOCATION, new MonkData());
 	}
 
-	public static void markDirty(EntityPlayerMP playerMP) {
-		dirtyPlayers.add(playerMP);
+	@SubscribeEvent
+	public static void onWatch(PlayerEvent.PlayerLoggedInEvent event) {
+		EntityPlayerMP player = (EntityPlayerMP) event.player;
+		updatePlayer(player, get(player));
 	}
 
-	public static void serverTick(TickEvent.ServerTickEvent event) {
-		if (!dirtyPlayers.isEmpty()) {
-			for (EntityPlayer dirtyPlayer : dirtyPlayers) {
-
-			}
-			dirtyPlayers.clear();
-		}
+	private static void updatePlayer(EntityPlayerMP player, MonkData monkData) {
+		MonkNetwork.net.sendTo(new MessageMonkLevelData(monkData), player);
 	}
 
 	@SubscribeEvent
 	public static void tick(TickEvent.PlayerTickEvent event) {
-		if (event.player.world.isRemote) return;
+		if (event.player.world.isRemote || event.phase == TickEvent.Phase.START) return;
 		MonkData monkData = get(event.player);
+
+		if (monkData.getLevel() != monkData.prevLevel) {
+			updatePlayer((EntityPlayerMP) event.player, monkData);
+			monkData.prevLevel = monkData.getLevel();
+		}
 
 		Map<MonkAbility, Integer> abilities = MonkLevelManager.getAbilities(monkData.getLevel());
 		abilities.forEach(
@@ -68,7 +73,7 @@ public class MonkManager {
 	}
 
 	public static int getAbilityLevel(EntityPlayer player, MonkAbility ability) {
-		return MonkLevelManager.getAbilities( get(player).getLevel()).getOrDefault(ability, -1);
+		return MonkLevelManager.getAbilities(get(player).getLevel()).getOrDefault(ability, -1);
 	}
 
 	public static boolean hasAbility(EntityPlayer player, MonkAbility ability) {

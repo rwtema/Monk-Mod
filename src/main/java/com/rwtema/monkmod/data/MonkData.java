@@ -24,6 +24,7 @@ public class MonkData implements INBTSerializable<NBTTagCompound>, ICapabilityPr
 	@CapabilityInject(MonkData.class)
 	public static final Capability<MonkData> MONKLEVELDATA = null;
 	private int level = -1;
+	public int prevLevel = -112;
 	private int progress;
 
 	@CapabilityInject(MonkData.class)

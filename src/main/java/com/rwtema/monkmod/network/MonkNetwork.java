@@ -30,13 +30,14 @@ public class MonkNetwork {
 		};
 
 		registerClientToServerPacket(genericHandler, MessageBlink.class, 0);
+		registerServerToClientPacket(genericHandler, MessageMonkLevelData.class, 1);
 	}
 
-	protected static <T extends MessageServerToClient> void registerServerToClientPacket(IMessageHandler<MessageBase, IMessage> genericHandler, Class<T> messageType, int discriminator) {
+	private static <T extends MessageServerToClient> void registerServerToClientPacket(IMessageHandler<MessageBase, IMessage> genericHandler, Class<T> messageType, int discriminator) {
 		net.registerMessage(genericHandler, messageType, discriminator, Side.CLIENT);
 	}
 
-	protected static <T extends MessageClientToServer> void registerClientToServerPacket(IMessageHandler<MessageBase, IMessage> genericHandler, Class<T> messageType, int discriminator) {
+	private static <T extends MessageClientToServer> void registerClientToServerPacket(IMessageHandler<MessageBase, IMessage> genericHandler, Class<T> messageType, int discriminator) {
 		net.registerMessage(genericHandler, messageType, discriminator, Side.CLIENT);
 	}
 

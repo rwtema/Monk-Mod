@@ -6,6 +6,7 @@ import com.rwtema.monkmod.data.MonkData;
 import com.rwtema.monkmod.debug.CreateJSons;
 import com.rwtema.monkmod.item.ItemMonkBase;
 import com.rwtema.monkmod.levels.MonkLevels;
+import com.rwtema.monkmod.network.MonkNetwork;
 import gnu.trove.map.hash.TIntObjectHashMap;
 import net.minecraft.advancements.CriteriaTriggers;
 import net.minecraft.client.renderer.block.model.ModelBakery;
@@ -43,6 +44,7 @@ public class MonkMod {
 	@EventHandler
 	public void preInit(FMLPreInitializationEvent event) {
 		logger = event.getModLog();
+
 		CapabilityManager.INSTANCE.register(MonkData.class, new Capability.IStorage<MonkData>() {
 			@Nullable
 			@Override
@@ -79,6 +81,7 @@ public class MonkMod {
 		}).run();
 
 		CreateJSons.create();
+		MonkNetwork.init();
 	}
 
 	@EventHandler

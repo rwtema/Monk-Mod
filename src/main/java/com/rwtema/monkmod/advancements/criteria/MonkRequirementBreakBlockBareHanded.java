@@ -12,7 +12,6 @@ public class MonkRequirementBreakBlockBareHanded extends MonkRequirement {
 	final StatePredicate states;
 	final int numRequired;
 
-
 	public MonkRequirementBreakBlockBareHanded(int level, StatePredicate states, int numRequired) {
 		super(level);
 		this.states = states;

@@ -3,9 +3,14 @@ package com.rwtema.monkmod.abilities;
 import com.google.common.collect.ImmutableSet;
 import com.rwtema.monkmod.MonkManager;
 import net.minecraft.block.state.IBlockState;
+import net.minecraft.client.Minecraft;
+import net.minecraft.client.entity.EntityPlayerSP;
 import net.minecraft.entity.SharedMonsterAttributes;
+import net.minecraft.entity.ai.attributes.AttributeModifier;
+import net.minecraft.entity.ai.attributes.IAttributeInstance;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.DamageSource;
+import net.minecraftforge.client.event.FOVUpdateEvent;
 import net.minecraftforge.event.entity.player.PlayerEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 
@@ -26,7 +31,7 @@ public class Abilities {
 		}
 	};
 
-	public static final MonkAbilityAttribute HEALTH = new MonkAbilityAttribute("health", SharedMonsterAttributes.MAX_HEALTH, new double[]{1.1, 1.2, 1.5, 2}, 1) {
+	public static final MonkAbilityAttribute HEALTH = new MonkAbilityAttribute("health", SharedMonsterAttributes.MAX_HEALTH, new double[]{0.1, 0.2, 0.5, 1}, 1) {
 
 		@Override
 		public boolean canApply(EntityPlayer player) {
@@ -34,7 +39,7 @@ public class Abilities {
 		}
 	};
 
-	public static final MonkAbilityAttribute SPEED = new MonkAbilityAttribute("swift", SharedMonsterAttributes.MOVEMENT_SPEED, new double[]{0.1, 0.2, 0.4, 0.6, 0.8, 1}, 1) {
+	public static final MonkAbilityAttribute SPEED = new MonkAbilityAttribute("swift", SharedMonsterAttributes.MOVEMENT_SPEED, new double[]{0.1, 0.2, 0.4, 0.8}, 1) {
 		@Override
 		public boolean canApply(EntityPlayer player) {
 			return isUnarmored(player);
@@ -43,7 +48,28 @@ public class Abilities {
 		@Override
 		public double getAmount(int level, EntityPlayer player) {
 			double amount = super.getAmount(level, player);
-			return player.isSprinting() ? amount : amount / 4;
+			return player.isSprinting() ? amount * 4 : amount;
+		}
+
+		@SubscribeEvent
+		public void overrideFOV(FOVUpdateEvent event) {
+			EntityPlayerSP player = Minecraft.getMinecraft().player;
+			if(player == null) return;
+			int abilityLevel = MonkManager.getAbilityLevel(player, this);
+			if (abilityLevel == -1) return;
+
+			IAttributeInstance iattributeinstance = player.getEntityAttribute(SharedMonsterAttributes.MOVEMENT_SPEED);
+			double oldMult = multiplier(player, iattributeinstance);
+			AttributeModifier modifier = iattributeinstance.getModifier(uuid);
+			if(modifier == null) return;
+			iattributeinstance.removeModifier(modifier);
+			double newMult = multiplier(player, iattributeinstance);
+			iattributeinstance.applyModifier(modifier);
+			event.setNewfov((float) ((event.getFov() / oldMult) * newMult));
+		}
+
+		private double multiplier(EntityPlayerSP player, IAttributeInstance iattributeinstance) {
+			return (iattributeinstance.getAttributeValue() / (double) player.capabilities.getWalkSpeed() + 1.0D) / 2.0D;
 		}
 	};
 
@@ -71,10 +97,13 @@ public class Abilities {
 		@Override
 		public float getAbsorbtion(DamageSource source, EntityPlayer player, int abilityLevel) {
 			switch (abilityLevel) {
-				case 0: return 0.5F;
-				case 1: return  0.2F;
+				case 0:
+					return 0.5F;
+				case 1:
+					return 0.2F;
 				default:
-				case 2: return 0;
+				case 2:
+					return 0;
 			}
 		}
 
