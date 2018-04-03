@@ -1,12 +1,14 @@
 package com.rwtema.monkmod.command;
 
 import com.rwtema.monkmod.MonkManager;
+import com.rwtema.monkmod.MonkMod;
 import com.rwtema.monkmod.data.MonkData;
 import net.minecraft.command.CommandBase;
 import net.minecraft.command.CommandException;
 import net.minecraft.command.ICommandSender;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.util.math.BlockPos;
 import net.minecraftforge.server.command.CommandTreeBase;
@@ -54,6 +56,7 @@ public class CommandMonkLevelManip extends  CommandTreeBase  {
 
 				int amount = parseInt(args[0]);
 				monkData.setLevel(amount);
+				MonkMod.TRIGGER.trigger((EntityPlayerMP) entityplayer, amount);
 			}
 
 			public List<String> getTabCompletions(MinecraftServer server, ICommandSender sender, String[] args, @Nullable BlockPos targetPos)

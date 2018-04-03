@@ -56,7 +56,9 @@ public class MonkMod {
 			public void readNBT(Capability<MonkData> capability, MonkData instance, EnumFacing side, NBTBase nbt) {
 				instance.deserializeNBT((NBTTagCompound) nbt);
 			}
-		}, MonkData::new);
+		}, () -> {
+			throw new RuntimeException();
+		});
 		MinecraftForge.EVENT_BUS.register(MonkManager.class);
 		MonkLevels.init();
 
@@ -70,7 +72,8 @@ public class MonkMod {
 			@SideOnly(Side.CLIENT)
 			public void run() {
 				TIntObjectHashMap<ModelResourceLocation> map = new TIntObjectHashMap<>();
-				for (int i = 0; i <= 20; i++) {
+
+				for (int i = 0; i <= 21; i++) {
 					ModelResourceLocation modelResourceLocation = new ModelResourceLocation(location.toString() + "_" + i, "inventory");
 					map.put(i, modelResourceLocation);
 					ModelLoader.setCustomModelResourceLocation(ITEM_MONK_BASE, i, modelResourceLocation);

@@ -16,31 +16,21 @@ import javax.annotation.Nullable;
 public class MonkData implements INBTSerializable<NBTTagCompound>, ICapabilityProvider {
 
 	public static final ResourceLocation LOCATION = new ResourceLocation(MonkMod.MODID, "monk_level_data");
+	@CapabilityInject(MonkData.class)
+	public static final Capability<MonkData> MONKLEVELDATA = null;
 	private static final NBTSerializer<MonkData> serializer =
 			NBTSerializer.<MonkData>createSerializer()
 					.addInteger("level", MonkData::getLevel, MonkData::setLevel)
-					.addInteger("progress", MonkData::getProgress, MonkData::setProgress)
-					.addInteger("ki", MonkData::getKi, MonkData::setKi);
-	@CapabilityInject(MonkData.class)
-	public static final Capability<MonkData> MONKLEVELDATA = null;
-	private int level = -1;
+					.addInteger("progress", MonkData::getProgress, MonkData::setProgress);
 	public int prevLevel = -112;
-	private int progress;
+	private int progress, level;
 
 	@CapabilityInject(MonkData.class)
-	public static void test(Capability<MonkData> cap){
+	public static void test(Capability<MonkData> cap) {
 		MonkMod.logger.debug("Cap Registered");
 	}
 
-	public int getKi() {
-		return ki;
-	}
 
-	public void setKi(int ki) {
-		this.ki = ki;
-	}
-
-	private int ki;
 
 	public int getLevel() {
 		return level;
@@ -83,5 +73,10 @@ public class MonkData implements INBTSerializable<NBTTagCompound>, ICapabilityPr
 
 	public void increaseProgress(int k) {
 		progress += k;
+	}
+
+	public boolean increase(int k, int threshold) {
+		progress += k;
+		return progress >= threshold;
 	}
 }

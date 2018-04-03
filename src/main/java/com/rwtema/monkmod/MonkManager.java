@@ -29,6 +29,13 @@ public class MonkManager {
 	}
 
 	@SubscribeEvent
+	public static void onClone(net.minecraftforge.event.entity.player.PlayerEvent.Clone event){
+		MonkData oldData = get(event.getOriginal());
+		MonkData newData = get(event.getEntityPlayer());
+		newData.deserializeNBT(oldData.serializeNBT());
+	}
+
+	@SubscribeEvent
 	public static void onWatch(PlayerEvent.PlayerLoggedInEvent event) {
 		EntityPlayerMP player = (EntityPlayerMP) event.player;
 		updatePlayer(player, get(player));

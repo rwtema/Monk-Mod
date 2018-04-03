@@ -36,7 +36,7 @@ public class CreateJSons {
 	private static void createItemModels() {
 		File dir = new File("C:\\extrautils\\modjam2018\\src\\main\\resources\\assets\\monk\\models\\item");
 
-		for (int level = 0; level <= 20; level++) {
+		for (int level = 0; level <= 21; level++) {
 			writeJSon(new File(dir, Validate.notNull(MonkMod.ITEM_MONK_BASE.getRegistryName()).getResourcePath() + "_" + level + ".json"), json()
 					.add("parent", "item/generated")
 					.add("textures", json()
@@ -100,7 +100,7 @@ public class CreateJSons {
 					.add("display", json()
 							.add("icon", json()
 									.add("item", Validate.notNull(MonkMod.ITEM_MONK_BASE.getRegistryName()).toString())
-									.add("data", level))
+									.add("data", 21))
 							.add("title", json()
 									.add("translate", "monk.advancements.reward." + level))
 							.add("description", json()

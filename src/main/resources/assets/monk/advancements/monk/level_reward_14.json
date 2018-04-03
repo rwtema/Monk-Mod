@@ -2,7 +2,7 @@
   "display": {
     "icon": {
       "item": "monk:monk_level",
-      "data": 14
+      "data": 21
     },
     "title": {
       "translate": "monk.advancements.reward.14"

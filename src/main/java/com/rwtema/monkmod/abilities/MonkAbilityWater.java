@@ -12,7 +12,6 @@ public class MonkAbilityWater extends MonkAbility {
 	@Override
 	public void tickServer(EntityPlayer player, int level) {
 		final int air = player.getAir();
-		Random rand = player.world.rand;
 		if (air < 300) {
 			if (level == 1) {
 				player.setAir(300);

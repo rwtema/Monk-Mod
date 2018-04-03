@@ -47,7 +47,7 @@ public class MonkCriterionTrigger implements ICriterionTrigger<MonkCriterionTrig
 
 	public void trigger(EntityPlayerMP player, int level) {
 		for (Listener<Instance> listener : Lists.newArrayList(instances.get(player.getAdvancements()))) {
-			if (listener.getCriterionInstance().level == level) {
+			if (listener.getCriterionInstance().level <= level) {
 				listener.grantCriterion(player.getAdvancements());
 			}
 		}

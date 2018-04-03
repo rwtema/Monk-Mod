@@ -39,7 +39,8 @@ public class Abilities {
 		}
 	};
 
-	public static final MonkAbilityAttribute SPEED = new MonkAbilityAttribute("swift", SharedMonsterAttributes.MOVEMENT_SPEED, new double[]{0.1, 0.2, 0.4, 0.8}, 1) {
+	public static final MonkAbilityAttribute SPEED = new MonkAbilityAttribute("swift", SharedMonsterAttributes.MOVEMENT_SPEED,
+			new double[]{0.5, 1, 1.5, 2}, 1) {
 		@Override
 		public boolean canApply(EntityPlayer player) {
 			return isUnarmored(player);
@@ -48,20 +49,20 @@ public class Abilities {
 		@Override
 		public double getAmount(int level, EntityPlayer player) {
 			double amount = super.getAmount(level, player);
-			return player.isSprinting() ? amount * 4 : amount;
+			return player.isSprinting() ? amount * 2 : amount;
 		}
 
 		@SubscribeEvent
 		public void overrideFOV(FOVUpdateEvent event) {
 			EntityPlayerSP player = Minecraft.getMinecraft().player;
-			if(player == null) return;
+			if (player == null) return;
 			int abilityLevel = MonkManager.getAbilityLevel(player, this);
 			if (abilityLevel == -1) return;
 
 			IAttributeInstance iattributeinstance = player.getEntityAttribute(SharedMonsterAttributes.MOVEMENT_SPEED);
 			double oldMult = multiplier(player, iattributeinstance);
 			AttributeModifier modifier = iattributeinstance.getModifier(uuid);
-			if(modifier == null) return;
+			if (modifier == null) return;
 			iattributeinstance.removeModifier(modifier);
 			double newMult = multiplier(player, iattributeinstance);
 			iattributeinstance.applyModifier(modifier);
@@ -74,7 +75,7 @@ public class Abilities {
 	};
 
 	public static final MonkAbilityAttribute ARMOR = new MonkAbilityAttribute("hardskin", SharedMonsterAttributes.ARMOR, new double[]{
-			4, 7, 11, 15, 20
+			2, 4, 7, 11, 14, 15, 20
 	}, 0) {
 		@Override
 		public boolean canApply(EntityPlayer player) {
@@ -91,18 +92,34 @@ public class Abilities {
 		}
 	};
 
+	public static final MonkAbilityTameAnimals PET = new MonkAbilityTameAnimals("tame_animal");
+
+	public static final MonkAbilityCreeperKiss KISS = new MonkAbilityCreeperKiss("creeper_kiss");
+
+	public static final MonkProtection EXPLOSION = new MonkProtection("explosion") {
+		@Override
+		public float getAbsorbtion(DamageSource source, EntityPlayer player, int abilityLevel) {
+			return 0.3F;
+		}
+
+		@Override
+		public boolean canHandle(EntityPlayer player, DamageSource source) {
+			return source.isExplosion();
+		}
+	};
+
 	public static final MonkCatchArrows ARROW_CATCH = new MonkCatchArrows("arrow_catch");
+
+	public static final MonkProtection FIRE = new MonkProtectionFire();
 
 	public static final MonkProtection FEATHER_FALLING = new MonkProtection("feather_fall", 2) {
 		@Override
 		public float getAbsorbtion(DamageSource source, EntityPlayer player, int abilityLevel) {
 			switch (abilityLevel) {
 				case 0:
-					return 0.5F;
-				case 1:
 					return 0.2F;
 				default:
-				case 2:
+				case 1:
 					return 0;
 			}
 		}
@@ -113,6 +130,7 @@ public class Abilities {
 		}
 	};
 
+	public static final MonkAbility JUMP = new MonkAbilityJump("jump");
 
 	public static final MonkAbility MINING;
 
@@ -139,7 +157,7 @@ public class Abilities {
 
 				IBlockState targetBlock = event.getTargetBlock();
 				String harvestTool = targetBlock.getBlock().getHarvestTool(targetBlock);
-				if (harvestTool != null && !validBlocks.contains(harvestTool))
+				if (harvestTool != null && (abilityLevel == 0 && "pickaxe".equals(harvestTool) || !validBlocks.contains(harvestTool)))
 					return;
 
 				if (targetBlock.getBlock().getHarvestLevel(targetBlock) <= abilityLevel) {
@@ -148,4 +166,5 @@ public class Abilities {
 			}
 		};
 	}
+
 }
