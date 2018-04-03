@@ -21,14 +21,14 @@ public abstract class MonkRequirementDeath extends MonkRequirement {
 				if (isValidSourceOfDeath(event)) {
 					event.setCanceled(true);
 					player.setHealth(1);
-					onDeathAvoid(player);
+					onDeathAvoid(player,monkData);
 				}
 			}
 		}
 
 	}
 
-	protected void onDeathAvoid(EntityPlayerMP player) {
+	protected void onDeathAvoid(EntityPlayerMP player, MonkData monkData) {
 		grantLevel(player);
 	}
 

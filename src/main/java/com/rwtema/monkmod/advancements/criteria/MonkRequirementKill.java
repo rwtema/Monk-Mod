@@ -1,6 +1,7 @@
 package com.rwtema.monkmod.advancements.criteria;
 
 import com.rwtema.monkmod.MonkManager;
+import com.rwtema.monkmod.abilities.MonkAbility;
 import com.rwtema.monkmod.advancements.MonkRequirement;
 import com.rwtema.monkmod.data.MonkData;
 import net.minecraft.entity.Entity;
@@ -25,7 +26,7 @@ public abstract class MonkRequirementKill extends MonkRequirement {
 				EntityPlayerMP player = (EntityPlayerMP) trueSource;
 				MonkData monkData = MonkManager.get(player);
 				if (monkData.getLevel() == (this.levelToGrant - 1)) {
-					if (player.getHeldItemMainhand().isEmpty()) {
+					if (MonkAbility.isUnarmed(player)) {
 
 						if (monkData.increase(1, numKills)) {
 							grantLevel(player);

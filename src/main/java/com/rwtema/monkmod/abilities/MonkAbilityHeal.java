@@ -12,7 +12,7 @@ public class MonkAbilityHeal extends MonkAbility {
 	public void tickServer(EntityPlayerMP player, int level) {
 		for (PotionEffect potionEffect : player.getActivePotionEffects()) {
 			if (potionEffect.getPotion().isBadEffect()) {
-				player.removeActivePotionEffect(potionEffect.getPotion());
+				player.removePotionEffect(potionEffect.getPotion());
 			}
 		}
 	}

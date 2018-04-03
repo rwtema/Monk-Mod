@@ -7,6 +7,7 @@ import com.rwtema.monkmod.advancements.MonkRequirement;
 import com.rwtema.monkmod.advancements.criteria.*;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.EntityLivingBase;
+import net.minecraft.entity.boss.EntityWither;
 import net.minecraft.entity.monster.IMob;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.init.Blocks;
@@ -180,19 +181,28 @@ public class MonkLevels {
 		register(16, BLINK);
 
 		registerRequirement(new MonkRequirementBedrockSleep(17));
-		register(17, MINING, STRENGTH, ARMOR, HEALTH);
+		register(17,BLIND,  MINING, STRENGTH, ARMOR, HEALTH);
 
+		// Kill entities while blind
 		registerRequirement(new MonkRequirementKill(18, 5) {
 			@Override
 			protected boolean isValidEntity(LivingDeathEvent event) {
 				return event.getEntity() instanceof IMob;
 			}
-		});
-		register(18, BLIND, POTION_IMMUNITY, HUNGER);
 
-		// Level 20
-		// Fall into the void
-		// Creative Flight when unarmored
+			@Override
+			protected void onGrant(EntityPlayerMP player) {
+				super.onGrant(player);
+				player.removePotionEffect(MobEffects.BLINDNESS);
+			}
+		});
+		register(18, BLIND, HUNGER);
+
+		registerRequirement(new MonkRequirementEnemyDefeat<>(19, EntityWither.class));
+		register(19, POTION_IMMUNITY);
+
+		registerRequirement(new MonkRequirementDescentAscent(20) );
+		register(20, FLY);
 
 	}
 

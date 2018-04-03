@@ -139,6 +139,8 @@ public class Abilities {
 
 	public static final MonkAbility BLIND = new MonkAbilityBlindness("blindness", 2);
 
+	public static final MonkAbility FLY = new MonkAbilityFly("fly");
+
 	public static final MonkAbility POTION_IMMUNITY = new MonkAbilityHeal("potionImmunity");
 
 
