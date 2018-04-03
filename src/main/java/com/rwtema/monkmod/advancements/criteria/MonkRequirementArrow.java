@@ -41,7 +41,7 @@ public class MonkRequirementArrow extends MonkRequirementTick {
 					Vec3d a = new Vec3d(player.posX - shootingEntity.posX, player.posY - shootingEntity.posY, player.posZ - shootingEntity.posZ).normalize();
 					Vec3d b = new Vec3d(player.posX - arrow.posX, player.posY - arrow.posY, player.posZ - arrow.posZ).normalize();
 					double v = a.dotProduct(b);
-					displayText(v);
+
 					if (v < -0.1) {
 						monkData.increaseProgress(1);
 

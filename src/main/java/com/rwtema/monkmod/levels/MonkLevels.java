@@ -164,7 +164,7 @@ public class MonkLevels {
 
 
 		// Enderman
-		registerRequirement(new MonkRequirementMeditateEndermen(16, 20 * 60 * 20));
+		registerRequirement(new MonkRequirementMeditateEndermen(16, 3 * 60 * 20));
 		register(16, BLINK);
 
 		registerRequirement(new MonkRequirementBedrockSleep(17));

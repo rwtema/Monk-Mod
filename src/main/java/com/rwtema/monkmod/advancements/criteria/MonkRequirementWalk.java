@@ -33,7 +33,7 @@ public abstract class MonkRequirementWalk extends MonkRequirementTick {
 		} else {
 			monkData.setProgress(0);
 		}
-		displayText(monkData.getProgress());
+
 	}
 
 	public int getRunDist(EntityPlayerMP playerMP) {

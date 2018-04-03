@@ -13,6 +13,8 @@ import net.minecraft.util.DamageSource;
 import net.minecraftforge.client.event.FOVUpdateEvent;
 import net.minecraftforge.event.entity.player.PlayerEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 
 import java.util.Set;
 
@@ -56,6 +58,7 @@ public class Abilities {
 		}
 
 		@SubscribeEvent
+		@SideOnly(Side.CLIENT)
 		public void overrideFOV(FOVUpdateEvent event) {
 			EntityPlayerSP player = Minecraft.getMinecraft().player;
 			if (player == null) return;
@@ -72,6 +75,7 @@ public class Abilities {
 			event.setNewfov((float) ((event.getFov() / oldMult) * newMult));
 		}
 
+		@SideOnly(Side.CLIENT)
 		private double multiplier(EntityPlayerSP player, IAttributeInstance iattributeinstance) {
 			return (iattributeinstance.getAttributeValue() / (double) player.capabilities.getWalkSpeed() + 1.0D) / 2.0D;
 		}

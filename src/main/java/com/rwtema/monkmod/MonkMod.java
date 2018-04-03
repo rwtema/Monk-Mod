@@ -83,7 +83,7 @@ public class MonkMod {
 			}
 		}).run();
 
-		CreateJSons.create();
+//		CreateJSons.create();
 		MonkNetwork.init();
 	}
 

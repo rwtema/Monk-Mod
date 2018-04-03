@@ -1,7 +1,7 @@
 monk.advancements.level.0=Way of the Square Fist!
 monk.advancements.level.0.desc=With your bare hands, the world will bend
 monk.advancements.level.1=Monk Level 1
-monk.advancements.level.1.desc=Break 20 logs of wood with your bare hands
+monk.advancements.level.1.desc=Break 10 logs of wood with your bare hands
 monk.advancements.reward.1=Awakened Skills: 1
 monk.advancements.reward.1.desc=Your hands can now quickly break wooden blocks without tools.
 monk.advancements.level.2=Monk Level 2
@@ -57,7 +57,7 @@ monk.advancements.level.14.desc=Take a boat upon the ocean and contemplate the m
 monk.advancements.reward.14=Awakened Skills: 14
 monk.advancements.reward.14.desc=You can now walk on water. Press shift to sink.
 monk.advancements.level.15=Monk Level 15
-monk.advancements.level.15.desc=Travel to a nether fortress and stare down a wither skeleton
+monk.advancements.level.15.desc=Travel to a nether fortress and win a staring competition against a wither skeleton.
 monk.advancements.reward.15=Awakened Skills: 15
 monk.advancements.reward.15.desc=Your "Withering Stare" will wither down any Undead creatures before your judging stare
 monk.advancements.level.16=Monk Level 16

@@ -23,7 +23,7 @@ public class MonkData implements INBTSerializable<NBTTagCompound>, ICapabilityPr
 					.addInteger("level", MonkData::getLevel, MonkData::setLevel)
 					.addInteger("progress", MonkData::getProgress, MonkData::setProgress);
 	public int prevLevel = -112;
-	private int progress, level;
+	private int progress, level = -1;
 
 	@CapabilityInject(MonkData.class)
 	public static void test(Capability<MonkData> cap) {

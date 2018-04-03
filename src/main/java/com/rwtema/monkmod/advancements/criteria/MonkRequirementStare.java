@@ -89,6 +89,6 @@ public class MonkRequirementStare extends MonkRequirementTick {
 				}
 			}
 		}
-		displayText(progress+"");
+
 	}
 }

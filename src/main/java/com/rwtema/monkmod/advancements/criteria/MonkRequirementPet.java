@@ -3,7 +3,6 @@ package com.rwtema.monkmod.advancements.criteria;
 import com.rwtema.monkmod.MonkManager;
 import com.rwtema.monkmod.advancements.MonkRequirement;
 import com.rwtema.monkmod.data.MonkData;
-import net.minecraft.client.entity.AbstractClientPlayer;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.passive.EntityAnimal;
 import net.minecraft.entity.player.EntityPlayer;
@@ -12,7 +11,6 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
 import net.minecraft.nbt.NBTTagString;
 import net.minecraft.util.EnumActionResult;
-import net.minecraft.util.text.TextComponentString;
 import net.minecraft.util.text.TextComponentTranslation;
 import net.minecraftforge.common.util.Constants;
 import net.minecraftforge.event.entity.player.PlayerInteractEvent;
@@ -36,7 +34,7 @@ public class MonkRequirementPet extends MonkRequirement {
 			if (event.getWorld().isRemote) {
 				event.setCanceled(true);
 				event.setCancellationResult(EnumActionResult.SUCCESS);
-			}else{
+			} else {
 				NBTTagCompound entityData = entity.getEntityData();
 				NBTTagList monkPet = entityData.getTagList("MonkPet", Constants.NBT.TAG_STRING);
 				String uniqueIdString = entityPlayer.getCachedUniqueIdString();

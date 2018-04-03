@@ -29,26 +29,6 @@ public class MonkAbilityBlink extends MonkAbility {
 		super(name);
 	}
 
-	public Vec3d getOffsetBB(World world, BlockPos pos, Vec3d target, AxisAlignedBB bounds, EnumFacing side) {
-
-		switch (side) {
-			case DOWN:
-				return new Vec3d(target.x, pos.getY() - (bounds.maxX - bounds.minY), target.z);
-			case UP:
-				return new Vec3d(target.x, pos.getY() + 1, target.z);
-			case NORTH:
-				return new Vec3d(target.x, target.y, pos.getZ() - (bounds.maxZ - bounds.minZ) / 2);
-			case SOUTH:
-				return new Vec3d(target.x, target.y, pos.getZ() + 1 + (bounds.maxZ - bounds.minZ) / 2);
-			case WEST:
-				return new Vec3d(pos.getX() - (bounds.maxX - bounds.minX) / 2, target.y, target.z);
-			case EAST:
-				return new Vec3d(pos.getX() + 1 + (bounds.maxX - bounds.minX) / 2, target.y, target.z);
-			default:
-				throw new IllegalArgumentException("Illegal Argument: " + side);
-		}
-	}
-
 	@SideOnly(Side.CLIENT)
 	@SubscribeEvent
 	public void onInput(MouseEvent event) {
@@ -68,6 +48,7 @@ public class MonkAbilityBlink extends MonkAbility {
 		}
 	}
 
+	@SideOnly(Side.CLIENT)
 	public void runData(@Nullable MouseEvent event) {
 		Minecraft minecraft = Minecraft.getMinecraft();
 		EntityPlayerSP player = minecraft.player;
