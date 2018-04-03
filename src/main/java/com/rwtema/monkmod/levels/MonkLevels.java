@@ -142,20 +142,7 @@ public class MonkLevels {
 
 
 		// Leap of Faith
-		registerRequirement(new MonkRequirementDeath(11) {
-			@Override
-			protected boolean isValidSourceOfDeath(LivingDeathEvent event) {
-				if (event.getSource() != DamageSource.FALL) return false;
-				EntityLivingBase entityLiving = event.getEntityLiving();
-				int j6 = MathHelper.floor(entityLiving.posX);
-				int i1 = MathHelper.floor(entityLiving.posY - 0.20000000298023224D);
-				int k6 = MathHelper.floor(entityLiving.posZ);
-				BlockPos blockpos = new BlockPos(j6, i1, k6);
-				IBlockState iblockstate = entityLiving.world.getBlockState(blockpos);
-
-				return iblockstate.getBlock() == Blocks.HAY_BLOCK;
-			}
-		});
+		registerRequirement(new MonkRequirementFall(11));
 		register(11, SPEED, HEALTH, FEATHER_FALLING);
 
 		// Creeper
@@ -181,7 +168,7 @@ public class MonkLevels {
 		register(16, BLINK);
 
 		registerRequirement(new MonkRequirementBedrockSleep(17));
-		register(17,BLIND,  MINING, STRENGTH, ARMOR, HEALTH);
+		register(17,BLIND,  MINING, STRENGTH);
 
 		// Kill entities while blind
 		registerRequirement(new MonkRequirementKill(18, 5) {
@@ -196,7 +183,7 @@ public class MonkLevels {
 				player.removePotionEffect(MobEffects.BLINDNESS);
 			}
 		});
-		register(18, BLIND, HUNGER);
+		register(18, BLIND, HUNGER, ARMOR, HEALTH);
 
 		registerRequirement(new MonkRequirementEnemyDefeat<>(19, EntityWither.class));
 		register(19, POTION_IMMUNITY);

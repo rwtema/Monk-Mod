@@ -76,7 +76,7 @@ public class MonkAbilityBlink extends MonkAbility {
 			int abilityLevel = MonkManager.getAbilityLevel(player, this);
 			if (abilityLevel == -1) return;
 
-			Entity viewEntity = minecraft.getRenderViewEntity();
+			Entity viewEntity = minecraft.player;
 			if (viewEntity == null) return;
 			if (event != null)
 				event.setCanceled(true);
