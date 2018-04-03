@@ -28,7 +28,7 @@ public class MonkAbilityJump extends MonkAbility {
 
 
 	@SubscribeEvent
-	public void onJump (LivingEvent.LivingJumpEvent event){
+	public void onJump(LivingEvent.LivingJumpEvent event) {
 		if (!(event.getEntityLiving() instanceof EntityPlayer)) return;
 
 		EntityPlayer player = (EntityPlayer) event.getEntityLiving();
@@ -36,9 +36,9 @@ public class MonkAbilityJump extends MonkAbility {
 		if (abilityLevel == -1) return;
 
 
-		if(abilityLevel == 1){
+		if (abilityLevel == 1) {
 			player.motionY *= 1.5;
-		}else{
+		} else {
 			player.motionY *= 1.25;
 		}
 	}

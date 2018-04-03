@@ -14,8 +14,8 @@ public class MonkAbilityWater extends MonkAbility {
 			if (level == 1) {
 				player.setAir(300);
 			} else {
-				int t= air % 30;
-				int v = (int)((player.world.getTotalWorldTime()) % 77);
+				int t = air % 30;
+				int v = (int) ((player.world.getTotalWorldTime()) % 77);
 				if (t == 15 && v != 0) {
 					player.setAir(air + 2);
 				}

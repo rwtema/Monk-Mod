@@ -27,5 +27,5 @@ public abstract class MonkRequirementTick extends MonkRequirement {
 		}
 	}
 
-	protected abstract void doTick(EntityPlayerMP player, MonkData monkData) ;
+	protected abstract void doTick(EntityPlayerMP player, MonkData monkData);
 }

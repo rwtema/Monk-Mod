@@ -3,7 +3,6 @@ package com.rwtema.monkmod;
 import com.rwtema.monkmod.advancements.MonkCriterionTrigger;
 import com.rwtema.monkmod.command.CommandMonkLevelManip;
 import com.rwtema.monkmod.data.MonkData;
-import com.rwtema.monkmod.debug.CreateJSons;
 import com.rwtema.monkmod.item.ItemMonkBase;
 import com.rwtema.monkmod.levels.MonkLevels;
 import com.rwtema.monkmod.network.MonkNetwork;
@@ -85,11 +84,6 @@ public class MonkMod {
 
 //		CreateJSons.create();
 		MonkNetwork.init();
-	}
-
-	@EventHandler
-	public void init(FMLInitializationEvent event) {
-
 	}
 
 	@EventHandler

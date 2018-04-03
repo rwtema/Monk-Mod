@@ -34,7 +34,7 @@ public abstract class MonkProtection extends MonkAbility {
 
 	}
 
-	public abstract float getAbsorbtion(DamageSource source, EntityPlayer player, int abilityLevel) ;
+	public abstract float getAbsorbtion(DamageSource source, EntityPlayer player, int abilityLevel);
 
 	public abstract boolean canHandle(EntityPlayer player, DamageSource source);
 

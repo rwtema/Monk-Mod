@@ -5,17 +5,12 @@ import com.google.common.collect.ImmutableList;
 import com.rwtema.monkmod.abilities.MonkAbility;
 import com.rwtema.monkmod.advancements.MonkRequirement;
 import com.rwtema.monkmod.advancements.criteria.*;
-import net.minecraft.block.state.IBlockState;
-import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.boss.EntityWither;
 import net.minecraft.entity.monster.IMob;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.init.Blocks;
 import net.minecraft.init.MobEffects;
 import net.minecraft.potion.PotionEffect;
-import net.minecraft.util.DamageSource;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.MathHelper;
 import net.minecraftforge.event.entity.living.LivingDeathEvent;
 
 import java.util.HashMap;
@@ -168,7 +163,7 @@ public class MonkLevels {
 		register(16, BLINK);
 
 		registerRequirement(new MonkRequirementBedrockSleep(17));
-		register(17,BLIND,  MINING, STRENGTH);
+		register(17, BLIND, MINING, STRENGTH);
 
 		// Kill entities while blind
 		registerRequirement(new MonkRequirementKill(18, 5) {
@@ -188,7 +183,7 @@ public class MonkLevels {
 		registerRequirement(new MonkRequirementEnemyDefeat<>(19, EntityWither.class));
 		register(19, POTION_IMMUNITY);
 
-		registerRequirement(new MonkRequirementDescentAscent(20) );
+		registerRequirement(new MonkRequirementDescentAscent(20));
 		register(20, FLY);
 
 	}

@@ -31,7 +31,6 @@ public class MonkData implements INBTSerializable<NBTTagCompound>, ICapabilityPr
 	}
 
 
-
 	public int getLevel() {
 		return level;
 	}

@@ -19,16 +19,16 @@ public class NBTSerializer<T> {
 		return new NBTSerializer<T>();
 	}
 
-	public NBTTagCompound serialize(T object, NBTTagCompound tag){
+	public NBTTagCompound serialize(T object, NBTTagCompound tag) {
 		map.forEach((key, tDataTag) -> tag.setTag(key, tDataTag.write(object)));
 		return tag;
 	}
 
-	public void deserialize(T object, NBTTagCompound tag){
-		map.forEach((key, datatag) ->{
-			if(tag.hasKey(key)){
+	public void deserialize(T object, NBTTagCompound tag) {
+		map.forEach((key, datatag) -> {
+			if (tag.hasKey(key)) {
 				NBTBase base = tag.getTag(key);
-				((DataTag)datatag).read(object, base);
+				((DataTag) datatag).read(object, base);
 			}
 		});
 	}

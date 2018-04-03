@@ -13,15 +13,15 @@ public abstract class MonkRequirementDeath extends MonkRequirement {
 	}
 
 	@SubscribeEvent
-	public void onDeathAvoid(LivingDeathEvent event){
-		if(event.getEntityLiving() instanceof EntityPlayerMP) {
+	public void onDeathAvoid(LivingDeathEvent event) {
+		if (event.getEntityLiving() instanceof EntityPlayerMP) {
 			EntityPlayerMP player = (EntityPlayerMP) event.getEntityLiving();
 			MonkData monkData = MonkManager.get(player);
 			if (monkData.getLevel() == (this.levelToGrant - 1)) {
 				if (isValidSourceOfDeath(event)) {
 					event.setCanceled(true);
 					player.setHealth(1);
-					onDeathAvoid(player,monkData);
+					onDeathAvoid(player, monkData);
 				}
 			}
 		}
@@ -32,5 +32,5 @@ public abstract class MonkRequirementDeath extends MonkRequirement {
 		grantLevel(player);
 	}
 
-	protected abstract boolean isValidSourceOfDeath(LivingDeathEvent event) ;
+	protected abstract boolean isValidSourceOfDeath(LivingDeathEvent event);
 }

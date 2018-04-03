@@ -22,7 +22,7 @@ public class MonkLevelManager {
 	}
 
 	public static Map<MonkAbility, Integer> getAbilities(int level) {
-		HashMap<Integer,  Map<MonkAbility, Integer>> cachedAbilities = MonkLevelManager.cachedAbilities;
+		HashMap<Integer, Map<MonkAbility, Integer>> cachedAbilities = MonkLevelManager.cachedAbilities;
 		if (cachedAbilities == null) {
 			cachedAbilities = new HashMap<>();
 

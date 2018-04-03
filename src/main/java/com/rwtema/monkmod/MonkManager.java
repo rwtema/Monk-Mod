@@ -20,7 +20,6 @@ import java.util.HashSet;
 import java.util.Map;
 
 public class MonkManager {
-	private final static HashSet<EntityPlayer> dirtyPlayers = new HashSet<EntityPlayer>();
 
 	@SubscribeEvent
 	public static void registerCap(AttachCapabilitiesEvent<Entity> playerAttachCapabilitiesEvent) {
@@ -29,7 +28,7 @@ public class MonkManager {
 	}
 
 	@SubscribeEvent
-	public static void onClone(net.minecraftforge.event.entity.player.PlayerEvent.Clone event){
+	public static void onClone(net.minecraftforge.event.entity.player.PlayerEvent.Clone event) {
 		MonkData oldData = get(event.getOriginal());
 		MonkData newData = get(event.getEntityPlayer());
 		newData.deserializeNBT(oldData.serializeNBT());

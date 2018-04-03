@@ -6,7 +6,6 @@ import com.rwtema.monkmod.data.MonkData;
 import net.minecraft.command.CommandBase;
 import net.minecraft.command.CommandException;
 import net.minecraft.command.ICommandSender;
-import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.server.MinecraftServer;
@@ -17,19 +16,9 @@ import javax.annotation.Nullable;
 import java.util.Collections;
 import java.util.List;
 
-public class CommandMonkLevelManip extends  CommandTreeBase  {
+public class CommandMonkLevelManip extends CommandTreeBase {
 
-	@Override
-	public String getName() {
-		return "monk";
-	}
-
-	@Override
-	public String getUsage(ICommandSender sender) {
-		return "monk";
-	}
-
-	 {
+	{
 
 		addSubcommand(new CommandBase() {
 			@Override
@@ -59,11 +48,20 @@ public class CommandMonkLevelManip extends  CommandTreeBase  {
 				MonkMod.TRIGGER.trigger((EntityPlayerMP) entityplayer, amount);
 			}
 
-			public List<String> getTabCompletions(MinecraftServer server, ICommandSender sender, String[] args, @Nullable BlockPos targetPos)
-			{
+			public List<String> getTabCompletions(MinecraftServer server, ICommandSender sender, String[] args, @Nullable BlockPos targetPos) {
 				return args.length == 2 ? getListOfStringsMatchingLastWord(args, server.getOnlinePlayerNames()) : Collections.emptyList();
 			}
 		});
+	}
+
+	@Override
+	public String getName() {
+		return "monk";
+	}
+
+	@Override
+	public String getUsage(ICommandSender sender) {
+		return "monk";
 	}
 
 }

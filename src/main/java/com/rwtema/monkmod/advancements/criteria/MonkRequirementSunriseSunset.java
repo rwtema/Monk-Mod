@@ -1,12 +1,8 @@
 package com.rwtema.monkmod.advancements.criteria;
 
-import com.rwtema.monkmod.MonkManager;
-import com.rwtema.monkmod.advancements.MonkRequirement;
 import com.rwtema.monkmod.data.MonkData;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.util.math.Vec3d;
-import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
-import net.minecraftforge.fml.common.gameevent.TickEvent;
 
 public class MonkRequirementSunriseSunset extends MonkRequirementTick {
 	private final int stareTime;
@@ -26,7 +22,7 @@ public class MonkRequirementSunriseSunset extends MonkRequirementTick {
 
 			if (sunDir.dotProduct(vec3d1) > 0.99) {
 				monkData.increaseProgress(1);
-				if(monkData.getProgress() > stareTime){
+				if (monkData.getProgress() > stareTime) {
 					grantLevel(player);
 				}
 			}

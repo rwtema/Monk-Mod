@@ -14,7 +14,6 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.TreeSet;
 import java.util.stream.Collectors;
 
 public class CreateJSons {
@@ -24,12 +23,12 @@ public class CreateJSons {
 
 		ArrayList<String> strings = new ArrayList<>();
 		for (int i = 0; i <= 20; i++) {
-			strings.add("monk.advancements.level." + i + "=Monk Level " + i );
-			strings.add("monk.advancements.level." + i + ".desc=" );
+			strings.add("monk.advancements.level." + i + "=Monk Level " + i);
+			strings.add("monk.advancements.level." + i + ".desc=");
 			strings.add("monk.advancements.reward." + i + "=Awakened Skills: " + i);
-			strings.add("monk.advancements.reward." + i + ".desc=" );
+			strings.add("monk.advancements.reward." + i + ".desc=");
 		}
-		MonkMod.logger.info("\n" +  strings.stream().collect(Collectors.joining("\n")));
+		MonkMod.logger.info("\n" + strings.stream().collect(Collectors.joining("\n")));
 
 	}
 
@@ -87,7 +86,7 @@ public class CreateJSons {
 							.add("announce_to_chat", true)
 							.add("hidden", false)
 					)
-					.add("parent", level == 1 ? "monk:monk/root" : "monk:monk/level_" + (level-1))
+					.add("parent", level == 1 ? "monk:monk/root" : "monk:monk/level_" + (level - 1))
 					.add("criteria", json()
 							.add("level", json()
 									.add("trigger", "monk:levelup")
@@ -111,7 +110,7 @@ public class CreateJSons {
 							.add("hidden", true)
 
 					)
-					.add("parent", level == 1 ? "monk:monk/root" : "monk:monk/level_" + (level-1))
+					.add("parent", level == 1 ? "monk:monk/root" : "monk:monk/level_" + (level - 1))
 
 					.add("criteria", json()
 							.add("level", json()

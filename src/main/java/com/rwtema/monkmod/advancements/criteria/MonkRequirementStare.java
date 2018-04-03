@@ -77,7 +77,7 @@ public class MonkRequirementStare extends MonkRequirementTick {
 
 		if (((WorldServer) world).getChunkProvider().isInsideStructure(world, "Fortress", new BlockPos(player))) {
 			EntityLiving resultEntity = getStareEntity(player,
-					e -> e instanceof EntityWitherSkeleton && ((EntityWitherSkeleton) e).getAttackTarget() == player, 20);
+					e -> e instanceof EntityWitherSkeleton && e.getAttackTarget() == player, 20);
 
 			if (resultEntity != null) {
 				progress++;

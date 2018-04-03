@@ -19,10 +19,10 @@ public abstract class MonkRequirementKill extends MonkRequirement {
 	}
 
 	@SubscribeEvent
-	public void onEntityDeath(LivingDeathEvent event){
+	public void onEntityDeath(LivingDeathEvent event) {
 		if (!event.getEntity().world.isRemote && isValidEntity(event)) {
 			Entity trueSource = event.getSource().getTrueSource();
-			if(trueSource instanceof EntityPlayerMP){
+			if (trueSource instanceof EntityPlayerMP) {
 				EntityPlayerMP player = (EntityPlayerMP) trueSource;
 				MonkData monkData = MonkManager.get(player);
 				if (monkData.getLevel() == (this.levelToGrant - 1)) {

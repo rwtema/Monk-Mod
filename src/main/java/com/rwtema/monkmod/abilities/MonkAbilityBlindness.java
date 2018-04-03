@@ -11,7 +11,7 @@ public class MonkAbilityBlindness extends MonkAbility {
 
 	@Override
 	public void tickServer(EntityPlayerMP player, int level) {
-		if(level == 0){
+		if (level == 0) {
 			player.addPotionEffect(new PotionEffect(MobEffects.BLINDNESS, 20 * 5));
 		}
 		super.tickServer(player, level);

@@ -14,7 +14,7 @@ class MonkProtectionFire extends MonkProtection {
 	@Override
 	public float getAbsorbtion(DamageSource source, EntityPlayer player, int abilityLevel) {
 		if (!player.isBurning()) {
-			if (player.world.isMaterialInBB(player.getEntityBoundingBox(), Material.LAVA )) {
+			if (player.world.isMaterialInBB(player.getEntityBoundingBox(), Material.LAVA)) {
 				player.addPotionEffect(new PotionEffect(MobEffects.FIRE_RESISTANCE, 20 * 4, 2));
 				player.extinguish();
 				return 0;
