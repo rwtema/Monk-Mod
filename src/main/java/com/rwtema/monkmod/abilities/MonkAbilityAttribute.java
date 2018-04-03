@@ -4,6 +4,7 @@ import net.minecraft.entity.ai.attributes.AttributeModifier;
 import net.minecraft.entity.ai.attributes.IAttribute;
 import net.minecraft.entity.ai.attributes.IAttributeInstance;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.entity.player.EntityPlayerMP;
 import org.apache.commons.lang3.Validate;
 
 import java.nio.charset.Charset;
@@ -27,7 +28,7 @@ public abstract class MonkAbilityAttribute extends MonkAbility {
 	}
 
 	@Override
-	public void tickServer(EntityPlayer player, int level) {
+	public void tickServer(EntityPlayerMP player, int level) {
 		IAttributeInstance entityAttribute = player.getEntityAttribute(attribute);
 		AttributeModifier modifier = entityAttribute.getModifier(uuid);
 		if (canApply(player)) {

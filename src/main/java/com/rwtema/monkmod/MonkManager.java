@@ -50,14 +50,15 @@ public class MonkManager {
 		if (event.player.world.isRemote || event.phase == TickEvent.Phase.START) return;
 		MonkData monkData = get(event.player);
 
+		EntityPlayerMP playerMP = (EntityPlayerMP) event.player;
 		if (monkData.getLevel() != monkData.prevLevel) {
-			updatePlayer((EntityPlayerMP) event.player, monkData);
+			updatePlayer(playerMP, monkData);
 			monkData.prevLevel = monkData.getLevel();
 		}
 
 		Map<MonkAbility, Integer> abilities = MonkLevelManager.getAbilities(monkData.getLevel());
 		abilities.forEach(
-				(ability, level) -> ability.tickServer(event.player, level)
+				(ability, level) -> ability.tickServer(playerMP, level)
 		);
 
 

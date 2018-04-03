@@ -1,8 +1,6 @@
 package com.rwtema.monkmod.abilities;
 
-import net.minecraft.entity.player.EntityPlayer;
-
-import java.util.Random;
+import net.minecraft.entity.player.EntityPlayerMP;
 
 public class MonkAbilityWater extends MonkAbility {
 	public MonkAbilityWater(String name, int maxlevel) {
@@ -10,7 +8,7 @@ public class MonkAbilityWater extends MonkAbility {
 	}
 
 	@Override
-	public void tickServer(EntityPlayer player, int level) {
+	public void tickServer(EntityPlayerMP player, int level) {
 		final int air = player.getAir();
 		if (air < 300) {
 			if (level == 1) {

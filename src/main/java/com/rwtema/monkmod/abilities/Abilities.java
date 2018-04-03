@@ -20,6 +20,9 @@ public class Abilities {
 	public static final MonkAbilityHunger HUNGER = new MonkAbilityHunger("hunger");
 
 	public static final MonkAbilityWater WATER_BREATHING = new MonkAbilityWater("water", 2);
+	public static final MonkAbilityWitheringStare WITHERING_STARE = new MonkAbilityWitheringStare("withering_stare");
+
+	public static final MonkAbilityWalkOnWater WALK_ON_WATER = new MonkAbilityWalkOnWater("water_walking");
 
 	public static final MonkAbilityAttribute STRENGTH = new MonkAbilityAttribute("punch", SharedMonsterAttributes.ATTACK_DAMAGE, new double[]{
 			1, 2, 4, 8, 16, 32
@@ -31,7 +34,7 @@ public class Abilities {
 		}
 	};
 
-	public static final MonkAbilityAttribute HEALTH = new MonkAbilityAttribute("health", SharedMonsterAttributes.MAX_HEALTH, new double[]{0.1, 0.2, 0.5, 1}, 1) {
+	public static final MonkAbilityAttribute HEALTH = new MonkAbilityAttribute("health", SharedMonsterAttributes.MAX_HEALTH, new double[]{0.2, 0.4, 0.6, 0.8, 1}, 1) {
 
 		@Override
 		public boolean canApply(EntityPlayer player) {
@@ -40,7 +43,7 @@ public class Abilities {
 	};
 
 	public static final MonkAbilityAttribute SPEED = new MonkAbilityAttribute("swift", SharedMonsterAttributes.MOVEMENT_SPEED,
-			new double[]{0.5, 1, 1.5, 2}, 1) {
+			new double[]{0.1, 0.25, 0.5, 1}, 1) {
 		@Override
 		public boolean canApply(EntityPlayer player) {
 			return isUnarmored(player);
@@ -73,6 +76,8 @@ public class Abilities {
 			return (iattributeinstance.getAttributeValue() / (double) player.capabilities.getWalkSpeed() + 1.0D) / 2.0D;
 		}
 	};
+
+	public static final MonkAbilityBlink BLINK = new MonkAbilityBlink("blink");
 
 	public static final MonkAbilityAttribute ARMOR = new MonkAbilityAttribute("hardskin", SharedMonsterAttributes.ARMOR, new double[]{
 			2, 4, 7, 11, 14, 15, 20
@@ -132,10 +137,15 @@ public class Abilities {
 
 	public static final MonkAbility JUMP = new MonkAbilityJump("jump");
 
+	public static final MonkAbility BLIND = new MonkAbilityBlindness("blindness", 2);
+
+	public static final MonkAbility POTION_IMMUNITY = new MonkAbilityHeal("potionImmunity");
+
+
 	public static final MonkAbility MINING;
 
 	static {
-		float[] speeds = {2, 4, 6, 8, 12, 16, 20};
+		float[] speeds = {2, 4, 7, 12, 32};
 		Set<String> validBlocks = ImmutableSet.of("", "pickaxe", "shovel", "axe");
 		MINING = new MonkAbility("mine_speed", speeds.length) {
 			@SubscribeEvent

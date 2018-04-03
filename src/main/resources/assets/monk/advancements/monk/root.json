@@ -10,7 +10,7 @@
     "description": {
       "translate": "monk.advancements.level.0.desc"
     },
-    "background": "minecraft:textures/gui/advancements/backgrounds/stone.png",
+    "background": "monk:textures/advancements/advancement_background.png",
     "show_toast": true,
     "announce_to_chat": false,
     "hidden": false

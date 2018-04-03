@@ -4,7 +4,6 @@ import com.rwtema.monkmod.MonkManager;
 import com.rwtema.monkmod.advancements.MonkRequirement;
 import com.rwtema.monkmod.data.MonkData;
 import net.minecraft.entity.player.EntityPlayerMP;
-import net.minecraft.util.DamageSource;
 import net.minecraftforge.event.entity.living.LivingDeathEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 
@@ -14,7 +13,7 @@ public abstract class MonkRequirementDeath extends MonkRequirement {
 	}
 
 	@SubscribeEvent
-	public void onDeath(LivingDeathEvent event){
+	public void onDeathAvoid(LivingDeathEvent event){
 		if(event.getEntityLiving() instanceof EntityPlayerMP) {
 			EntityPlayerMP player = (EntityPlayerMP) event.getEntityLiving();
 			MonkData monkData = MonkManager.get(player);
@@ -22,11 +21,15 @@ public abstract class MonkRequirementDeath extends MonkRequirement {
 				if (isValidSourceOfDeath(event)) {
 					event.setCanceled(true);
 					player.setHealth(1);
-					grantLevel(player);
+					onDeathAvoid(player);
 				}
 			}
 		}
 
+	}
+
+	protected void onDeathAvoid(EntityPlayerMP player) {
+		grantLevel(player);
 	}
 
 	protected abstract boolean isValidSourceOfDeath(LivingDeathEvent event) ;

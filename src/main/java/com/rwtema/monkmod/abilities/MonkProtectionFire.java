@@ -16,6 +16,7 @@ class MonkProtectionFire extends MonkProtection {
 		if (!player.isBurning()) {
 			if (player.world.isMaterialInBB(player.getEntityBoundingBox(), Material.LAVA )) {
 				player.addPotionEffect(new PotionEffect(MobEffects.FIRE_RESISTANCE, 20 * 4, 2));
+				player.extinguish();
 				return 0;
 			}
 		}

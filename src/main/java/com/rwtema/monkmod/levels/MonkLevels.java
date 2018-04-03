@@ -7,6 +7,7 @@ import com.rwtema.monkmod.advancements.MonkRequirement;
 import com.rwtema.monkmod.advancements.criteria.*;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.EntityLivingBase;
+import net.minecraft.entity.monster.IMob;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.init.Blocks;
 import net.minecraft.init.MobEffects;
@@ -54,40 +55,40 @@ public class MonkLevels {
 
 	public void loadAbilities() {
 
-		register(new MonkRequirementBreakBlockBareHanded(0, (world, pos, state) -> state.getBlock().isWood(world, pos), 1));
+		registerRequirement(new MonkRequirementBreakBlockBareHanded(0, (world, pos, state) -> state.getBlock().isWood(world, pos), 1));
 
 		// Sapling
 		// Punch 50 tree logs with bare hands.
-		register(1, MINING);
-		register(new MonkRequirementBreakBlockBareHanded(1, (world, pos, state) -> state.getBlock().isWood(world, pos), 10));
+		register(1, MINING, STRENGTH);
+		registerRequirement(new MonkRequirementBreakBlockBareHanded(1, (world, pos, state) -> state.getBlock().isWood(world, pos), 10));
 
 		// Chicken
 		// Meditate while watching a sunset or sunrise.
 		register(2, HUNGER);
 		register(2, ARMOR);
-		register(new MonkRequirementSunriseSunset(2, 10 * 20));
+		registerRequirement(new MonkRequirementSunriseSunset(2, 10 * 20));
 
 		// Squid
 		// Swim to the bottom of an ocean.
 		register(3, WATER_BREATHING);
 		register(3, ARMOR);
-		register(new MonkRequirementOcean(3, 20));
+		registerRequirement(new MonkRequirementOcean(3, 20));
 
 		// Silverfish
 		// Break 5 stone blocks with your bare hands
-		register(new MonkRequirementBreakBlockBareHanded(4, (world, pos, state) -> state.getBlock() == Blocks.STONE, 5));
+		registerRequirement(new MonkRequirementBreakBlockBareHanded(4, (world, pos, state) -> state.getBlock() == Blocks.STONE, 5));
 		register(4, MINING);
 		register(4, ARMOR, STRENGTH);
 
 
 		// Animal Friend
 		// Pet one of each vanilla animal (pet animals by right clicking on them with an empty hand)
-		register(new MonkRequirementPet(5));
+		registerRequirement(new MonkRequirementPet(5));
 		register(5, PET);
 
 		// Ocelot
 		// From sunrise to sunset, run a mile in one day.
-		register(new MonkRequirementWalk(6, 100) {
+		registerRequirement(new MonkRequirementWalk(6, 100) {
 			@Override
 			public boolean satisfiesRequirements(EntityPlayerMP player) {
 				return player.isSprinting() && super.satisfiesRequirements(player);
@@ -98,7 +99,7 @@ public class MonkLevels {
 
 		// Wolf
 		// Kill 10 hostile mobs with your bare fists
-		register(new MonkRequirementKill(7, 5) {
+		registerRequirement(new MonkRequirementKill(7, 5) {
 
 			@Override
 			protected boolean isValidEntity(LivingDeathEvent event) {
@@ -110,12 +111,12 @@ public class MonkLevels {
 
 		// Golem
 		// Break an iron storage block with your bare fists
-		register(new MonkRequirementBreakBlockBareHanded(8, (world, pos, state) -> state.getBlock() == Blocks.IRON_BLOCK, 1));
-		register(8, MINING);
+		registerRequirement(new MonkRequirementBreakBlockBareHanded(8, (world, pos, state) -> state.getBlock() == Blocks.IRON_BLOCK, 1));
+		register(8, MINING, STRENGTH);
 
 		// Blaze
 		// Walk through fire.
-		register(new MonkRequirementWalk(9, 10) {
+		registerRequirement(new MonkRequirementWalk(9, 10) {
 			@Override
 			protected void onGrant(EntityPlayerMP player) {
 				player.extinguish();
@@ -134,13 +135,13 @@ public class MonkLevels {
 
 		// Ghast
 		// Break obsidian with bare hands
-		register(new MonkRequirementBreakBlockBareHanded(10, (world, pos, state) -> state.getBlock() == Blocks.OBSIDIAN, 1));
+		registerRequirement(new MonkRequirementBreakBlockBareHanded(10, (world, pos, state) -> state.getBlock() == Blocks.OBSIDIAN, 1));
 		register(10, MINING);
 		register(10, ARMOR, STRENGTH);
 
 
 		// Leap of Faith
-		register(new MonkRequirementDeath(11) {
+		registerRequirement(new MonkRequirementDeath(11) {
 			@Override
 			protected boolean isValidSourceOfDeath(LivingDeathEvent event) {
 				if (event.getSource() != DamageSource.FALL) return false;
@@ -154,17 +155,48 @@ public class MonkLevels {
 				return iblockstate.getBlock() == Blocks.HAY_BLOCK;
 			}
 		});
-		register(11, SPEED, HEALTH, JUMP, FEATHER_FALLING);
-
+		register(11, SPEED, HEALTH, FEATHER_FALLING);
 
 		// Creeper
-		register(new MonkRequirementKissCreeper(12));
-		register(12, EXPLOSION, KISS, STRENGTH);
+		// Kiss a creeper
+		registerRequirement(new MonkRequirementKissCreeper(12));
+		register(12, EXPLOSION, KISS, HEALTH);
 
+		// Dodge Arrows
+		registerRequirement(new MonkRequirementArrow(13, 5));
+		register(13, ARROW_CATCH, HEALTH);
+
+		// Ocean
+		registerRequirement(new MonkRequirementWaterMeditation(14, 10 * 20));
+		register(14, WALK_ON_WATER);
+
+		// Wither Skeleton
+		registerRequirement(new MonkRequirementStare(15));
+		register(15, WITHERING_STARE, HEALTH);
+
+
+		// Enderman
+		registerRequirement(new MonkRequirementMeditateEndermen(16, 20 * 60 * 20));
+		register(16, BLINK);
+
+		registerRequirement(new MonkRequirementBedrockSleep(17));
+		register(17, MINING, STRENGTH, ARMOR, HEALTH);
+
+		registerRequirement(new MonkRequirementKill(18, 5) {
+			@Override
+			protected boolean isValidEntity(LivingDeathEvent event) {
+				return event.getEntity() instanceof IMob;
+			}
+		});
+		register(18, BLIND, POTION_IMMUNITY, HUNGER);
+
+		// Level 20
+		// Fall into the void
+		// Creative Flight when unarmored
 
 	}
 
-	private void register(MonkRequirement requirement) {
+	private void registerRequirement(MonkRequirement requirement) {
 
 		levelUpRequirements.merge(requirement.levelToGrant, requirement, (monkRequirement, monkRequirement2) -> {
 			throw new RuntimeException("Duplicate levels");

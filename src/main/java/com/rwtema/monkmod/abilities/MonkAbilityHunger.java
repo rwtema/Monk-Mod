@@ -1,6 +1,6 @@
 package com.rwtema.monkmod.abilities;
 
-import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.util.FoodStats;
 import net.minecraftforge.fml.relauncher.ReflectionHelper;
 
@@ -14,13 +14,11 @@ public class MonkAbilityHunger extends MonkAbility {
 	}
 
 	@Override
-	public void tickServer(EntityPlayer player, int level) {
+	public void tickServer(EntityPlayerMP player, int level) {
 		super.tickServer(player, level);
 		FoodStats foodStats = player.getFoodStats();
 		if (level == 1) {
-			if (foodStats.needFood()) {
-				foodStats.addStats(1, 0.5F);
-			}
+			foodStats.addStats(1, 0.5F);
 		} else {
 			Integer prevLevel;
 			try {

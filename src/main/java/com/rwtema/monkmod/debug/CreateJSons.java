@@ -59,7 +59,7 @@ public class CreateJSons {
 								.add("translate", "monk.advancements.level.0"))
 						.add("description", json()
 								.add("translate", "monk.advancements.level.0.desc"))
-						.add("background", "minecraft:textures/gui/advancements/backgrounds/stone.png")
+						.add("background", "monk:textures/advancements/advancement_background.png")
 						.add("show_toast", true)
 						.add("announce_to_chat", false)
 						.add("hidden", false)

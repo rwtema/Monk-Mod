@@ -5,6 +5,7 @@ import net.minecraft.entity.SharedMonsterAttributes;
 import net.minecraft.entity.ai.attributes.AttributeModifier;
 import net.minecraft.entity.ai.attributes.IAttribute;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.inventory.EntityEquipmentSlot;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
@@ -53,7 +54,7 @@ public abstract class MonkAbility {
 		return checkForContraband(player, ARMOR_SLOTS, ARMOR_MODIFIERS);
 	}
 
-	public void tickServer(EntityPlayer player, int level) {
+	public void tickServer(EntityPlayerMP player, int level) {
 
 	}
 

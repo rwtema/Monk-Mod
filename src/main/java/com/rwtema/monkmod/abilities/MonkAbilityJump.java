@@ -24,9 +24,9 @@ public class MonkAbilityJump extends MonkAbility {
 
 
 		if(abilityLevel == 1){
-			player.motionY *= 2.5;
-		}else{
 			player.motionY *= 1.5;
+		}else{
+			player.motionY *= 1.25;
 		}
 	}
 }

@@ -38,7 +38,7 @@ public class MonkNetwork {
 	}
 
 	private static <T extends MessageClientToServer> void registerClientToServerPacket(IMessageHandler<MessageBase, IMessage> genericHandler, Class<T> messageType, int discriminator) {
-		net.registerMessage(genericHandler, messageType, discriminator, Side.CLIENT);
+		net.registerMessage(genericHandler, messageType, discriminator, Side.SERVER);
 	}
 
 	public abstract static class MessageBase implements IMessage {

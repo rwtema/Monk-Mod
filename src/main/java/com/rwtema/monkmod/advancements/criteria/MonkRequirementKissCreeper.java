@@ -1,11 +1,11 @@
 package com.rwtema.monkmod.advancements.criteria;
 
 import com.rwtema.monkmod.MonkManager;
+import com.rwtema.monkmod.abilities.MonkAbilityCreeperKiss;
 import com.rwtema.monkmod.advancements.MonkRequirement;
 import com.rwtema.monkmod.data.MonkData;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.monster.EntityCreeper;
-import net.minecraft.entity.passive.EntityAnimal;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.nbt.NBTTagCompound;
@@ -36,19 +36,8 @@ public class MonkRequirementKissCreeper extends MonkRequirement {
 			if (event.getWorld().isRemote) {
 				event.setCanceled(true);
 				event.setCancellationResult(EnumActionResult.SUCCESS);
-			}else{
-				NBTTagCompound entityData = entity.getEntityData();
-				NBTTagList monkPet = entityData.getTagList("MonkPet", Constants.NBT.TAG_STRING);
-				String uniqueIdString = entityPlayer.getCachedUniqueIdString();
-				for (int i = 0; i < monkPet.tagCount(); i++) {
-					String stringTagAt = monkPet.getStringTagAt(i);
-					if (stringTagAt.equals(uniqueIdString)) {
-						return;
-					}
-				}
-				monkPet.appendTag(new NBTTagString(uniqueIdString));
-				entityData.setTag("MonkPet", monkPet);
-				((EntityCreeper) entity).setNoAI(true);
+			} else {
+				MonkAbilityCreeperKiss.embarassCreeper(((EntityCreeper) entity));
 
 				entityPlayer.sendMessage(new TextComponentTranslation("chat.type.text", entity.getDisplayName(), new TextComponentTranslation("monk.blush")));
 
