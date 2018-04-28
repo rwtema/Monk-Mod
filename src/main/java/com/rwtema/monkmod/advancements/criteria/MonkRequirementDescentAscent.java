@@ -8,8 +8,8 @@ import net.minecraft.util.text.TextComponentTranslation;
 import net.minecraftforge.event.entity.living.LivingDeathEvent;
 
 public class MonkRequirementDescentAscent extends MonkRequirementDeath {
-	public MonkRequirementDescentAscent(int level) {
-		super(level);
+	public MonkRequirementDescentAscent() {
+		super("void_fall");
 	}
 
 	@Override

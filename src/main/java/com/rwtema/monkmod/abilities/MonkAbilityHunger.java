@@ -5,32 +5,38 @@ import net.minecraft.util.FoodStats;
 import net.minecraftforge.fml.relauncher.ReflectionHelper;
 
 import java.lang.reflect.Field;
+import java.text.NumberFormat;
+import java.util.Locale;
 
 public class MonkAbilityHunger extends MonkAbility {
 	private static final Field prevFoodLevel = ReflectionHelper.findField(FoodStats.class, "prevFoodLevel", "field_75124_e");
+	private float chance;
 
-	public MonkAbilityHunger(String name) {
-		super(name, 2);
+	public MonkAbilityHunger(float chance) {
+		super("hunger");
+		this.chance = 1 - chance;
 	}
 
 	@Override
-	public void tickServer(EntityPlayerMP player, int level) {
-		super.tickServer(player, level);
+	public void tickServer(EntityPlayerMP player) {
+		super.tickServer(player);
 		FoodStats foodStats = player.getFoodStats();
-		if (level == 1) {
-			foodStats.addStats(1, 0.5F);
-		} else {
-			Integer prevLevel;
-			try {
-				prevLevel = (Integer) prevFoodLevel.get(foodStats);
-			} catch (Exception e) {
-				throw new RuntimeException(e);
-			}
-			if (foodStats.getFoodLevel() != prevLevel) {
-				if (player.world.rand.nextBoolean()) {
-					foodStats.setFoodLevel(prevLevel);
-				}
+
+		Integer prevLevel;
+		try {
+			prevLevel = (Integer) prevFoodLevel.get(foodStats);
+		} catch (Exception e) {
+			throw new RuntimeException(e);
+		}
+		if (foodStats.getFoodLevel() != prevLevel) {
+			if (player.world.rand.nextFloat() < chance) {
+				foodStats.setFoodLevel(prevLevel);
 			}
 		}
+	}
+
+	@Override
+	protected String[] args() {
+		return new String[]{NumberFormat.getPercentInstance(Locale.UK).format(1 - chance)};
 	}
 }

@@ -17,8 +17,8 @@ import java.util.List;
 import java.util.function.Predicate;
 
 public class MonkRequirementStare extends MonkRequirementTick {
-	public MonkRequirementStare(int level) {
-		super(level);
+	public MonkRequirementStare(int defaultRequirements) {
+		super("wither_stare", defaultRequirements);
 	}
 
 	@Nullable
@@ -82,7 +82,7 @@ public class MonkRequirementStare extends MonkRequirementTick {
 			if (resultEntity != null) {
 				progress++;
 				monkData.setProgress(progress);
-				if (progress > 200) {
+				if (progress > requirementLimit) {
 					resultEntity.setAttackTarget(null);
 					resultEntity.getNavigator().clearPath();
 					grantLevel(player);

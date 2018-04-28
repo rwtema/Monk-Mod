@@ -1,50 +1,45 @@
 package com.rwtema.monkmod.levels;
 
 import com.google.common.collect.HashMultimap;
-import com.google.common.collect.ImmutableMap;
+import com.google.common.collect.ImmutableSet;
 import com.rwtema.monkmod.MonkMod;
 import com.rwtema.monkmod.abilities.MonkAbility;
+import com.rwtema.monkmod.advancements.MonkRequirement;
+import gnu.trove.map.hash.TIntObjectHashMap;
 import net.minecraft.util.math.MathHelper;
-import org.apache.commons.lang3.Validate;
 
 import java.util.HashMap;
-import java.util.Map;
+import java.util.Set;
 
 public class MonkLevelManager {
 
-	private static final HashMultimap<Integer, Entry> abilities = HashMultimap.create();
-	private static HashMap<Integer, Map<MonkAbility, Integer>> cachedAbilities = null;
+	private static final HashMultimap<Integer, MonkAbility> abilities = HashMultimap.create();
+	private static HashMap<Integer, Set<MonkAbility>> cachedAbilities = null;
 
-	public static void register(int level, MonkAbility ability, int abilitiy_level) {
-		Validate.isTrue(abilitiy_level < ability.maxlevel);
+	public static void register(int level, MonkAbility ability) {
 		cachedAbilities = null;
-		abilities.put(level, new Entry(ability, abilitiy_level));
+		abilities.put(level, ability);
 	}
 
-	public static Map<MonkAbility, Integer> getAbilities(int level) {
-		HashMap<Integer, Map<MonkAbility, Integer>> cachedAbilities = MonkLevelManager.cachedAbilities;
+	public static final TIntObjectHashMap<MonkRequirement> requirements = new TIntObjectHashMap<>();
+
+	public static void registerRequirement(int level, MonkRequirement requirement){
+		requirements.put(level, requirement);
+		requirement.levelToGrant = level;
+	}
+
+	public static Set<MonkAbility> getAbilities(int level) {
+		HashMap<Integer, Set<MonkAbility>> cachedAbilities = MonkLevelManager.cachedAbilities;
 		if (cachedAbilities == null) {
 			cachedAbilities = new HashMap<>();
 
 			HashMap<MonkAbility, Integer> levels = new HashMap<>();
 			for (int i = 0; i <= MonkMod.MAX_LEVEL; i++) {
-				for (Entry entry : abilities.get(i)) {
-					levels.merge(entry.ability, entry.level, Math::max);
-				}
-				cachedAbilities.put(i, ImmutableMap.copyOf(levels));
+				cachedAbilities.put(i, ImmutableSet.copyOf(abilities.get(i)));
 			}
 		}
 		level = MathHelper.clamp(level, 0, MonkMod.MAX_LEVEL);
 		return cachedAbilities.get(level);
 	}
 
-	public static class Entry {
-		public final MonkAbility ability;
-		public final int level;
-
-		public Entry(MonkAbility ability, int level) {
-			this.ability = ability;
-			this.level = level;
-		}
-	}
 }

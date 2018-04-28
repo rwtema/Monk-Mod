@@ -1,7 +1,6 @@
 package com.rwtema.monkmod.network;
 
 import com.rwtema.monkmod.MonkManager;
-import com.rwtema.monkmod.abilities.Abilities;
 import io.netty.buffer.ByteBuf;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.init.SoundEvents;
@@ -25,9 +24,7 @@ public class MessageBlink extends MonkNetwork.MessageClientToServer {
 
 	@Override
 	protected void runServer(MessageContext ctx, EntityPlayerMP player) {
-		int abilityLevel = MonkManager.getAbilityLevel(player, Abilities.BLINK);
-		if (abilityLevel == -1) {
-
+		if (!MonkManager.getAbilityLevel(player, "blink")) {
 			return;
 		}
 

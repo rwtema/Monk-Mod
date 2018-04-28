@@ -6,13 +6,16 @@ import net.minecraftforge.event.entity.living.LivingEvent;
 import net.minecraftforge.event.entity.living.LivingFallEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 
-public class MonkAbilityJump extends MonkAbility {
-	public MonkAbilityJump(String name) {
-		super(name, 2);
-	}
+import java.text.NumberFormat;
+import java.util.Locale;
 
-	public MonkAbilityJump(String name, int maxlevel) {
-		super(name, maxlevel);
+public class MonkAbilityJump extends MonkAbility {
+
+	private final double jumpLevel;
+
+	public MonkAbilityJump(double jumpLevel) {
+		super("jump");
+		this.jumpLevel = jumpLevel;
 	}
 
 	@SubscribeEvent
@@ -20,8 +23,7 @@ public class MonkAbilityJump extends MonkAbility {
 		if (!(event.getEntityLiving() instanceof EntityPlayer)) return;
 
 		EntityPlayer player = (EntityPlayer) event.getEntityLiving();
-		int abilityLevel = MonkManager.getAbilityLevel(player, this);
-		if (abilityLevel == -1) return;
+		if (!MonkManager.getAbilityLevel(player, this)) return;
 
 		event.setDistance(event.getDistance() - 3);
 	}
@@ -32,14 +34,14 @@ public class MonkAbilityJump extends MonkAbility {
 		if (!(event.getEntityLiving() instanceof EntityPlayer)) return;
 
 		EntityPlayer player = (EntityPlayer) event.getEntityLiving();
-		int abilityLevel = MonkManager.getAbilityLevel(player, this);
-		if (abilityLevel == -1) return;
+		if (!MonkManager.getAbilityLevel(player, this)) return;
 
 
-		if (abilityLevel == 1) {
-			player.motionY *= 1.5;
-		} else {
-			player.motionY *= 1.25;
-		}
+		player.motionY *= jumpLevel;
+	}
+
+	@Override
+	protected String[] args() {
+		return new String[]{NumberFormat.getPercentInstance(Locale.UK).format(jumpLevel - 1)};
 	}
 }

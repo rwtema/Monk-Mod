@@ -10,12 +10,11 @@ import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 
 public class MonkRequirementBreakBlockBareHanded extends MonkRequirement {
 	final StatePredicate states;
-	final int numRequired;
 
-	public MonkRequirementBreakBlockBareHanded(int level, StatePredicate states, int numRequired) {
-		super(level);
+	public MonkRequirementBreakBlockBareHanded(String name, StatePredicate states, int numRequired) {
+		super(name, numRequired);
 		this.states = states;
-		this.numRequired = numRequired;
+
 	}
 
 	@SubscribeEvent
@@ -27,7 +26,7 @@ public class MonkRequirementBreakBlockBareHanded extends MonkRequirement {
 				if (monkData.getLevel() == (this.levelToGrant - 1)) {
 					int progress = monkData.getProgress() + 1;
 					monkData.setProgress(progress);
-					if (progress >= numRequired) {
+					if (progress >= requirementLimit) {
 						grantLevel((EntityPlayerMP) event.getPlayer());
 					}
 				}

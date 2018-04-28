@@ -23,10 +23,11 @@ import javax.annotation.Nullable;
 import java.util.Random;
 
 public class MonkAbilityBlink extends MonkAbility {
-	boolean buttonPressed = false;
+	int cooldown = 0;
+	private boolean buttonPressed = false;
 
-	public MonkAbilityBlink(String name) {
-		super(name);
+	public MonkAbilityBlink() {
+		super("blink");
 	}
 
 	@SideOnly(Side.CLIENT)
@@ -43,6 +44,13 @@ public class MonkAbilityBlink extends MonkAbility {
 	@SideOnly(Side.CLIENT)
 	@SubscribeEvent
 	public void onClientTick(TickEvent.ClientTickEvent event) {
+		if (Minecraft.getMinecraft().isGamePaused()) {
+			return;
+		}
+
+		if (cooldown > 0) {
+			cooldown--;
+		}
 		if (buttonPressed) {
 			runData(null);
 		}
@@ -54,8 +62,7 @@ public class MonkAbilityBlink extends MonkAbility {
 		EntityPlayerSP player = minecraft.player;
 		if (player == null || minecraft.currentScreen != null) return;
 		if (minecraft.gameSettings.keyBindSprint.isKeyDown() || player.isSprinting()) {
-			int abilityLevel = MonkManager.getAbilityLevel(player, this);
-			if (abilityLevel == -1) return;
+			if (!MonkManager.getAbilityLevel(player, this)) return;
 
 			Entity viewEntity = minecraft.player;
 			if (viewEntity == null) return;
@@ -145,24 +152,26 @@ public class MonkAbilityBlink extends MonkAbility {
 					);
 
 					Random rand = world.rand;
+					float chance = 1 - (cooldown / 20F);
 
 					double v = 0.2;
 					for (int j = 0; j < 4; j++) {
 						for (int i = 0; i <= 2; i++) {
-							world.spawnParticle(EnumParticleTypes.REDSTONE,
-									(resultBounds.minX + resultBounds.maxX) / 2 + rand.nextGaussian() * v,
-									resultBounds.minY + i + rand.nextGaussian() * v,
-									(resultBounds.minZ + resultBounds.maxZ) / 2 + rand.nextGaussian() * v,
-									r, g, b
-							);
+							if (world.rand.nextFloat() < chance)
+								world.spawnParticle(EnumParticleTypes.REDSTONE,
+										(resultBounds.minX + resultBounds.maxX) / 2 + rand.nextGaussian() * v,
+										resultBounds.minY + i + rand.nextGaussian() * v,
+										(resultBounds.minZ + resultBounds.maxZ) / 2 + rand.nextGaussian() * v,
+										r, g, b
+								);
 						}
 					}
 					for (int i = 0; i < 10; i++) {
-
-						world.spawnParticle(EnumParticleTypes.REDSTONE,
-								(resultBounds.minX + resultBounds.maxX) / 2, resultBounds.minY + rand.nextFloat() * 2, (resultBounds.minZ + resultBounds.maxZ) / 2,
-								r / 2, g / 2, b / 2
-						);
+						if (world.rand.nextFloat() < chance)
+							world.spawnParticle(EnumParticleTypes.REDSTONE,
+									(resultBounds.minX + resultBounds.maxX) / 2, resultBounds.minY + rand.nextFloat() * 2, (resultBounds.minZ + resultBounds.maxZ) / 2,
+									r / 2, g / 2, b / 2
+							);
 					}
 
 				} else {
@@ -172,9 +181,11 @@ public class MonkAbilityBlink extends MonkAbility {
 					);
 				}
 			} else {
+				if (cooldown != 0) return;
 				if (event != null && resultBounds != null) {
 					Vec3d vec3d3 = new Vec3d((resultBounds.minX + resultBounds.maxX) / 2, resultBounds.minY, (resultBounds.minZ + resultBounds.maxZ) / 2);
 					MonkNetwork.net.sendToServer(new MessageBlink(vec3d3));
+					cooldown = 40;
 				}
 			}
 		}

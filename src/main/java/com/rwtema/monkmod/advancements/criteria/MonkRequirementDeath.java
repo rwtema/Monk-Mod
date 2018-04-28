@@ -8,8 +8,8 @@ import net.minecraftforge.event.entity.living.LivingDeathEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 
 public abstract class MonkRequirementDeath extends MonkRequirement {
-	public MonkRequirementDeath(int level) {
-		super(level);
+	public MonkRequirementDeath(String name) {
+		super(name, -1);
 	}
 
 	@SubscribeEvent

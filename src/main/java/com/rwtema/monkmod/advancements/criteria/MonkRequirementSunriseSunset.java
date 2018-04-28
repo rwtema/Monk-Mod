@@ -5,11 +5,8 @@ import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.util.math.Vec3d;
 
 public class MonkRequirementSunriseSunset extends MonkRequirementTick {
-	private final int stareTime;
-
-	public MonkRequirementSunriseSunset(int level, int stareTime) {
-		super(level);
-		this.stareTime = stareTime;
+	public MonkRequirementSunriseSunset(int stareTime) {
+		super("mediate_sunrise", stareTime);
 	}
 
 	@Override
@@ -22,7 +19,7 @@ public class MonkRequirementSunriseSunset extends MonkRequirementTick {
 
 			if (sunDir.dotProduct(vec3d1) > 0.99) {
 				monkData.increaseProgress(1);
-				if (monkData.getProgress() > stareTime) {
+				if (monkData.getProgress() > requirementLimit) {
 					grantLevel(player);
 				}
 			}

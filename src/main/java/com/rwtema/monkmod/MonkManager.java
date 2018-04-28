@@ -16,8 +16,8 @@ import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.gameevent.PlayerEvent;
 import net.minecraftforge.fml.common.gameevent.TickEvent;
 
-import java.util.HashSet;
-import java.util.Map;
+import java.util.Set;
+import java.util.UUID;
 
 public class MonkManager {
 
@@ -55,35 +55,36 @@ public class MonkManager {
 			monkData.prevLevel = monkData.getLevel();
 		}
 
-		Map<MonkAbility, Integer> abilities = MonkLevelManager.getAbilities(monkData.getLevel());
+		Set<MonkAbility> abilities = MonkLevelManager.getAbilities(monkData.getLevel());
 		abilities.forEach(
-				(ability, level) -> ability.tickServer(playerMP, level)
+				ability -> ability.tickServer(playerMP)
 		);
 
 
 		AbstractAttributeMap attributeMap = event.player.getAttributeMap();
 		for (IAttributeInstance attributeInstance : attributeMap.getAllAttributes()) {
-			MonkAbilityAttribute.uuids.forEach(
-					(uuid, monkAbilityAttribute) -> {
-						if (attributeInstance.getModifier(uuid) != null
-								&& !abilities.containsKey(monkAbilityAttribute)) {
-							attributeInstance.removeModifier(uuid);
-						}
+			for (UUID uuid : MonkAbilityAttribute.uuids.keySet()) {
+				if (attributeInstance.getModifier(uuid) != null){
+					Set<MonkAbilityAttribute> monkAbilityAttributes = MonkAbilityAttribute.uuids.get(uuid);
+					if (monkAbilityAttributes.stream().noneMatch(abilities::contains)) {
+						attributeInstance.removeModifier(uuid);
 					}
-			);
+				}
+			}
 		}
 
 	}
 
 	public static MonkData get(EntityPlayer player) {
+		//noinspection ConstantConditions
 		return player.getCapability(MonkData.MONKLEVELDATA, null);
 	}
 
-	public static int getAbilityLevel(EntityPlayer player, MonkAbility ability) {
-		return MonkLevelManager.getAbilities(get(player).getLevel()).getOrDefault(ability, -1);
+	public static boolean getAbilityLevel(EntityPlayer player, MonkAbility ability) {
+		return MonkLevelManager.getAbilities(get(player).getLevel()).contains(ability);
 	}
 
-	public static boolean hasAbility(EntityPlayer player, MonkAbility ability) {
-		return getAbilityLevel(player, ability) >= 0;
+	public static boolean getAbilityLevel(EntityPlayer player, String key) {
+		return MonkLevelManager.getAbilities(get(player).getLevel()).stream().anyMatch(a -> a.name.equals(key));
 	}
 }

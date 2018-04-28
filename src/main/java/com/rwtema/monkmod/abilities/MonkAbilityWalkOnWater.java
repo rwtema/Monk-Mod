@@ -15,8 +15,8 @@ import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 
 public class MonkAbilityWalkOnWater extends MonkAbility {
 
-	public MonkAbilityWalkOnWater(String name) {
-		super(name);
+	public MonkAbilityWalkOnWater() {
+		super("water_walking");
 	}
 
 	@SubscribeEvent
@@ -26,8 +26,7 @@ public class MonkAbilityWalkOnWater extends MonkAbility {
 
 		if (entity instanceof EntityPlayer) {
 			EntityPlayer player = (EntityPlayer) entity;
-			int abilityLevel = MonkManager.getAbilityLevel(player, this);
-			if (abilityLevel == -1) return;
+			if (!MonkManager.getAbilityLevel(player, this)) return;
 
 			if (player.fallDistance > 3) {
 				return;

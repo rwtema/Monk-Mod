@@ -6,11 +6,9 @@ import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.util.math.AxisAlignedBB;
 
 public class MonkRequirementMeditateEndermen extends MonkRequirementTick {
-	final int time;
 
-	public MonkRequirementMeditateEndermen(int level, int time) {
-		super(level);
-		this.time = time;
+	public MonkRequirementMeditateEndermen(int time) {
+		super("meditate_endermen", time);
 	}
 
 	@Override
@@ -22,7 +20,7 @@ public class MonkRequirementMeditateEndermen extends MonkRequirementTick {
 				monkData.setProgress(0);
 				return;
 			} else {
-				if (monkData.increase(1, time)) {
+				if (monkData.increase(1, requirementLimit)) {
 					grantLevel(player);
 				}
 			}

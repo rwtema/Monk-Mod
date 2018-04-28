@@ -19,8 +19,8 @@ import net.minecraftforge.fml.common.eventhandler.Event;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 
 public class MonkRequirementBedrockSleep extends MonkRequirement {
-	public MonkRequirementBedrockSleep(int level) {
-		super(level);
+	public MonkRequirementBedrockSleep() {
+		super("bedrock_sleep", -1);
 	}
 
 	@SubscribeEvent

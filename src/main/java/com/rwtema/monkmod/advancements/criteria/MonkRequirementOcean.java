@@ -6,11 +6,9 @@ import net.minecraft.entity.player.EntityPlayerMP;
 
 public class MonkRequirementOcean extends MonkRequirementTick {
 	private final static int STEP_PER_BLOCK = 64;
-	int depth;
 
-	public MonkRequirementOcean(int level, double depth) {
-		super(level);
-		this.depth = (int) (STEP_PER_BLOCK * depth);
+	public MonkRequirementOcean(int defaultRequirements) {
+		super("drown", defaultRequirements);
 	}
 
 	@Override
@@ -22,7 +20,7 @@ public class MonkRequirementOcean extends MonkRequirementTick {
 				monkData.setProgress(0);
 			} else {
 				monkData.increaseProgress(1);
-				if (monkData.getProgress() > 280 && (player.world.rand.nextInt(50) == 0)) {
+				if (monkData.getProgress() > requirementLimit && (player.world.rand.nextInt(50) == 0)) {
 					grantLevel(player);
 					player.setAir(300);
 

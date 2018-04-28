@@ -19,11 +19,9 @@ import java.util.WeakHashMap;
 
 public class MonkRequirementArrow extends MonkRequirementTick {
 	private final WeakHashMap<EntityPlayerMP, Collection<EntityArrow>> arrows = new WeakHashMap<>();
-	private final int numDodges;
 
-	public MonkRequirementArrow(int level, int numDodges) {
-		super(level);
-		this.numDodges = numDodges;
+	public MonkRequirementArrow(int numDodges) {
+		super("arrow_dodge", numDodges);
 	}
 
 	@Override
@@ -51,7 +49,7 @@ public class MonkRequirementArrow extends MonkRequirementTick {
 
 				}
 		);
-		if (monkData.getProgress() >= numDodges) {
+		if (monkData.getProgress() >= requirementLimit) {
 			arrows.remove(player);
 			grantLevel(player);
 		}

@@ -16,8 +16,8 @@ import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import java.util.HashSet;
 
 public class MonkAbilityCreeperKiss extends MonkAbility {
-	public MonkAbilityCreeperKiss(String name) {
-		super(name);
+	public MonkAbilityCreeperKiss() {
+		super("kiss_creeper");
 	}
 
 	public static void embarassCreeper(EntityCreeper creeper) {
@@ -49,8 +49,7 @@ public class MonkAbilityCreeperKiss extends MonkAbility {
 
 		if (!entityPlayer.getHeldItem(event.getHand()).isEmpty()) return;
 
-		int abilityLevel = MonkManager.getAbilityLevel(entityPlayer, this);
-		if (abilityLevel == -1) return;
+		if (!MonkManager.getAbilityLevel(entityPlayer, this)) return;
 
 
 		if (event.getWorld().isRemote) {

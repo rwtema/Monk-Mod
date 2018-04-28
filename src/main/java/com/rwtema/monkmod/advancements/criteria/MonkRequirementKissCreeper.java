@@ -14,8 +14,8 @@ import net.minecraftforge.event.entity.player.PlayerInteractEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 
 public class MonkRequirementKissCreeper extends MonkRequirement {
-	public MonkRequirementKissCreeper(int level) {
-		super(level);
+	public MonkRequirementKissCreeper() {
+		super("kiss_creeper", -1);
 	}
 
 

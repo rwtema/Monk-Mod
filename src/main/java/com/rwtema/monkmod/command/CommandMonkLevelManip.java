@@ -12,6 +12,7 @@ import net.minecraft.server.MinecraftServer;
 import net.minecraft.util.math.BlockPos;
 import net.minecraftforge.server.command.CommandTreeBase;
 
+import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import java.util.Collections;
 import java.util.List;
@@ -21,13 +22,15 @@ public class CommandMonkLevelManip extends CommandTreeBase {
 	{
 
 		addSubcommand(new CommandBase() {
+			@Nonnull
 			@Override
 			public String getName() {
 				return "setlevel";
 			}
 
+			@Nonnull
 			@Override
-			public String getUsage(ICommandSender sender) {
+			public String getUsage(@Nonnull ICommandSender sender) {
 				return "setlevel";
 			}
 
@@ -37,7 +40,7 @@ public class CommandMonkLevelManip extends CommandTreeBase {
 			}
 
 			@Override
-			public void execute(MinecraftServer server, ICommandSender sender, String[] args) throws CommandException {
+			public void execute(@Nonnull MinecraftServer server, @Nonnull ICommandSender sender, @Nonnull String[] args) throws CommandException {
 
 				EntityPlayer entityplayer = args.length > 1 ? getPlayer(server, sender, args[1]) : getCommandSenderAsPlayer(sender);
 
@@ -48,19 +51,22 @@ public class CommandMonkLevelManip extends CommandTreeBase {
 				MonkMod.TRIGGER.trigger((EntityPlayerMP) entityplayer, amount);
 			}
 
+			@Nonnull
 			public List<String> getTabCompletions(MinecraftServer server, ICommandSender sender, String[] args, @Nullable BlockPos targetPos) {
 				return args.length == 2 ? getListOfStringsMatchingLastWord(args, server.getOnlinePlayerNames()) : Collections.emptyList();
 			}
 		});
 	}
 
+	@Nonnull
 	@Override
 	public String getName() {
 		return "monk";
 	}
 
+	@Nonnull
 	@Override
-	public String getUsage(ICommandSender sender) {
+	public String getUsage(@Nonnull ICommandSender sender) {
 		return "monk";
 	}
 

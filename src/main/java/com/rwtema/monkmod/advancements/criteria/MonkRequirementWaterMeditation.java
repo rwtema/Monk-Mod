@@ -7,12 +7,8 @@ import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.util.math.Vec3d;
 
 public class MonkRequirementWaterMeditation extends MonkRequirementTick {
-
-	private final int stareTime;
-
-	public MonkRequirementWaterMeditation(int level, int stareTime) {
-		super(level);
-		this.stareTime = stareTime;
+	public MonkRequirementWaterMeditation(int stareTime) {
+		super("meditate_water_moon", stareTime);
 	}
 
 	@Override
@@ -32,7 +28,7 @@ public class MonkRequirementWaterMeditation extends MonkRequirementTick {
 
 			if (sunDir.dotProduct(vec3d1) < -0.99) {
 				monkData.increaseProgress(1);
-				if (monkData.getProgress() > stareTime) {
+				if (monkData.getProgress() > requirementLimit) {
 					grantLevel(player);
 				}
 			}

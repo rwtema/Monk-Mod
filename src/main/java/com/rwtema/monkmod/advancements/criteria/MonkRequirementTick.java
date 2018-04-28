@@ -8,8 +8,8 @@ import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.gameevent.TickEvent;
 
 public abstract class MonkRequirementTick extends MonkRequirement {
-	public MonkRequirementTick(int level) {
-		super(level);
+	public MonkRequirementTick(String name, int defaultRequirements) {
+		super(name, defaultRequirements);
 	}
 
 	@SubscribeEvent

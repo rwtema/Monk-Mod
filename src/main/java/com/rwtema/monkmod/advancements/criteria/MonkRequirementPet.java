@@ -17,8 +17,8 @@ import net.minecraftforge.event.entity.player.PlayerInteractEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 
 public class MonkRequirementPet extends MonkRequirement {
-	public MonkRequirementPet(int level) {
-		super(level);
+	public MonkRequirementPet(int defaultRequirements) {
+		super("pet", defaultRequirements);
 	}
 
 	@SubscribeEvent
@@ -49,7 +49,7 @@ public class MonkRequirementPet extends MonkRequirement {
 
 				entityPlayer.sendMessage(new TextComponentTranslation("chat.type.text", entity.getDisplayName(), new TextComponentTranslation("monk.heart")));
 
-				if (monkData.increase(1, 20)) {
+				if (monkData.increase(1, requirementLimit)) {
 					grantLevel(((EntityPlayerMP) entityPlayer));
 				}
 				event.setCanceled(true);

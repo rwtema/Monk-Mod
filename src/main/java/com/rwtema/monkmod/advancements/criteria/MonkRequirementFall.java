@@ -13,13 +13,13 @@ import net.minecraftforge.event.entity.living.LivingFallEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 
 public class MonkRequirementFall extends MonkRequirement {
-	public MonkRequirementFall(int level) {
-		super(level);
+	public MonkRequirementFall(int defaultRequirements) {
+		super("fall", defaultRequirements);
 	}
 
 	@SubscribeEvent
 	public void onFall(LivingFallEvent event) {
-		if (event.getDistance() < 40) return;
+		if (event.getDistance() < requirementLimit) return;
 
 		if (event.getEntityLiving() instanceof EntityPlayerMP) {
 			EntityPlayerMP player = (EntityPlayerMP) event.getEntityLiving();

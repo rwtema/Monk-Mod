@@ -8,12 +8,12 @@ import net.minecraftforge.fml.common.eventhandler.EventPriority;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 
 public class MonkAbilityFly extends MonkAbility {
-	public MonkAbilityFly(String name) {
-		super(name);
+	public MonkAbilityFly() {
+		super("fly");
 	}
 
 	@Override
-	public void tickServer(EntityPlayerMP player, int level) {
+	public void tickServer(EntityPlayerMP player) {
 		PlayerCapabilities capabilities = player.capabilities;
 		if (!capabilities.allowFlying) {
 			capabilities.allowFlying = true;
@@ -23,11 +23,11 @@ public class MonkAbilityFly extends MonkAbility {
 
 	@SubscribeEvent(priority = EventPriority.LOWEST)
 	public void copyPlayer(PlayerEvent.Clone event) {
-		int abilityLevel = MonkManager.getAbilityLevel(event.getEntityPlayer(), this);
-		if (abilityLevel != -1) {
-			if (!event.getEntityPlayer().capabilities.isCreativeMode) {
-				event.getEntityPlayer().capabilities.allowFlying = false;
-			}
+		if (!MonkManager.getAbilityLevel(event.getEntityPlayer(), this)) return;
+
+		if (!event.getEntityPlayer().capabilities.isCreativeMode) {
+			event.getEntityPlayer().capabilities.allowFlying = false;
 		}
+
 	}
 }

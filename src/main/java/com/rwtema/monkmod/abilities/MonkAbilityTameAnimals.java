@@ -11,8 +11,8 @@ import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 
 public class MonkAbilityTameAnimals extends MonkAbility {
 
-	public MonkAbilityTameAnimals(String name) {
-		super(name);
+	public MonkAbilityTameAnimals() {
+		super("tame_animals");
 	}
 
 
@@ -29,8 +29,7 @@ public class MonkAbilityTameAnimals extends MonkAbility {
 
 		if (!entityPlayer.getHeldItem(event.getHand()).isEmpty()) return;
 
-		int abilityLevel = MonkManager.getAbilityLevel(entityPlayer, this);
-		if (abilityLevel == -1) return;
+		if (!MonkManager.getAbilityLevel(entityPlayer, this)) return;
 
 
 		if (event.getWorld().isRemote) {

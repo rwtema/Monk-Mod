@@ -11,11 +11,8 @@ import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 
 public abstract class MonkRequirementKill extends MonkRequirement {
 
-	private final int numKills;
-
-	public MonkRequirementKill(int level, int num_kills) {
-		super(level);
-		numKills = num_kills;
+	public MonkRequirementKill(String name, int num_kills) {
+		super(name, num_kills);
 	}
 
 	@SubscribeEvent
@@ -28,7 +25,7 @@ public abstract class MonkRequirementKill extends MonkRequirement {
 				if (monkData.getLevel() == (this.levelToGrant - 1)) {
 					if (MonkAbility.isUnarmed(player)) {
 
-						if (monkData.increase(1, numKills)) {
+						if (monkData.increase(1, requirementLimit)) {
 							grantLevel(player);
 						}
 					}

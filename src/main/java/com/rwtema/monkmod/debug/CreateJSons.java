@@ -1,17 +1,11 @@
 package com.rwtema.monkmod.debug;
 
 import com.google.common.collect.Maps;
-import com.google.gson.JsonElement;
-import com.google.gson.JsonObject;
-import com.google.gson.internal.Streams;
-import com.google.gson.stream.JsonWriter;
 import com.rwtema.monkmod.MonkMod;
+import com.rwtema.monkmod.advancements.JSonObjBuilder;
 import org.apache.commons.lang3.Validate;
 
-import javax.annotation.Nonnull;
 import java.io.File;
-import java.io.FileWriter;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.stream.Collectors;
@@ -36,9 +30,9 @@ public class CreateJSons {
 		File dir = new File("C:\\extrautils\\modjam2018\\src\\main\\resources\\assets\\monk\\models\\item");
 
 		for (int level = 0; level <= 21; level++) {
-			writeJSon(new File(dir, Validate.notNull(MonkMod.ITEM_MONK_BASE.getRegistryName()).getResourcePath() + "_" + level + ".json"), json()
+			JSonObjBuilder.writeJSon(new File(dir, Validate.notNull(MonkMod.ITEM_MONK_BASE.getRegistryName()).getResourcePath() + "_" + level + ".json"), JSonObjBuilder.json()
 					.add("parent", "item/generated")
-					.add("textures", json()
+					.add("textures", JSonObjBuilder.json()
 							.add("layer0", MonkMod.MODID + ":monk_level_icon_" + level)
 					)
 					.build()
@@ -49,37 +43,37 @@ public class CreateJSons {
 	private static void createAdvancements() {
 		File dir = new File("C:\\extrautils\\modjam2018\\src\\main\\resources\\assets\\monk\\advancements\\monk");
 
-		writeJSon(new File(dir, "root.json"), json()
-				.add("display", json()
-						.add("icon", json()
+		JSonObjBuilder.writeJSon(new File(dir, "root.json"), JSonObjBuilder.json()
+				.add("display", JSonObjBuilder.json()
+						.add("icon", JSonObjBuilder.json()
 								.add("item", Validate.notNull(MonkMod.ITEM_MONK_BASE.getRegistryName()).toString())
 								.add("data", 0))
-						.add("title", json()
+						.add("title", JSonObjBuilder.json()
 								.add("translate", "monk.advancements.level.0"))
-						.add("description", json()
+						.add("description", JSonObjBuilder.json()
 								.add("translate", "monk.advancements.level.0.desc"))
 						.add("background", "monk:textures/advancements/advancement_background.png")
 						.add("show_toast", true)
 						.add("announce_to_chat", false)
 						.add("hidden", false)
 				)
-				.add("criteria", json()
-						.add("level", json()
+				.add("criteria", JSonObjBuilder.json()
+						.add("level", JSonObjBuilder.json()
 								.add("trigger", "monk:levelup")
-								.add("conditions", json()
+								.add("conditions", JSonObjBuilder.json()
 										.add("level", 0))
 						)
 				).build());
 
 		for (int level = 1; level <= 20; level++) {
-			writeJSon(new File(dir, "level_" + level + ".json"), json()
-					.add("display", json()
-							.add("icon", json()
+			JSonObjBuilder.writeJSon(new File(dir, "level_" + level + ".json"), JSonObjBuilder.json()
+					.add("display", JSonObjBuilder.json()
+							.add("icon", JSonObjBuilder.json()
 									.add("item", Validate.notNull(MonkMod.ITEM_MONK_BASE.getRegistryName()).toString())
 									.add("data", level))
-							.add("title", json()
+							.add("title", JSonObjBuilder.json()
 									.add("translate", "monk.advancements.level." + level))
-							.add("description", json()
+							.add("description", JSonObjBuilder.json()
 									.add("translate", "monk.advancements.level." + level + ".desc"))
 
 							.add("show_toast", true)
@@ -87,22 +81,22 @@ public class CreateJSons {
 							.add("hidden", false)
 					)
 					.add("parent", level == 1 ? "monk:monk/root" : "monk:monk/level_" + (level - 1))
-					.add("criteria", json()
-							.add("level", json()
+					.add("criteria", JSonObjBuilder.json()
+							.add("level", JSonObjBuilder.json()
 									.add("trigger", "monk:levelup")
-									.add("conditions", json()
+									.add("conditions", JSonObjBuilder.json()
 											.add("level", level))
 							)
 					).build());
 
-			writeJSon(new File(dir, "level_reward_" + level + ".json"), json()
-					.add("display", json()
-							.add("icon", json()
+			JSonObjBuilder.writeJSon(new File(dir, "level_reward_" + level + ".json"), JSonObjBuilder.json()
+					.add("display", JSonObjBuilder.json()
+							.add("icon", JSonObjBuilder.json()
 									.add("item", Validate.notNull(MonkMod.ITEM_MONK_BASE.getRegistryName()).toString())
 									.add("data", 21))
-							.add("title", json()
+							.add("title", JSonObjBuilder.json()
 									.add("translate", "monk.advancements.reward." + level))
-							.add("description", json()
+							.add("description", JSonObjBuilder.json()
 									.add("translate", "monk.advancements.reward." + level + ".desc"))
 
 							.add("show_toast", false)
@@ -112,70 +106,16 @@ public class CreateJSons {
 					)
 					.add("parent", level == 1 ? "monk:monk/root" : "monk:monk/level_" + (level - 1))
 
-					.add("criteria", json()
-							.add("level", json()
+					.add("criteria", JSonObjBuilder.json()
+							.add("level", JSonObjBuilder.json()
 									.add("trigger", "monk:levelup")
-									.add("conditions", json()
+									.add("conditions", JSonObjBuilder.json()
 											.add("level", level))
 							)
 					).build());
 		}
 	}
 
-
-	private static void writeJSon(@Nonnull File file, JsonObject model) {
-		try (FileWriter writer = new FileWriter(file.getPath())) {
-			JsonWriter jsonWriter = new JsonWriter(writer);
-			jsonWriter.setIndent("  ");
-			jsonWriter.setLenient(true);
-			Streams.write(model, jsonWriter);
-			writer.flush();
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-	}
-
-	public static JSonObjBuilder json() {
-		return new JSonObjBuilder();
-	}
-
-	public static class JSonObjBuilder {
-		JsonObject jsonObject = new JsonObject();
-
-		public JsonObject build() {
-			return jsonObject;
-		}
-
-		public JSonObjBuilder add(String property, JsonElement value) {
-			jsonObject.add(property, value);
-			return this;
-		}
-
-		public JSonObjBuilder add(String property, JSonObjBuilder value) {
-			jsonObject.add(property, value.build());
-			return this;
-		}
-
-		public JSonObjBuilder add(String property, String value) {
-			jsonObject.addProperty(property, value);
-			return this;
-		}
-
-		public JSonObjBuilder add(String property, Number value) {
-			jsonObject.addProperty(property, value);
-			return this;
-		}
-
-		public JSonObjBuilder add(String property, Boolean value) {
-			jsonObject.addProperty(property, value);
-			return this;
-		}
-
-		public JSonObjBuilder add(String property, Character value) {
-			jsonObject.addProperty(property, value);
-			return this;
-		}
-	}
 
 	public class AdvDummy {
 		DisplayDummy display;

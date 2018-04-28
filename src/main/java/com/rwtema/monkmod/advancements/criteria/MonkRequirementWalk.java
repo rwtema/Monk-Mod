@@ -10,12 +10,11 @@ import java.util.WeakHashMap;
 
 public abstract class MonkRequirementWalk extends MonkRequirementTick {
 	private final static int STEP_PER_BLOCK = 100;
-	public final int numSteps;
+
 	WeakHashMap<EntityPlayerMP, MutableInt> trackers = new WeakHashMap<>();
 
-	public MonkRequirementWalk(int level, double numSteps) {
-		super(level);
-		this.numSteps = (int) (numSteps * STEP_PER_BLOCK);
+	public MonkRequirementWalk(double numSteps, String name) {
+		super(name, (int) (numSteps * STEP_PER_BLOCK));
 	}
 
 	@Override
@@ -26,7 +25,7 @@ public abstract class MonkRequirementWalk extends MonkRequirementTick {
 			int k = mutableInt.getDiffAndStore(getRunDist(player));
 
 			monkData.increaseProgress(k);
-			if (monkData.getProgress() > numSteps) {
+			if (monkData.getProgress() > requirementLimit) {
 				grantLevel(player);
 				trackers.remove(player);
 			}
