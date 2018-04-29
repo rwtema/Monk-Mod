@@ -68,7 +68,7 @@ public abstract class MonkAbility implements IFactoryMade {
 	public ITextComponent getTextComponent() {
 		TextComponentTranslation iTextComponents = new TextComponentTranslation(getUnlocalized());
 		iTextComponents.getStyle().setColor(TextFormatting.AQUA);
-		ITextComponent textComponent = new TextComponentString(": ").appendSibling(new TextComponentTranslation(getUnlocalized() + ".desc", args()));
+		ITextComponent textComponent = new TextComponentString(": ").appendSibling(new TextComponentTranslation(getUnlocalized() + ".desc", (Object[])args()));
 		textComponent.getStyle().setColor(TextFormatting.RESET);
 		return iTextComponents.appendSibling(textComponent);
 	}

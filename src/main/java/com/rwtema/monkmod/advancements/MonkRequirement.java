@@ -44,7 +44,7 @@ public class MonkRequirement implements IFactoryMade {
 	}
 
 	public ITextComponent getDescriptionComponent() {
-		return new TextComponentTranslation("monk.advancements.requirement." + name, args());
+		return new TextComponentTranslation("monk.advancements.requirement." + name, (Object[])args());
 	}
 
 	protected Object[] args() {

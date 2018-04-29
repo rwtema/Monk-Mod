@@ -32,6 +32,13 @@ public class MonkManager {
 		MonkData oldData = get(event.getOriginal());
 		MonkData newData = get(event.getEntityPlayer());
 		newData.deserializeNBT(oldData.serializeNBT());
+		newData.prevLevel = -2124;
+	}
+
+	@SubscribeEvent
+	public static void onChangeDim(PlayerEvent.PlayerChangedDimensionEvent event){
+		MonkData monkData = get(event.player);
+		monkData.prevLevel = -2124;
 	}
 
 	@SubscribeEvent
