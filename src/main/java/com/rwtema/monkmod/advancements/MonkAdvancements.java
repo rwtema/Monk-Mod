@@ -4,7 +4,7 @@ import com.google.gson.JsonElement;
 import com.google.gson.JsonParser;
 import com.rwtema.monkmod.MonkMod;
 import com.rwtema.monkmod.abilities.MonkAbility;
-import com.rwtema.monkmod.config.ConfigLoad;
+import com.rwtema.monkmod.config.MonkConfiguration;
 import com.rwtema.monkmod.levels.MonkLevelManager;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.util.text.ITextComponent;
@@ -58,7 +58,7 @@ public class MonkAdvancements {
 				.add("display", json()
 						.add("icon", json()
 								.add("item", Validate.notNull(MonkMod.ITEM_MONK_BASE.getRegistryName()).toString())
-								.add("nbt", getAdd(ConfigLoad.data[0].texture)))
+								.add("nbt", getAdd(MonkConfiguration.data[0].texture)))
 						.add("title", serializeTextComponent(new TextComponentTranslation("monk.advancements.level.start")))
 						.add("description", serializeTextComponent(new TextComponentTranslation("monk.advancements.level.start.desc")))
 						.add("background", "monk:textures/advancements/advancement_background.png")
@@ -74,12 +74,12 @@ public class MonkAdvancements {
 						)
 				).build());
 
-		for (int level = 1; level <= 20; level++) {
+		for (int level = 1; level <= MonkMod.MAX_LEVEL; level++) {
 			JSonObjBuilder.writeJSon(new File(directory, "level_" + level + ".json"), json()
 					.add("display", json()
 							.add("icon", json()
 									.add("item", Validate.notNull(MonkMod.ITEM_MONK_BASE.getRegistryName()).toString())
-									.add("nbt", getAdd(ConfigLoad.data[level].texture)))
+									.add("nbt", getAdd(MonkConfiguration.data[level].texture)))
 							.add("title", serializeTextComponent(new TextComponentTranslation("monk.advancements.level", level)))
 							.add("description", serializeTextComponent(MonkLevelManager.requirements.get(level).getDescriptionComponent()))
 							.add("show_toast", true)
@@ -95,7 +95,7 @@ public class MonkAdvancements {
 							)
 					).build());
 
-			ConfigLoad.LevelData datum = ConfigLoad.data[level];
+			MonkConfiguration.LevelData datum = MonkConfiguration.data[level];
 			ITextComponent textComponent = null;
 			for (MonkAbility ability : datum.toAdd) {
 				if (textComponent == null) {

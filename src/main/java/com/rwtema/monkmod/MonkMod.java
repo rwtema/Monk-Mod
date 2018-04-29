@@ -3,22 +3,18 @@ package com.rwtema.monkmod;
 import com.rwtema.monkmod.advancements.MonkAdvancements;
 import com.rwtema.monkmod.advancements.MonkCriterionTrigger;
 import com.rwtema.monkmod.command.CommandMonkLevelManip;
-import com.rwtema.monkmod.config.ConfigLoad;
+import com.rwtema.monkmod.config.MonkConfiguration;
 import com.rwtema.monkmod.data.MonkData;
 import com.rwtema.monkmod.factory.Factory;
 import com.rwtema.monkmod.item.ItemMonkBase;
 import com.rwtema.monkmod.network.MonkNetwork;
-import gnu.trove.map.hash.TIntObjectHashMap;
 import net.minecraft.advancements.CriteriaTriggers;
-import net.minecraft.client.renderer.block.model.ModelBakery;
-import net.minecraft.client.renderer.block.model.ModelResourceLocation;
 import net.minecraft.nbt.NBTBase;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
-import net.minecraftforge.client.model.ModelLoader;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.common.capabilities.CapabilityManager;
@@ -42,7 +38,7 @@ public class MonkMod {
 	public static final String VERSION = "1.0";
 	public static final MonkCriterionTrigger TRIGGER = CriteriaTriggers.register(new MonkCriterionTrigger());
 	public static final ItemMonkBase ITEM_MONK_BASE = new ItemMonkBase();
-	public final static int MAX_LEVEL = 20;
+	public static int MAX_LEVEL;
 	public static Logger logger;
 
 	public static int config_version = 1;
@@ -86,7 +82,7 @@ public class MonkMod {
 		MinecraftForge.EVENT_BUS.register(MonkManager.class);
 
 		Factory.init();
-		ConfigLoad.load();
+		MonkConfiguration.load();
 
 		ResourceLocation location = new ResourceLocation(MODID, "monk_level");
 		ITEM_MONK_BASE.setRegistryName(location);

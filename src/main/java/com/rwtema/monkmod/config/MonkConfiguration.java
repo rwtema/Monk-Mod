@@ -14,7 +14,7 @@ import javax.annotation.Nonnull;
 import java.util.*;
 import java.util.stream.Collectors;
 
-public class ConfigLoad {
+public class MonkConfiguration {
 
 
 	public static final String MONK_LEVEL_DATA = "MonkLevelData";
@@ -27,7 +27,9 @@ public class ConfigLoad {
 		category.clear();
 		ImmutableList.copyOf(category.getChildren()).forEach(category::removeChild);
 
-		String comment = "Add Requirements and Abilities to each level in the class" +
+		MonkMod.config.get(MONK_LEVEL_DATA, "Max Level", 20, "Number of Levels").getInt();
+
+		String comment = "Abilities and Requirements can be constructed " +
 				"\n\n\n" +
 				"Abilities:\n\n" +
 				Factory.abilityFactories.values().stream().sorted(Comparator.comparing(f -> f.name)).map(Object::toString).collect(Collectors.joining("\n")) +
@@ -39,7 +41,7 @@ public class ConfigLoad {
 
 		register(0, "meditate", FactoryEntry.requirement("break_wood").setInt("number", 1));
 		register(1, "tree",
-				FactoryEntry.requirement("break_wood").setInt("number", 20),
+				FactoryEntry.requirement("break_wood").setInt("number", 10),
 				FactoryEntry.ability("mining").setInt("harvest_level", 0).setInt("speed_increase", 0).setStringList("harvest_tools", new String[]{"", "shovel", "axe"}),
 				FactoryEntry.ability("strength").setInt("damage", 1));
 
@@ -49,13 +51,16 @@ public class ConfigLoad {
 				FactoryEntry.ability("armor").setInt("armor", 1));
 		register(3, "squid",
 				FactoryEntry.requirement("drown"),
-				FactoryEntry.ability("water_breathing_partial"), FactoryEntry.ability("armor").setInt("armor", 2));
+				FactoryEntry.ability("water_breathing_partial"),
+				FactoryEntry.ability("armor").setInt("armor", 2));
 
 		register(4, "silverfish",
 				FactoryEntry.requirement("break_block").setString("block", "minecraft:stone").setInt("number", 5), FactoryEntry.ability("mining").setInt("harvest_level", 1).setFloat("speed_increase", 0.5F));
 
 		register(5, "love",
-				FactoryEntry.requirement("pet").setInt("number", 20), FactoryEntry.ability("tame_animals"));
+				FactoryEntry.requirement("pet").setInt("number", 20),
+				FactoryEntry.ability("tame_animals"),
+				FactoryEntry.ability("armor").setInt("armor", 4));
 		register(6, "feather",
 				FactoryEntry.requirement("sprint").setInt("distance", 200),
 				FactoryEntry.ability("swift").setFloat("increase", 0.4F),
@@ -64,7 +69,7 @@ public class ConfigLoad {
 		register(7, "wolf",
 				FactoryEntry.requirement("kill_undead").setInt("kills", 10),
 				FactoryEntry.ability("strength").setInt("damage", 4),
-				FactoryEntry.ability("armor").setInt("armor", 4));
+				FactoryEntry.ability("armor").setInt("armor", 8));
 
 		register(8, "skeleton",
 				FactoryEntry.requirement("arrow_dodge").setInt("dodges", 5),
@@ -72,7 +77,7 @@ public class ConfigLoad {
 				FactoryEntry.ability("swift").setFloat("increase", 0.8F));
 
 		register(9, "iron_golem",
-				FactoryEntry.requirement("break_block").setString("block", "minecraft:iron_block").setInt("number", 2), FactoryEntry.ability("mining").setInt("harvest_level", 2).setFloat("speed_increase", 1F));
+				FactoryEntry.requirement("break_block").setString("block", "minecraft:iron_block").setInt("number", 4), FactoryEntry.ability("mining").setInt("harvest_level", 2).setFloat("speed_increase", 1F));
 
 		register(10, "water",
 				FactoryEntry.requirement("meditate_water_moon").setInt("stare_time", 20 * 10),
@@ -86,7 +91,10 @@ public class ConfigLoad {
 				FactoryEntry.ability("fire_resistance").setFloat("multiplier", 0.5F), FactoryEntry.ability("lava_protection"));
 
 		register(13, "ghast",
-				FactoryEntry.requirement("break_block").setString("block", "minecraft:obsidian").setInt("number", 2), FactoryEntry.ability("mining").setInt("harvest_level", 3).setFloat("speed_increase", 2F));
+				FactoryEntry.requirement("break_block").setString("block", "minecraft:obsidian").setInt("number", 1),
+				FactoryEntry.ability("mining").setInt("harvest_level", 3).setFloat("speed_increase", 2F),
+				FactoryEntry.ability("armor").setInt("armor", 14)
+		);
 
 		register(14, "creeper",
 				FactoryEntry.requirement("kiss_creeper"),
@@ -100,7 +108,7 @@ public class ConfigLoad {
 		register(16, "ocelot",
 				FactoryEntry.requirement("fall").setInt("distance", 40),
 				FactoryEntry.ability("feather_fall").setFloat("multiplier", 0.2F),
-				FactoryEntry.ability("armor").setInt("armor", 12));
+				FactoryEntry.ability("armor").setInt("armor", 18));
 
 		register(17, "bed",
 				FactoryEntry.requirement("bedrock_sleep"),
@@ -129,7 +137,7 @@ public class ConfigLoad {
 
 	public static void register(int level, String texture, FactoryEntry<MonkRequirement> requirementFactoryEntry, List<FactoryEntry<MonkAbility>> toAdd, String... toRemove) {
 		String baseCat = getCatName(level);
-		MonkMod.config.getString("texture", baseCat, MonkMod.MODID +  ":icon/" + texture, "Texture");
+		MonkMod.config.getString("texture", baseCat, MonkMod.MODID + ":icon/" + texture, "Texture");
 		requirementFactoryEntry.writeToConfig(baseCat + ".requirement");
 		for (FactoryEntry<MonkAbility> monkAbilityFactoryEntry : toAdd) {
 			monkAbilityFactoryEntry.writeToConfig(baseCat + ".abilities_to_add");
@@ -151,6 +159,8 @@ public class ConfigLoad {
 			config.set(MonkMod.config_version);
 			genDefaultConfig();
 		}
+
+		MonkMod.MAX_LEVEL = MonkMod.config.get(MONK_LEVEL_DATA, "Max Level", 20, "Number of Levels").getInt();
 
 		data = new LevelData[MonkMod.MAX_LEVEL + 1];
 		for (int i = 0; i <= MonkMod.MAX_LEVEL; i++) {
@@ -175,7 +185,7 @@ public class ConfigLoad {
 				String[] abilities_to_removes = MonkMod.config.getStringList("abilities_to_remove", getCatName(i), new String[]{}, "Abilities to remove in this level");
 				Collections.addAll(levelData.toRemove, abilities_to_removes);
 
-				levelData.texture = MonkMod.config.getString("texture", getCatName(i), MonkMod.MODID +  ":icon/meditate", "Texture");
+				levelData.texture = MonkMod.config.getString("texture", getCatName(i), MonkMod.MODID + ":icon/meditate", "Texture");
 			} catch (Exception err) {
 				throw new RuntimeException("Error loading Level " + i, err);
 			}

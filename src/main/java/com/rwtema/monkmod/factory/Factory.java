@@ -64,7 +64,7 @@ public class Factory<T> {
 
 		Factory.registerRequirement(parameters -> {
 			ResourceLocation resourceLocation = new ResourceLocation(parameters.getString("block"));
-			return new MonkRequirementBreakBlockBareHanded("break_block", (world, pos, state) -> resourceLocation.equals(state.getBlock().getRegistryName()), parameters.getInt("number")){
+			return new MonkRequirementBreakBlockBareHanded("break_block", (world, pos, state) -> resourceLocation.equals(state.getBlock().getRegistryName()), parameters.getInt("number")) {
 				@Override
 				protected Object[] args() {
 					Block block = Block.REGISTRY.getObject(resourceLocation);
@@ -161,30 +161,30 @@ public class Factory<T> {
 		builder.append(name);
 		if (!parameterList.isEmpty()) {
 			builder.append(" <");
-			for (Parameter parameter : parameterList) {
-				builder.append(" ");
+			builder.append(parameterList.stream().map(parameter -> {
+				StringBuilder b = new StringBuilder();
 				switch (parameter.type) {
 					case INTEGER:
-						builder.append("I:");
+						b.append("I:");
 						break;
 					case FLOAT:
-						builder.append("D:");
+						b.append("D:");
 						break;
 					case STRING:
-						builder.append("S:");
+						b.append("S:");
 						break;
 					case STRINGLIST:
-						builder.append("S[]:");
+						b.append("S[]:");
 						break;
 				}
-				builder.append(parameter.name);
+				b.append(parameter.name);
 				if (parameter._default != null) {
-					builder.append("=\"");
-					builder.append(parameter._default);
-					builder.append("\"");
+					b.append("=\"");
+					b.append(parameter._default);
+					b.append("\"");
 				}
-				builder.append("");
-			}
+				return b;
+			}).collect(Collectors.joining(" ")));
 			builder.append(">");
 		}
 		return builder.toString();

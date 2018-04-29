@@ -36,7 +36,7 @@ public class MessageBlink extends MonkNetwork.MessageClientToServer {
 			if (!player.isPlayerSleeping()) {
 				EnderTeleportEvent event = new EnderTeleportEvent(player,
 						target.x, target.y, target.z,
-						10);
+						2);
 				if (!MinecraftForge.EVENT_BUS.post(event)) {
 					if (player.isRiding()) {
 						player.dismountRidingEntity();
