@@ -25,6 +25,7 @@ public class ConfigLoad {
 	public static void genDefaultConfig() {
 		ConfigCategory category = MonkMod.config.getCategory(MONK_LEVEL_DATA);
 		category.clear();
+		ImmutableList.copyOf(category.getChildren()).forEach(category::removeChild);
 
 		String comment = "Add Requirements and Abilities to each level in the class" +
 				"\n\n\n" +
@@ -70,7 +71,6 @@ public class ConfigLoad {
 				FactoryEntry.ability("catch_arrows"),
 				FactoryEntry.ability("swift").setFloat("increase", 0.8F));
 
-
 		register(9, "iron_golem",
 				FactoryEntry.requirement("break_block").setString("block", "minecraft:iron_block").setInt("number", 2), FactoryEntry.ability("mining").setInt("harvest_level", 2).setFloat("speed_increase", 1F));
 
@@ -100,7 +100,7 @@ public class ConfigLoad {
 		register(16, "ocelot",
 				FactoryEntry.requirement("fall").setInt("distance", 40),
 				FactoryEntry.ability("feather_fall").setFloat("multiplier", 0.2F),
-				FactoryEntry.ability("armor").setInt("armor", 8));
+				FactoryEntry.ability("armor").setInt("armor", 12));
 
 		register(17, "bed",
 				FactoryEntry.requirement("bedrock_sleep"),
@@ -109,13 +109,13 @@ public class ConfigLoad {
 				FactoryEntry.ability("blindness"));
 
 		register(18, "blind_eye",
-				FactoryEntry.requirement("kill_hostile").setInt("kills", 5),
+				FactoryEntry.requirement("kill_blind").setInt("kills", 5),
 				ImmutableList.of(FactoryEntry.ability("strength").setInt("damage", 16)), "blindness");
 
 		register(19, "wither",
 				FactoryEntry.requirement("kill_entity_type").setInt("kills", 1).setString("entity_type", "minecraft:wither"),
 				FactoryEntry.ability("potion_immunity"),
-				FactoryEntry.ability("armor").setInt("armor", 16));
+				FactoryEntry.ability("armor").setInt("armor", 20));
 
 		register(20, "ascend", FactoryEntry.requirement("void_fall"), FactoryEntry.ability("fly"));
 
@@ -129,7 +129,7 @@ public class ConfigLoad {
 
 	public static void register(int level, String texture, FactoryEntry<MonkRequirement> requirementFactoryEntry, List<FactoryEntry<MonkAbility>> toAdd, String... toRemove) {
 		String baseCat = getCatName(level);
-		MonkMod.config.getString("texture", baseCat, texture, null);
+		MonkMod.config.getString("texture", baseCat, MonkMod.MODID +  ":icon/" + texture, "Texture");
 		requirementFactoryEntry.writeToConfig(baseCat + ".requirement");
 		for (FactoryEntry<MonkAbility> monkAbilityFactoryEntry : toAdd) {
 			monkAbilityFactoryEntry.writeToConfig(baseCat + ".abilities_to_add");
@@ -145,8 +145,8 @@ public class ConfigLoad {
 	}
 
 	public static void load() {
-		Property config = MonkMod.config.get("Config Version", "Config", 0, "Config Version (set to 0 to reset configuration to default)");
-		boolean config_reset = MonkMod.config.getBoolean("Auto-Reset on Version Update", "Config", false, "If the config version changes, regenerate the config");
+		Property config = MonkMod.config.get("Config", "Config Version", 0, "Config Version (set to 0 to reset configuration to default)");
+		boolean config_reset = MonkMod.config.getBoolean("Auto-Reset on Version Update", "Config", true, "If the config version changes, regenerate the config");
 		if (config_reset && config.getInt() != MonkMod.config_version) {
 			config.set(MonkMod.config_version);
 			genDefaultConfig();
@@ -158,6 +158,7 @@ public class ConfigLoad {
 			try {
 
 				ConfigCategory reqCat = MonkMod.config.getCategory(getCatName(i) + ".requirement");
+				reqCat.setComment("Requirement to unlock level");
 				if (reqCat.getChildren().size() != 1) {
 					throw new IllegalArgumentException("Level " + i + " does not have 1 requirement");
 				} else {
@@ -166,14 +167,15 @@ public class ConfigLoad {
 				}
 
 				ConfigCategory abilityCat = MonkMod.config.getCategory(getCatName(i) + ".abilities_to_add");
+				abilityCat.setComment("Abilities to gain in this level");
 				for (ConfigCategory configCategory : abilityCat.getChildren()) {
 					levelData.toAdd.add(load(Factory.abilityFactories, configCategory));
 				}
 
-				String[] abilities_to_removes = MonkMod.config.getStringList("abilities_to_remove", getCatName(i), new String[]{}, "");
+				String[] abilities_to_removes = MonkMod.config.getStringList("abilities_to_remove", getCatName(i), new String[]{}, "Abilities to remove in this level");
 				Collections.addAll(levelData.toRemove, abilities_to_removes);
 
-				levelData.texture = MonkMod.config.getString("texture", getCatName(i), "meditate", null);
+				levelData.texture = MonkMod.config.getString("texture", getCatName(i), MonkMod.MODID +  ":icon/meditate", "Texture");
 			} catch (Exception err) {
 				throw new RuntimeException("Error loading Level " + i, err);
 			}

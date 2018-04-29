@@ -41,6 +41,11 @@ public class MonkManager {
 	}
 
 	private static void updatePlayer(EntityPlayerMP player, MonkData monkData) {
+		int level = monkData.getLevel();
+		for (int i = 0; i < level; i++) {
+			MonkMod.TRIGGER.trigger(player, level);
+		}
+
 		MonkNetwork.net.sendTo(new MessageMonkLevelData(monkData), player);
 	}
 
@@ -64,7 +69,7 @@ public class MonkManager {
 		AbstractAttributeMap attributeMap = event.player.getAttributeMap();
 		for (IAttributeInstance attributeInstance : attributeMap.getAllAttributes()) {
 			for (UUID uuid : MonkAbilityAttribute.uuids.keySet()) {
-				if (attributeInstance.getModifier(uuid) != null){
+				if (attributeInstance.getModifier(uuid) != null) {
 					Set<MonkAbilityAttribute> monkAbilityAttributes = MonkAbilityAttribute.uuids.get(uuid);
 					if (monkAbilityAttributes.stream().noneMatch(abilities::contains)) {
 						attributeInstance.removeModifier(uuid);

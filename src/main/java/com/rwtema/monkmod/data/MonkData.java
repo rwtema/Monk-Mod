@@ -23,6 +23,7 @@ public class MonkData implements INBTSerializable<NBTTagCompound>, ICapabilityPr
 					.addInteger("level", MonkData::getLevel, MonkData::setLevel)
 					.addInteger("progress", MonkData::getProgress, MonkData::setProgress);
 	public int prevLevel = -112;
+	public boolean progressDirty = false;
 	private int progress, level = -1;
 
 	@CapabilityInject(MonkData.class)
@@ -44,6 +45,7 @@ public class MonkData implements INBTSerializable<NBTTagCompound>, ICapabilityPr
 	}
 
 	public void setProgress(int progress) {
+		if (progress != this.progress) progressDirty = true;
 		this.progress = progress;
 	}
 
@@ -71,10 +73,12 @@ public class MonkData implements INBTSerializable<NBTTagCompound>, ICapabilityPr
 	}
 
 	public void increaseProgress(int k) {
+		if (k != 0) progressDirty = true;
 		progress += k;
 	}
 
 	public boolean increase(int k, int threshold) {
+		if (k != 0) progressDirty = true;
 		progress += k;
 		return progress >= threshold;
 	}

@@ -4,9 +4,11 @@ import com.google.common.collect.Sets;
 import com.rwtema.monkmod.abilities.*;
 import com.rwtema.monkmod.advancements.MonkRequirement;
 import com.rwtema.monkmod.advancements.criteria.*;
+import net.minecraft.block.Block;
 import net.minecraft.entity.monster.IMob;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.init.MobEffects;
+import net.minecraft.item.ItemStack;
 import net.minecraft.potion.PotionEffect;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.common.MinecraftForge;
@@ -62,7 +64,13 @@ public class Factory<T> {
 
 		Factory.registerRequirement(parameters -> {
 			ResourceLocation resourceLocation = new ResourceLocation(parameters.getString("block"));
-			return new MonkRequirementBreakBlockBareHanded("break_block", (world, pos, state) -> resourceLocation.equals(state.getBlock().getRegistryName()), parameters.getInt("number"));
+			return new MonkRequirementBreakBlockBareHanded("break_block", (world, pos, state) -> resourceLocation.equals(state.getBlock().getRegistryName()), parameters.getInt("number")){
+				@Override
+				protected Object[] args() {
+					Block block = Block.REGISTRY.getObject(resourceLocation);
+					return new Object[]{requirementLimit, new ItemStack(block).getTextComponent()};
+				}
+			};
 		});
 		Factory.registerRequirement(parameters -> new MonkRequirementBreakBlockBareHanded("break_wood", (world, pos, state) -> state.getBlock().isWood(world, pos), parameters.getInt("number")));
 		Factory.registerRequirement(parameters -> new MonkRequirementOcean(parameters.getInt("swim_time", 280)));
@@ -105,6 +113,12 @@ public class Factory<T> {
 		Factory.registerRequirement(parameters -> new MonkRequirementMeditateEndermen(parameters.getInt("time", 30 * 20)));
 		Factory.registerRequirement(parameters -> new MonkRequirementBedrockSleep());
 		Factory.registerRequirement(parameters -> new MonkRequirementKill("kill_hostile", parameters.getInt("kills")) {
+			@Override
+			protected boolean isValidEntity(LivingDeathEvent event) {
+				return event.getEntity() instanceof IMob;
+			}
+		});
+		Factory.registerRequirement(parameters -> new MonkRequirementKill("kill_blind", parameters.getInt("kills")) {
 			@Override
 			protected boolean isValidEntity(LivingDeathEvent event) {
 				return event.getEntity() instanceof IMob;

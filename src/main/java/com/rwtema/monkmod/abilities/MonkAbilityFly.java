@@ -7,17 +7,37 @@ import net.minecraftforge.event.entity.player.PlayerEvent;
 import net.minecraftforge.fml.common.eventhandler.EventPriority;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 
+import java.util.WeakHashMap;
+
 public class MonkAbilityFly extends MonkAbility {
+	WeakHashMap<EntityPlayerMP, Boolean> wasArmored = new WeakHashMap<>();
+
 	public MonkAbilityFly() {
 		super("fly");
 	}
 
 	@Override
 	public void tickServer(EntityPlayerMP player) {
+
 		PlayerCapabilities capabilities = player.capabilities;
-		if (!capabilities.allowFlying) {
-			capabilities.allowFlying = true;
-			player.sendPlayerAbilities();
+		boolean wasArmored = this.wasArmored.get(player) == Boolean.TRUE;
+
+		boolean armored = !isUnarmored(player);
+		this.wasArmored.put(player, armored);
+		if (capabilities.isCreativeMode) return;
+
+		if (armored) {
+			if (!wasArmored) {
+				capabilities.allowFlying = false;
+				capabilities.isFlying = false;
+				player.sendPlayerAbilities();
+			}
+		} else {
+
+			if (!capabilities.allowFlying) {
+				capabilities.allowFlying = true;
+				player.sendPlayerAbilities();
+			}
 		}
 	}
 

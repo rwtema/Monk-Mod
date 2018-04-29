@@ -110,7 +110,7 @@ public class MonkAdvancements {
 						.add("display", json()
 								.add("icon", json()
 										.add("item", Validate.notNull(MonkMod.ITEM_MONK_BASE.getRegistryName()).toString())
-										.add("nbt", getAdd("rewards")))
+										.add("nbt", getAdd(MonkMod.MODID + ":icon/rewards")))
 								.add("title", serializeTextComponent(new TextComponentTranslation("monk.advancements.reward", level)))
 								.add("description", serializeTextComponent(textComponent))
 								.add("show_toast", false)
@@ -130,8 +130,8 @@ public class MonkAdvancements {
 		}
 	}
 
-	private static String getAdd(String rewards) {
-		return "{\"icon\":\"" + rewards + "\"}";
+	private static String getAdd(String textureName) {
+		return "{\"icon\":\"" + textureName + "\"}";
 	}
 
 	@Nonnull
