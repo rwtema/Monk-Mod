@@ -35,7 +35,7 @@ public class MonkRequirementStare extends MonkRequirementTick {
 		EntityLiving resultEntity = null;
 		List<Entity> list = world.getEntitiesInAABBexcluding(
 				player,
-				new AxisAlignedBB(startPos, endPos)
+				new AxisAlignedBB(startPos.x, startPos.y, startPos.z, endPos.x, endPos.y, endPos.z)	
 				, entity -> entity instanceof EntityLiving && entity.canBeCollidedWith() && additionalPredicate.test((EntityLiving) entity)
 		);
 		double d6 = 0.0D;
