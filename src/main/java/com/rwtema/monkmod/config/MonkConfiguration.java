@@ -29,7 +29,7 @@ public class MonkConfiguration {
 
 		MonkMod.config.get(MONK_LEVEL_DATA, "Max Level", 20, "Number of Levels").getInt();
 
-		String comment = "Abilities and Requirements can be constructed " +
+		String comment = "Specify requirements to unlock each level and abilities to gain. See below for available abilities and requirements as well as needed parameters." +
 				"\n\n\n" +
 				"Abilities:\n\n" +
 				Factory.abilityFactories.values().stream().sorted(Comparator.comparing(f -> f.name)).map(Object::toString).collect(Collectors.joining("\n")) +
