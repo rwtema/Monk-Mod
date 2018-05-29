@@ -2,6 +2,7 @@ package com.rwtema.monkmod.advancements.criteria;
 
 import com.rwtema.monkmod.data.MonkData;
 import net.minecraft.entity.player.EntityPlayerMP;
+import net.minecraft.network.play.server.SPacketChangeGameState;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.util.DamageSource;
 import net.minecraft.util.text.TextComponentTranslation;
@@ -21,7 +22,8 @@ public class MonkRequirementDescentAscent extends MonkRequirementDeath {
 
 			MinecraftServer minecraftServer = player.world.getMinecraftServer();
 			assert minecraftServer != null;
-			minecraftServer.getPlayerList().recreatePlayerEntity(player, player.world.provider.getDimension(), true);
+			player.connection.sendPacket(new SPacketChangeGameState(4, 0));
+			player.connection.player = minecraftServer.getPlayerList().recreatePlayerEntity(player, player.world.provider.getDimension(), false);
 		} else {
 			player.sendMessage(new TextComponentTranslation("monk.final." + progress));
 		}
