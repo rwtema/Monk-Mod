@@ -1,10 +1,10 @@
 package com.rwtema.monkmod.abilities;
 
-import net.minecraft.block.material.Material;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.init.MobEffects;
-import net.minecraft.potion.PotionEffect;
 import net.minecraft.util.DamageSource;
+
+import java.text.NumberFormat;
+import java.util.Locale;
 
 public class MonkAbilityProtectionFire extends MonkAbilityProtection {
 
@@ -25,5 +25,10 @@ public class MonkAbilityProtectionFire extends MonkAbilityProtection {
 	@Override
 	public boolean canHandle(EntityPlayer player, DamageSource source) {
 		return source.isFireDamage();
+	}
+
+	@Override
+	protected String[] args() {
+		return new String[]{NumberFormat.getPercentInstance(Locale.UK).format(1 - amount)};
 	}
 }
