@@ -1,6 +1,7 @@
 package com.rwtema.monkmod.abilities;
 
 import com.rwtema.monkmod.MonkManager;
+import com.rwtema.monkmod.MonkTextures;
 import com.rwtema.monkmod.network.MessageBlink;
 import com.rwtema.monkmod.network.MonkNetwork;
 import net.minecraft.client.Minecraft;
@@ -13,32 +14,20 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.RayTraceResult;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
-import net.minecraftforge.client.event.MouseEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
+import net.minecraftforge.fml.common.gameevent.InputEvent;
 import net.minecraftforge.fml.common.gameevent.TickEvent;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
-import javax.annotation.Nullable;
 import java.util.Random;
 
 public class MonkAbilityBlink extends MonkAbility {
-	int cooldown = 0;
-	private boolean buttonPressed = false;
+	private boolean wasPressed = false;
+	private int cooldown = 0;
 
 	public MonkAbilityBlink() {
 		super("blink");
-	}
-
-	@SideOnly(Side.CLIENT)
-	@SubscribeEvent
-	public void onInput(MouseEvent event) {
-		if (event.getButton() == 2) {
-			buttonPressed = event.isButtonstate();
-			if (!buttonPressed) {
-				runData(event);
-			}
-		}
 	}
 
 	@SideOnly(Side.CLIENT)
@@ -51,23 +40,15 @@ public class MonkAbilityBlink extends MonkAbility {
 		if (cooldown > 0) {
 			cooldown--;
 		}
-		if (buttonPressed) {
-			runData(null);
-		}
-	}
 
-	@SideOnly(Side.CLIENT)
-	public void runData(@Nullable MouseEvent event) {
 		Minecraft minecraft = Minecraft.getMinecraft();
 		EntityPlayerSP player = minecraft.player;
 		if (player == null || minecraft.currentScreen != null) return;
-		if (minecraft.gameSettings.keyBindSprint.isKeyDown() || player.isSprinting()) {
+		if (wasPressed) {
 			if (!MonkManager.getAbilityLevel(player, this)) return;
 
 			Entity viewEntity = minecraft.player;
 			if (viewEntity == null) return;
-			if (event != null)
-				event.setCanceled(true);
 
 			Vec3d vec3d = viewEntity.getPositionEyes((float) 0);
 			Vec3d vec3d1 = viewEntity.getLook((float) 0);
@@ -141,7 +122,7 @@ public class MonkAbilityBlink extends MonkAbility {
 			}
 
 
-			if (buttonPressed) {
+			if (MonkTextures.blink.isKeyDown()) {
 				if (resultBounds != null) {
 					double r = 204 / 255F;
 					double g = 0;
@@ -189,5 +170,13 @@ public class MonkAbilityBlink extends MonkAbility {
 				}
 			}
 		}
+		wasPressed = MonkTextures.blink.isKeyDown();
+	}
+
+	@SideOnly(Side.CLIENT)
+	@SubscribeEvent
+	public void runData(InputEvent.KeyInputEvent event) {
+
+//		wasPressed = MonkTextures.blink.isKeyDown();
 	}
 }

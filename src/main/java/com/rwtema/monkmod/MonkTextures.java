@@ -6,6 +6,7 @@ import net.minecraft.client.renderer.block.model.*;
 import net.minecraft.client.renderer.texture.TextureAtlasSprite;
 import net.minecraft.client.renderer.texture.TextureMap;
 import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
+import net.minecraft.client.settings.KeyBinding;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
@@ -16,9 +17,11 @@ import net.minecraftforge.client.event.ModelBakeEvent;
 import net.minecraftforge.client.event.TextureStitchEvent;
 import net.minecraftforge.client.model.ItemLayerModel;
 import net.minecraftforge.client.model.ModelLoader;
+import net.minecraftforge.client.settings.IKeyConflictContext;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.common.crafting.CraftingHelper;
 import net.minecraftforge.common.model.TRSRTransformation;
+import net.minecraftforge.fml.client.registry.ClientRegistry;
 import net.minecraftforge.fml.common.FMLCommonHandler;
 import net.minecraftforge.fml.common.ModContainer;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
@@ -26,6 +29,7 @@ import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 import org.apache.commons.io.FilenameUtils;
 import org.apache.commons.lang3.Validate;
+import org.lwjgl.input.Keyboard;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
@@ -40,8 +44,23 @@ import static com.rwtema.monkmod.MonkMod.ITEM_MONK_BASE;
 public class MonkTextures {
 	static final String MEDITATE = MonkMod.MODID + ":icon/meditate";
 	private static TextureMap map;
+	public static KeyBinding blink;
 
 	public static void init() {
+		blink = new KeyBinding("Blink", Keyboard.KEY_F, "Monk Mod");
+		blink.setKeyConflictContext(new IKeyConflictContext() {
+			@Override
+			public boolean isActive() {
+				return true;
+			}
+
+			@Override
+			public boolean conflicts(IKeyConflictContext other) {
+				return this == other;
+			}
+		});
+		ClientRegistry.registerKeyBinding(blink);
+
 		MinecraftForge.EVENT_BUS.register(MonkTextures.class);
 		ModelResourceLocation modelResourceLocation = getModelLocation();
 		ModelLoader.setCustomModelResourceLocation(ITEM_MONK_BASE, 0, modelResourceLocation);
