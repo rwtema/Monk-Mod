@@ -24,13 +24,12 @@ public abstract class MonkRequirementWalk extends MonkRequirementTick {
 
 			int k = mutableInt.getDiffAndStore(getRunDist(player));
 
-			monkData.increaseProgress(k);
-			if (monkData.getProgress() > requirementLimit) {
+			if (monkData.increase(k, requirementLimit)) {
 				grantLevel(player);
 				trackers.remove(player);
 			}
 		} else {
-			monkData.setProgress(0);
+			monkData.resetProgress();
 		}
 
 	}
@@ -41,6 +40,11 @@ public abstract class MonkRequirementWalk extends MonkRequirementTick {
 				statFile.readStat(StatList.SNEAK_TIME) +
 				statFile.readStat(StatList.WALK_ONE_CM)
 				;
+	}
+
+	@Override
+	protected Object[] args() {
+		return new Object[]{requirementLimit / 100F};
 	}
 
 	public boolean satisfiesRequirements(EntityPlayerMP player) {
