@@ -1,6 +1,7 @@
 package com.rwtema.monkmod.abilities;
 
 import com.google.common.collect.Multimap;
+import com.rwtema.monkmod.api.MonkWear;
 import com.rwtema.monkmod.factory.Factory;
 import com.rwtema.monkmod.factory.IFactoryMade;
 import net.minecraft.entity.SharedMonsterAttributes;
@@ -11,7 +12,10 @@ import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.inventory.EntityEquipmentSlot;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
-import net.minecraft.util.text.*;
+import net.minecraft.util.text.ITextComponent;
+import net.minecraft.util.text.TextComponentString;
+import net.minecraft.util.text.TextComponentTranslation;
+import net.minecraft.util.text.TextFormatting;
 import net.minecraftforge.common.MinecraftForge;
 
 import java.util.Set;
@@ -39,6 +43,13 @@ public abstract class MonkAbility implements IFactoryMade {
 		for (EntityEquipmentSlot slot : slots) {
 			ItemStack itemStack = player.getItemStackFromSlot(slot);
 			if (itemStack.isEmpty()) continue;
+			if (itemStack.hasCapability(MonkWear.MONK_SAFE_CAPABILITY, null)) {
+				MonkWear capability = itemStack.getCapability(MonkWear.MONK_SAFE_CAPABILITY, null);
+				assert capability != null;
+				if (!capability.canMonkWear(player)) {
+					return false;
+				}
+			}
 			Item item = itemStack.getItem();
 			Multimap<String, AttributeModifier> itemAttributeModifiers = item.getAttributeModifiers(slot, itemStack);
 			if (!itemAttributeModifiers.isEmpty() && illegalModifiers.stream().anyMatch(itemAttributeModifiers::containsKey)) {
@@ -68,7 +79,7 @@ public abstract class MonkAbility implements IFactoryMade {
 	public ITextComponent getTextComponent() {
 		TextComponentTranslation iTextComponents = new TextComponentTranslation(getUnlocalized());
 		iTextComponents.getStyle().setColor(TextFormatting.AQUA);
-		ITextComponent textComponent = new TextComponentString(": ").appendSibling(new TextComponentTranslation(getUnlocalized() + ".desc", (Object[])args()));
+		ITextComponent textComponent = new TextComponentString(": ").appendSibling(new TextComponentTranslation(getUnlocalized() + ".desc", (Object[]) args()));
 		textComponent.getStyle().setColor(TextFormatting.RESET);
 		return iTextComponents.appendSibling(textComponent);
 	}

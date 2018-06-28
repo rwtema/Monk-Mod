@@ -86,7 +86,6 @@ public class MonkMod {
 			throw new RuntimeException();
 		});
 		MinecraftForge.EVENT_BUS.register(MonkManager.class);
-
 		MinecraftForge.EVENT_BUS.register(HUDProgress.INSTANCE);
 
 		Factory.init();
