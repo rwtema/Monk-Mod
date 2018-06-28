@@ -28,7 +28,7 @@ public class MonkAbilityMining extends MonkAbility {
 
 		float oldSpeed = Math.min(event.getOriginalSpeed(), 1);
 
-		event.setNewSpeed(Math.max(event.getNewSpeed(), speed * oldSpeed));
+		event.setNewSpeed(Math.max(event.getNewSpeed(), (1 + speed) * oldSpeed));
 	}
 
 	@SubscribeEvent

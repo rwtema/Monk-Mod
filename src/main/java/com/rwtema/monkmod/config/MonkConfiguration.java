@@ -55,7 +55,7 @@ public class MonkConfiguration {
 				FactoryEntry.ability("armor").setInt("armor", 2));
 
 		register(4, "silverfish",
-				FactoryEntry.requirement("break_block").setString("block", "minecraft:stone").setInt("number", 5), FactoryEntry.ability("mining").setInt("harvest_level", 1).setFloat("speed_increase", 0.5F));
+				FactoryEntry.requirement("break_block").setString("block", "minecraft:stone").setInt("number", 5), FactoryEntry.ability("mining").setInt("harvest_level", 1).setFloat("speed_increase", 2F));
 
 		register(5, "love",
 				FactoryEntry.requirement("pet").setInt("number", 20),
@@ -77,7 +77,7 @@ public class MonkConfiguration {
 				FactoryEntry.ability("swift").setFloat("increase", 0.8F));
 
 		register(9, "iron_golem",
-				FactoryEntry.requirement("break_block").setString("block", "minecraft:iron_block").setInt("number", 4), FactoryEntry.ability("mining").setInt("harvest_level", 2).setFloat("speed_increase", 1F));
+				FactoryEntry.requirement("break_block").setString("block", "minecraft:iron_block").setInt("number", 4), FactoryEntry.ability("mining").setInt("harvest_level", 2).setFloat("speed_increase", 5F));
 
 		register(10, "water",
 				FactoryEntry.requirement("meditate_water_moon").setInt("stare_time", 20 * 10),
@@ -92,7 +92,7 @@ public class MonkConfiguration {
 
 		register(13, "ghast",
 				FactoryEntry.requirement("break_block").setString("block", "minecraft:obsidian").setInt("number", 1),
-				FactoryEntry.ability("mining").setInt("harvest_level", 3).setFloat("speed_increase", 2F),
+				FactoryEntry.ability("mining").setInt("harvest_level", 3).setFloat("speed_increase", 9F),
 				FactoryEntry.ability("armor").setInt("armor", 14)
 		);
 
@@ -112,7 +112,7 @@ public class MonkConfiguration {
 
 		register(17, "bed",
 				FactoryEntry.requirement("bedrock_sleep"),
-				FactoryEntry.ability("mining").setInt("harvest_level", 5).setFloat("speed_increase", 4F),
+				FactoryEntry.ability("mining").setInt("harvest_level", 5).setFloat("speed_increase", 12F),
 				FactoryEntry.ability("strength").setInt("damage", 8),
 				FactoryEntry.ability("blindness"));
 
