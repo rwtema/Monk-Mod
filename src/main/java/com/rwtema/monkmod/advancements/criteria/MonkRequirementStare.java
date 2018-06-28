@@ -35,7 +35,7 @@ public class MonkRequirementStare extends MonkRequirementTick {
 		EntityLiving resultEntity = null;
 		List<Entity> list = world.getEntitiesInAABBexcluding(
 				player,
-				new AxisAlignedBB(startPos.x, startPos.y, startPos.z, endPos.x, endPos.y, endPos.z)	
+				new AxisAlignedBB(startPos.x, startPos.y, startPos.z, endPos.x, endPos.y, endPos.z)
 				, entity -> entity instanceof EntityLiving && entity.canBeCollidedWith() && additionalPredicate.test((EntityLiving) entity)
 		);
 		double d6 = 0.0D;
@@ -73,22 +73,22 @@ public class MonkRequirementStare extends MonkRequirementTick {
 		World world = player.world;
 		if (!(world instanceof WorldServer)) return;
 		int progress = monkData.getProgress();
-		monkData.setProgress(Math.max(0, progress - 4));
+
 
 		if (((WorldServer) world).getChunkProvider().isInsideStructure(world, "Fortress", new BlockPos(player))) {
 			EntityLiving resultEntity = getStareEntity(player,
 					e -> e instanceof EntityWitherSkeleton && e.getAttackTarget() == player, 20);
 
 			if (resultEntity != null) {
-				progress++;
-				monkData.setProgress(progress);
-				if (progress > requirementLimit) {
+				if (monkData.increase(1, requirementLimit)) {
 					resultEntity.setAttackTarget(null);
 					resultEntity.getNavigator().clearPath();
 					grantLevel(player);
 				}
+				return;
 			}
 		}
+		monkData.setProgress(Math.max(0, progress - 4));
 
 	}
 }

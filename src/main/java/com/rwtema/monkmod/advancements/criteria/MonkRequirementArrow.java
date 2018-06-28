@@ -41,7 +41,7 @@ public class MonkRequirementArrow extends MonkRequirementTick {
 					double v = a.dotProduct(b);
 
 					if (v < -0.1) {
-						monkData.increaseProgress(1);
+						monkData.increase(1, requirementLimit);
 
 						return true;
 					}
@@ -65,7 +65,7 @@ public class MonkRequirementArrow extends MonkRequirementTick {
 			EntityPlayerMP playerMP = (EntityPlayerMP) entityHit;
 			MonkData monkData = MonkManager.get(playerMP);
 			if (monkData.getLevel() == (this.levelToGrant - 1)) {
-				monkData.setProgress(0);
+				monkData.resetProgress();
 			}
 		}
 		arrows.values().forEach(entityArrows -> entityArrows.remove(event.getArrow()));

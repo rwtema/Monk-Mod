@@ -18,13 +18,14 @@ public class MonkRequirementSunriseSunset extends MonkRequirementTick {
 			Vec3d sunDir = new Vec3d(-Math.sin(celestialAngle), sunHeight, 0);
 
 			if (sunDir.dotProduct(vec3d1) > 0.99) {
-				monkData.increaseProgress(1);
-				if (monkData.getProgress() > requirementLimit) {
+				if (monkData.increase(1, requirementLimit)) {
 					grantLevel(player);
 				}
+			}else{
+				monkData.resetProgress();
 			}
 		} else {
-			monkData.setProgress(0);
+			monkData.resetProgress();
 		}
 	}
 }

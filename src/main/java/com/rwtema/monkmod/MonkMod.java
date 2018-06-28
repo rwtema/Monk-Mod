@@ -8,26 +8,32 @@ import com.rwtema.monkmod.data.MonkData;
 import com.rwtema.monkmod.factory.Factory;
 import com.rwtema.monkmod.item.ItemMonkBase;
 import com.rwtema.monkmod.network.MonkNetwork;
+import com.rwtema.monkmod.render.HUDProgress;
 import net.minecraft.advancements.CriteriaTriggers;
+import net.minecraft.client.settings.KeyBinding;
 import net.minecraft.nbt.NBTBase;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
+import net.minecraftforge.client.settings.IKeyConflictContext;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.common.capabilities.CapabilityManager;
 import net.minecraftforge.common.config.Configuration;
+import net.minecraftforge.fml.client.registry.ClientRegistry;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.Mod.EventHandler;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLServerAboutToStartEvent;
 import net.minecraftforge.fml.common.event.FMLServerStartingEvent;
 import net.minecraftforge.fml.common.registry.ForgeRegistries;
+import net.minecraftforge.fml.common.registry.GameRegistry;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 import org.apache.logging.log4j.Logger;
+import org.lwjgl.input.Keyboard;
 
 import javax.annotation.Nullable;
 
@@ -41,7 +47,7 @@ public class MonkMod {
 	public static int MAX_LEVEL;
 	public static Logger logger;
 
-	public static int config_version = 1;
+	public static int config_version = 2;
 
 	@Mod.Instance(value = MODID)
 	public static MonkMod instance;
@@ -80,6 +86,8 @@ public class MonkMod {
 			throw new RuntimeException();
 		});
 		MinecraftForge.EVENT_BUS.register(MonkManager.class);
+
+		MinecraftForge.EVENT_BUS.register(HUDProgress.INSTANCE);
 
 		Factory.init();
 		MonkConfiguration.load();

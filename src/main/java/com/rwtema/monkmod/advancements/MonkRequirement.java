@@ -13,7 +13,7 @@ import net.minecraftforge.common.MinecraftForge;
 public class MonkRequirement implements IFactoryMade {
 	public final String name;
 	public int levelToGrant = -1;
-	public int requirementLimit;
+	public final int requirementLimit;
 
 	public MonkRequirement(String name, int defaultRequirements) {
 		this.name = name;
@@ -25,7 +25,7 @@ public class MonkRequirement implements IFactoryMade {
 	public void grantLevel(EntityPlayerMP player) {
 		MonkData monkData = MonkManager.get(player);
 		monkData.setLevel(levelToGrant);
-		monkData.setProgress(0);
+		monkData.resetProgress();
 		MonkMod.TRIGGER.trigger(player, levelToGrant);
 		onGrant(player);
 	}

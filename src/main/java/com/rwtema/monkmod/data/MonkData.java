@@ -23,14 +23,19 @@ public class MonkData implements INBTSerializable<NBTTagCompound>, ICapabilityPr
 					.addInteger("level", MonkData::getLevel, MonkData::setLevel)
 					.addInteger("progress", MonkData::getProgress, MonkData::setProgress);
 	public int prevLevel = -112;
-	public boolean progressDirty = false;
-	private int progress, level = -1;
+	public boolean progressDirty = true;
+	private int progress = -1;
+	private int max_progress = -1;
+	private int level = -1;
 
 	@CapabilityInject(MonkData.class)
 	public static void test(Capability<MonkData> cap) {
 		MonkMod.logger.debug("Cap Registered");
 	}
 
+	public int getMaxProgress() {
+		return max_progress;
+	}
 
 	public int getLevel() {
 		return level;
@@ -38,6 +43,9 @@ public class MonkData implements INBTSerializable<NBTTagCompound>, ICapabilityPr
 
 	public void setLevel(int level) {
 		this.level = level;
+		progress = 0;
+		max_progress = -1;
+		progressDirty = true;
 	}
 
 	public int getProgress() {
@@ -72,14 +80,18 @@ public class MonkData implements INBTSerializable<NBTTagCompound>, ICapabilityPr
 		return capability == MONKLEVELDATA ? MONKLEVELDATA.cast(this) : null;
 	}
 
-	public void increaseProgress(int k) {
-		if (k != 0) progressDirty = true;
+	public boolean increase(int k, int threshold) {
+		if (k != 0 || threshold != max_progress) {
+			progressDirty = true;
+		}
 		progress += k;
+		max_progress = threshold;
+		return progress >= threshold;
 	}
 
-	public boolean increase(int k, int threshold) {
-		if (k != 0) progressDirty = true;
-		progress += k;
-		return progress >= threshold;
+	public void resetProgress() {
+		if (progress != 0)
+			progressDirty = true;
+		progress = 0;
 	}
 }

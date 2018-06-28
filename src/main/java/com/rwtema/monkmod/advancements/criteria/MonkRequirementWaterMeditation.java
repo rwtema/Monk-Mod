@@ -15,7 +15,7 @@ public class MonkRequirementWaterMeditation extends MonkRequirementTick {
 	protected void doTick(EntityPlayerMP player, MonkData monkData) {
 		Entity ridingEntity = player.getRidingEntity();
 		if (!(ridingEntity instanceof EntityBoat)) {
-			monkData.setProgress(0);
+			monkData.resetProgress();
 			return;
 		}
 
@@ -27,13 +27,14 @@ public class MonkRequirementWaterMeditation extends MonkRequirementTick {
 			Vec3d sunDir = new Vec3d(-sunDist, sunHeight, 0);
 
 			if (sunDir.dotProduct(vec3d1) < -0.99) {
-				monkData.increaseProgress(1);
-				if (monkData.getProgress() > requirementLimit) {
+				if (monkData.increase(1,requirementLimit)) {
 					grantLevel(player);
 				}
+			}else{
+				monkData.resetProgress();
 			}
 		} else {
-			monkData.setProgress(0);
+			monkData.resetProgress();
 		}
 	}
 }

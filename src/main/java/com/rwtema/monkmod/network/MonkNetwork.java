@@ -32,6 +32,7 @@ public class MonkNetwork {
 
 		registerClientToServerPacket(genericHandler, MessageBlink.class, 0);
 		registerServerToClientPacket(genericHandler, MessageMonkLevelData.class, 1);
+		registerServerToClientPacket(genericHandler, MessageProgress.class, 2);
 	}
 
 	private static <T extends MessageServerToClient> void registerServerToClientPacket(IMessageHandler<MessageBase, IMessage> genericHandler, Class<T> messageType, int discriminator) {

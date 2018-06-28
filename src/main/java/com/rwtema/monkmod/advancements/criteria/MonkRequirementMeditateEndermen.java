@@ -17,7 +17,7 @@ public class MonkRequirementMeditateEndermen extends MonkRequirementTick {
 		AxisAlignedBB grow = entityBoundingBox.grow(20);
 		for (EntityEnderman enderman : player.world.getEntitiesWithinAABB(EntityEnderman.class, grow)) {
 			if (enderman.isScreaming()) {
-				monkData.setProgress(0);
+				monkData.resetProgress();
 				return;
 			} else {
 				if (monkData.increase(1, requirementLimit)) {
@@ -26,4 +26,5 @@ public class MonkRequirementMeditateEndermen extends MonkRequirementTick {
 			}
 		}
 	}
+
 }
