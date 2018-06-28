@@ -5,7 +5,9 @@ import com.rwtema.monkmod.abilities.MonkAbilityAttribute;
 import com.rwtema.monkmod.data.MonkData;
 import com.rwtema.monkmod.levels.MonkLevelManager;
 import com.rwtema.monkmod.network.MessageMonkLevelData;
+import com.rwtema.monkmod.network.MessageProgress;
 import com.rwtema.monkmod.network.MonkNetwork;
+import net.minecraft.client.Minecraft;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.ai.attributes.AbstractAttributeMap;
 import net.minecraft.entity.ai.attributes.IAttributeInstance;
@@ -15,11 +17,27 @@ import net.minecraftforge.event.AttachCapabilitiesEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.gameevent.PlayerEvent;
 import net.minecraftforge.fml.common.gameevent.TickEvent;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 
 import java.util.Set;
 import java.util.UUID;
 
 public class MonkManager {
+
+	private static final ClientFunction<EntityPlayer, Boolean> isClient = new ClientFunction<EntityPlayer, Boolean>() {
+		@Override
+		@SideOnly(Side.CLIENT)
+		public Boolean apply(EntityPlayer player) {
+			return player.world.isRemote && player.equals(Minecraft.getMinecraft().player);
+		}
+
+		@Override
+		public Boolean applyFallback(EntityPlayer player) {
+			return false;
+		}
+	};
+	public static MonkData clientData = new MonkData();
 
 	@SubscribeEvent
 	public static void registerCap(AttachCapabilitiesEvent<Entity> playerAttachCapabilitiesEvent) {
@@ -36,7 +54,7 @@ public class MonkManager {
 	}
 
 	@SubscribeEvent
-	public static void onChangeDim(PlayerEvent.PlayerChangedDimensionEvent event){
+	public static void onChangeDim(PlayerEvent.PlayerChangedDimensionEvent event) {
 		MonkData monkData = get(event.player);
 		monkData.prevLevel = -2124;
 	}
@@ -62,6 +80,13 @@ public class MonkManager {
 		MonkData monkData = get(event.player);
 
 		EntityPlayerMP playerMP = (EntityPlayerMP) event.player;
+
+		if (monkData.progressDirty) {
+			MonkNetwork.net.sendTo(new MessageProgress(monkData.getProgress(), monkData.getMaxProgress()), playerMP);
+			monkData.progressDirty = false;
+		}
+
+
 		if (monkData.getLevel() != monkData.prevLevel) {
 			updatePlayer(playerMP, monkData);
 			monkData.prevLevel = monkData.getLevel();
@@ -88,6 +113,9 @@ public class MonkManager {
 	}
 
 	public static MonkData get(EntityPlayer player) {
+		if (isClient.apply(player)) {
+			return clientData;
+		}
 		//noinspection ConstantConditions
 		return player.getCapability(MonkData.MONKLEVELDATA, null);
 	}

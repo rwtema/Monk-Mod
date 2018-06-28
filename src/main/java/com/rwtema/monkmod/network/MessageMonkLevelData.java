@@ -29,8 +29,7 @@ public class MessageMonkLevelData extends MonkNetwork.MessageServerToClient {
 	@Override
 	protected void runClient(MessageContext ctx, EntityPlayer player) {
 		if (data != null) {
-			MonkData monkData = MonkManager.get(player);
-			monkData.deserializeNBT(data);
+			MonkManager.clientData.deserializeNBT(data);
 		}
 	}
 
