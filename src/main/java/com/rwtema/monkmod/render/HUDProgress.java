@@ -24,13 +24,11 @@ public class HUDProgress {
 	private static final float FADE_MULTIPLIER = 0.1F;
 	private static final float GONE_TIME = FULL_TIME + 3.141F / FADE_MULTIPLIER / 2;
 	private static final int DISPLAY = 64;
-	int progress;
-	float displayAngle;
-	int maxprogress;
-	int prevLevel;
-	int levelupcounter;
-	int timeSinceLastUpdate = 10000;
-	float transparency;
+	private int progress;
+	private float displayAngle;
+	private int maxprogress;
+	private int timeSinceLastUpdate = 10000;
+	private float transparency;
 	private ResourceLocation location = new ResourceLocation(MonkMod.MODID, "textures/circle.png");
 
 	@SubscribeEvent
@@ -88,7 +86,7 @@ public class HUDProgress {
 		float displayAngle2 = displayAngle + Math.min(Math.abs(dt), 0.1F) * Math.signum(dt);
 		float partialAngle = displayAngle + (displayAngle2 - displayAngle) * partialTicks;
 
-		Minecraft.getMinecraft().getTextureManager().bindTexture(new ResourceLocation(MonkMod.MODID, "textures/circle.png"));
+		Minecraft.getMinecraft().getTextureManager().bindTexture(location);
 
 		Tessellator instance = Tessellator.getInstance();
 		BufferBuilder buffer = instance.getBuffer();
@@ -134,6 +132,7 @@ public class HUDProgress {
 
 	}
 
+	@SideOnly(Side.CLIENT)
 	private void addAnglePos(BufferBuilder buffer, float angle, float rad, float r, float g, float b, float a, int cx, int cy, int size) {
 
 		float c = MathHelper.cos(angle - 3.141F / 2);
