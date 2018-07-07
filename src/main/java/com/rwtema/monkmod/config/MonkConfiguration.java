@@ -2,24 +2,31 @@ package com.rwtema.monkmod.config;
 
 import com.google.common.collect.HashBiMap;
 import com.google.common.collect.ImmutableList;
+import com.google.common.collect.ImmutableSet;
 import com.rwtema.monkmod.MonkMod;
 import com.rwtema.monkmod.abilities.MonkAbility;
 import com.rwtema.monkmod.advancements.MonkRequirement;
 import com.rwtema.monkmod.factory.Factory;
 import com.rwtema.monkmod.levels.MonkLevelManager;
+import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.common.config.ConfigCategory;
 import net.minecraftforge.common.config.Property;
 
 import javax.annotation.Nonnull;
 import java.util.*;
+import java.util.regex.Pattern;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 public class MonkConfiguration {
 
 
 	public static final String MONK_LEVEL_DATA = "MonkLevelData";
+	public static final String MONK_WEAR_ITEMS = "MonkWear";
 	public static final HashBiMap<Integer, String> texMap = HashBiMap.create();
 	public static LevelData[] data;
+	public static Set<ResourceLocation> whitelist;
+	public static Set<ResourceLocation> blacklist;
 
 	@SuppressWarnings("unchecked")
 	public static void genDefaultConfig() {
@@ -153,6 +160,18 @@ public class MonkConfiguration {
 	}
 
 	public static void load() {
+		whitelist = Stream.of(MonkMod.config.get(MONK_WEAR_ITEMS, "whitelist", new String[]{"minecraft:pumpkin", "minecraft:skull"},
+						"Add an item registry name to this section to allow monks to wear/wield it without penalty", false, -1,
+						Pattern.compile("^[^:]+:[^:]+$")).getStringList())
+				.map(ResourceLocation::new).
+						collect(ImmutableSet.toImmutableSet());
+
+		blacklist = Stream.of(MonkMod.config.get(MONK_WEAR_ITEMS, "whitelist", new String[]{},
+				"Add an item registry name to this section to prevent monks being able to wear/wield it without penalty", false, -1,
+				Pattern.compile("^[^:]+:[^:]+$")).getStringList())
+				.map(ResourceLocation::new).
+						collect(ImmutableSet.toImmutableSet());
+
 		Property config = MonkMod.config.get("Config", "Config Version", 0, "Config Version (set to 0 to reset configuration to default)");
 		boolean config_reset = MonkMod.config.getBoolean("Auto-Reset on Version Update", "Config", true, "If the config version changes, regenerate the config");
 		if (config_reset && config.getInt() != MonkMod.config_version) {

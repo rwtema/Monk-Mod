@@ -2,6 +2,7 @@ package com.rwtema.monkmod.abilities;
 
 import com.google.common.collect.Multimap;
 import com.rwtema.monkmod.api.MonkWear;
+import com.rwtema.monkmod.config.MonkConfiguration;
 import com.rwtema.monkmod.factory.Factory;
 import com.rwtema.monkmod.factory.IFactoryMade;
 import net.minecraft.entity.SharedMonsterAttributes;
@@ -12,6 +13,7 @@ import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.inventory.EntityEquipmentSlot;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.TextComponentString;
 import net.minecraft.util.text.TextComponentTranslation;
@@ -43,6 +45,11 @@ public abstract class MonkAbility implements IFactoryMade {
 		for (EntityEquipmentSlot slot : slots) {
 			ItemStack itemStack = player.getItemStackFromSlot(slot);
 			if (itemStack.isEmpty()) continue;
+			ResourceLocation registryName = itemStack.getItem().getRegistryName();
+			if (MonkConfiguration.whitelist.contains(registryName))
+				continue;
+			if (MonkConfiguration.blacklist.contains(registryName))
+				return false;
 			if (itemStack.hasCapability(MonkWear.MONK_SAFE_CAPABILITY, null)) {
 				MonkWear capability = itemStack.getCapability(MonkWear.MONK_SAFE_CAPABILITY, null);
 				assert capability != null;
