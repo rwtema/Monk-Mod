@@ -13,6 +13,8 @@ import net.minecraftforge.common.util.INBTSerializable;
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
+import static com.rwtema.monkmod.MonkManager.NUMBER_OF_TIMES_TO_UPDATE;
+
 public class MonkData implements INBTSerializable<NBTTagCompound>, ICapabilityProvider {
 
 	public static final ResourceLocation LOCATION = new ResourceLocation(MonkMod.MODID, "monk_level_data");
@@ -22,7 +24,7 @@ public class MonkData implements INBTSerializable<NBTTagCompound>, ICapabilityPr
 			NBTSerializer.<MonkData>createSerializer()
 					.addInteger("level", MonkData::getLevel, MonkData::setLevel)
 					.addInteger("progress", MonkData::getProgress, MonkData::setProgress);
-	public int prevLevel = -112;
+	public int dirty = NUMBER_OF_TIMES_TO_UPDATE;
 	public boolean progressDirty = true;
 	private int progress = -1;
 	private int max_progress = -1;

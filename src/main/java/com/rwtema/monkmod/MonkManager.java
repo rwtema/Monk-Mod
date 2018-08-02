@@ -25,6 +25,7 @@ import java.util.UUID;
 
 public class MonkManager {
 
+	public static final int NUMBER_OF_TIMES_TO_UPDATE = 100;
 	private static final ClientFunction<EntityPlayer, Boolean> isClient = new ClientFunction<EntityPlayer, Boolean>() {
 		@Override
 		@SideOnly(Side.CLIENT)
@@ -50,13 +51,13 @@ public class MonkManager {
 		MonkData oldData = get(event.getOriginal());
 		MonkData newData = get(event.getEntityPlayer());
 		newData.deserializeNBT(oldData.serializeNBT());
-		newData.prevLevel = -2124;
+		newData.dirty = NUMBER_OF_TIMES_TO_UPDATE;
 	}
 
 	@SubscribeEvent
 	public static void onChangeDim(PlayerEvent.PlayerChangedDimensionEvent event) {
 		MonkData monkData = get(event.player);
-		monkData.prevLevel = -2124;
+		monkData.dirty = NUMBER_OF_TIMES_TO_UPDATE;
 	}
 
 	@SubscribeEvent
@@ -72,6 +73,7 @@ public class MonkManager {
 		}
 
 		MonkNetwork.net.sendTo(new MessageMonkLevelData(monkData), player);
+		player.sendPlayerAbilities();
 	}
 
 	@SubscribeEvent
@@ -87,9 +89,10 @@ public class MonkManager {
 		}
 
 
-		if (monkData.getLevel() != monkData.prevLevel) {
-			updatePlayer(playerMP, monkData);
-			monkData.prevLevel = monkData.getLevel();
+		if (monkData.dirty > 0) {
+			if(monkData.dirty == NUMBER_OF_TIMES_TO_UPDATE || (monkData.dirty % 6)  == 0)
+				updatePlayer(playerMP, monkData);
+			monkData.dirty--;
 		}
 
 		Set<MonkAbility> abilities = MonkLevelManager.getAbilities(monkData.getLevel());
