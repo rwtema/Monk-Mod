@@ -18,6 +18,7 @@ public class MonkAbilityTameAnimals extends MonkAbility {
 
 	@SubscribeEvent
 	public void onRightClickAnimal(PlayerInteractEvent.EntityInteract event) {
+		if (!event.getEntityPlayer().getHeldItem(event.getHand()).isEmpty()) return;
 		Entity entity = event.getTarget();
 		if (!(entity instanceof EntityAnimal)) return;
 		EntityAnimal animal = (EntityAnimal) entity;
@@ -33,8 +34,8 @@ public class MonkAbilityTameAnimals extends MonkAbility {
 
 
 		if (event.getWorld().isRemote) {
-			event.setCanceled(true);
-			event.setCancellationResult(EnumActionResult.SUCCESS);
+//			event.setCanceled(true);
+//			event.setCancellationResult(EnumActionResult.SUCCESS);
 		} else {
 
 			entityPlayer.sendMessage(new TextComponentTranslation("chat.type.text", entity.getDisplayName(), new TextComponentTranslation("monk.heart")));
@@ -46,9 +47,9 @@ public class MonkAbilityTameAnimals extends MonkAbility {
 					animal.setInLove(entityPlayer);
 				}
 			}
-
-			event.setCanceled(true);
-			event.setCancellationResult(EnumActionResult.SUCCESS);
+//
+//			event.setCanceled(true);
+//			event.setCancellationResult(EnumActionResult.SUCCESS);
 		}
 	}
 }
