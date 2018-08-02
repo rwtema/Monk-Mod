@@ -25,19 +25,20 @@ import net.minecraftforge.fml.common.Mod.EventHandler;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLServerAboutToStartEvent;
 import net.minecraftforge.fml.common.event.FMLServerStartingEvent;
+import net.minecraftforge.fml.common.network.NetworkCheckHandler;
 import net.minecraftforge.fml.common.registry.ForgeRegistries;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 import org.apache.logging.log4j.Logger;
 
 import javax.annotation.Nullable;
+import java.util.Map;
 import java.util.Set;
 
-@Mod(modid = MonkMod.MODID, name = MonkMod.NAME, version = MonkMod.VERSION)
+@Mod(modid = MonkMod.MODID, name = MonkMod.NAME)
 public class MonkMod {
 	public static final String MODID = "monk";
 	public static final String NAME = "Monk";
-	public static final String VERSION = "1.0";
 	public static final MonkCriterionTrigger TRIGGER = CriteriaTriggers.register(new MonkCriterionTrigger());
 	public static final ItemMonkBase ITEM_MONK_BASE = new ItemMonkBase();
 	public static int MAX_LEVEL;
