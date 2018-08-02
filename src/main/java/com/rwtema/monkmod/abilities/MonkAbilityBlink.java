@@ -62,7 +62,7 @@ public class MonkAbilityBlink extends MonkAbility {
 
 			AxisAlignedBB resultBounds = null;
 
-			if (rayTraceResult != null && rayTraceResult.hitVec != null) {
+			if (rayTraceResult != null && rayTraceResult.hitVec != null && rayTraceResult.sideHit != null) {
 
 
 				pointPos = rayTraceResult.hitVec;
