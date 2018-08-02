@@ -32,7 +32,7 @@ public class HUDProgress {
 	private int timeSinceLastUpdate = 10000;
 	private float transparency;
 	@Nonnull
-	private ResourceLocation location = new ResourceLocation(MonkMod.MODID, "textures/circle.png");
+	private final ResourceLocation location = new ResourceLocation(MonkMod.MODID, "textures/circle.png");
 
 	@SubscribeEvent
 	@SideOnly(Side.CLIENT)

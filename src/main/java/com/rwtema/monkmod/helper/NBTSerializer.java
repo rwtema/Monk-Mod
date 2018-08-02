@@ -17,7 +17,7 @@ public class NBTSerializer<T> {
 	}
 
 	public static <T> NBTSerializer<T> createSerializer() {
-		return new NBTSerializer<T>();
+		return new NBTSerializer<>();
 	}
 
 	@Nonnull
@@ -26,6 +26,7 @@ public class NBTSerializer<T> {
 		return tag;
 	}
 
+	@SuppressWarnings("unchecked")
 	public void deserialize(T object, @Nonnull NBTTagCompound tag) {
 		map.forEach((key, datatag) -> {
 			if (tag.hasKey(key)) {

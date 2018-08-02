@@ -37,6 +37,7 @@ public class MonkAdvancements {
 			throw new RuntimeException(e);
 		}
 		if (MonkMod.debug) {
+			//noinspection deprecation
 			MonkMod.logger.info(keys.stream().sorted().map(s -> s + "=" + (I18n.canTranslate(s) ? I18n.translateToLocal(s) : "")).collect(Collectors.joining("\n", "Keys::\n", "\n")));
 		}
 	}

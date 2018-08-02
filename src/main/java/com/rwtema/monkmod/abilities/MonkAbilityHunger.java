@@ -11,7 +11,7 @@ import java.util.Locale;
 
 public class MonkAbilityHunger extends MonkAbility {
 	private static final Field prevFoodLevel = ReflectionHelper.findField(FoodStats.class, "prevFoodLevel", "field_75124_e");
-	private float chance;
+	private final float chance;
 
 	public MonkAbilityHunger(float chance) {
 		super("hunger");

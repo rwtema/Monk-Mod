@@ -28,8 +28,8 @@ import java.util.stream.Stream;
 public abstract class MonkAbility implements IFactoryMade {
 	public static final EntityEquipmentSlot[] HELD_SLOTS = {EntityEquipmentSlot.MAINHAND, EntityEquipmentSlot.OFFHAND};
 	public static final EntityEquipmentSlot[] ARMOR_SLOTS = {EntityEquipmentSlot.FEET, EntityEquipmentSlot.HEAD, EntityEquipmentSlot.CHEST, EntityEquipmentSlot.LEGS};
-	public static Set<String> DAMAGE_MODIFIERS = Stream.of(SharedMonsterAttributes.ATTACK_DAMAGE, SharedMonsterAttributes.ATTACK_SPEED).map(IAttribute::getName).collect(Collectors.toSet());
-	public static Set<String> ARMOR_MODIFIERS = Stream.of(SharedMonsterAttributes.ARMOR_TOUGHNESS, SharedMonsterAttributes.ARMOR).map(IAttribute::getName).collect(Collectors.toSet());
+	public static final Set<String> DAMAGE_MODIFIERS = Stream.of(SharedMonsterAttributes.ATTACK_DAMAGE, SharedMonsterAttributes.ATTACK_SPEED).map(IAttribute::getName).collect(Collectors.toSet());
+	public static final Set<String> ARMOR_MODIFIERS = Stream.of(SharedMonsterAttributes.ARMOR_TOUGHNESS, SharedMonsterAttributes.ARMOR).map(IAttribute::getName).collect(Collectors.toSet());
 	public final String name;
 
 	public MonkAbility(String name) {

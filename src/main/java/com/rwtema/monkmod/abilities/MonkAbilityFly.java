@@ -12,6 +12,7 @@ import java.util.WeakHashMap;
 
 public class MonkAbilityFly extends MonkAbility {
 	@Nonnull
+	final
 	WeakHashMap<EntityPlayerMP, Boolean> wasArmored = new WeakHashMap<>();
 
 	public MonkAbilityFly() {

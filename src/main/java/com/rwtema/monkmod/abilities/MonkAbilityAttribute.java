@@ -20,7 +20,7 @@ public abstract class MonkAbilityAttribute extends MonkAbility {
 	public final UUID uuid;
 	public final IAttribute attribute;
 	public final int operation;
-	private double multiplier;
+	private final double multiplier;
 
 	public MonkAbilityAttribute(@Nonnull String name, IAttribute attribute, double multiplier, int operation) {
 		super(name);

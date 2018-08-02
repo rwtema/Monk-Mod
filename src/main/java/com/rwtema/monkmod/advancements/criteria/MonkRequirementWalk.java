@@ -13,6 +13,7 @@ public abstract class MonkRequirementWalk extends MonkRequirementTick {
 	private final static int STEP_PER_BLOCK = 100;
 
 	@Nonnull
+	final
 	WeakHashMap<EntityPlayerMP, MutableInt> trackers = new WeakHashMap<>();
 
 	public MonkRequirementWalk(double numSteps, String name) {

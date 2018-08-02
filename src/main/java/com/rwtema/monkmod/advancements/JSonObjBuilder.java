@@ -12,7 +12,7 @@ import java.io.IOException;
 
 public class JSonObjBuilder {
 	@Nonnull
-	private JsonObject jsonObject = new JsonObject();
+	private final JsonObject jsonObject = new JsonObject();
 
 	public static void writeJSon(@Nonnull File file, JsonObject model) {
 		try (FileWriter writer = new FileWriter(file.getPath())) {

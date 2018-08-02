@@ -106,6 +106,7 @@ public class MonkRequirementEnemyDefeat extends MonkRequirementTick {
 			s1 = "generic";
 		}
 
+		//noinspection deprecation
 		return new Object[]{requirementLimit, I18n.translateToLocal("entity." + s1 + ".name")};
 	}
 

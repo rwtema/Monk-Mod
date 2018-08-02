@@ -96,6 +96,7 @@ public class MonkTextures {
 
 	private static class Model implements IBakedModel {
 		@Nonnull
+		final
 		Map<String, IBakedModel> modelMap = new HashMap<>();
 
 		@Nonnull

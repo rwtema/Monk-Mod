@@ -215,6 +215,7 @@ public class MonkConfiguration {
 		HashMap<String, MonkAbility> abilityHashMap = new HashMap<>();
 		for (int level = 0; level < data.length; level++) {
 			LevelData datum = data[level];
+			assert datum.requirement != null;
 			MonkLevelManager.registerRequirement(level, datum.requirement);
 
 
@@ -294,9 +295,9 @@ public class MonkConfiguration {
 
 	public static class LevelData {
 		@Nonnull
-		public List<MonkAbility> toAdd = new ArrayList<>();
+		public final List<MonkAbility> toAdd = new ArrayList<>();
 		@Nonnull
-		public List<String> toRemove = new ArrayList<>();
+		public final List<String> toRemove = new ArrayList<>();
 		@Nullable
 		public MonkRequirement requirement = null;
 		@Nullable

@@ -19,15 +19,17 @@ import net.minecraftforge.fml.common.gameevent.PlayerEvent;
 import net.minecraftforge.fml.common.gameevent.TickEvent;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
+import org.apache.commons.lang3.Validate;
 
 import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
 import java.util.Set;
 import java.util.UUID;
 
 public class MonkManager {
 
 	public static final int NUMBER_OF_TIMES_TO_UPDATE = 100;
+	@Nonnull
+	public static final MonkData clientData = new MonkData();
 	private static final ClientFunction<EntityPlayer, Boolean> isClient = new ClientFunction<EntityPlayer, Boolean>() {
 		@Override
 		@SideOnly(Side.CLIENT)
@@ -40,8 +42,6 @@ public class MonkManager {
 			return false;
 		}
 	};
-	@Nonnull
-	public static MonkData clientData = new MonkData();
 
 	@SubscribeEvent
 	public static void registerCap(AttachCapabilitiesEvent<Entity> playerAttachCapabilitiesEvent) {
@@ -118,13 +118,13 @@ public class MonkManager {
 
 	}
 
-	@Nullable
+	@Nonnull
 	public static MonkData get(@Nonnull EntityPlayer player) {
 		if (isClient.apply(player)) {
 			return clientData;
 		}
 		//noinspection ConstantConditions
-		return player.getCapability(MonkData.MONKLEVELDATA, null);
+		return Validate.notNull(player.getCapability(MonkData.MONKLEVELDATA, null));
 	}
 
 	public static boolean getAbilityLevel(@Nonnull EntityPlayer player, MonkAbility ability) {

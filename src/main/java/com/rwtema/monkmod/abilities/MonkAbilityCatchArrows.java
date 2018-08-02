@@ -16,7 +16,7 @@ import java.lang.reflect.Method;
 
 public class MonkAbilityCatchArrows extends MonkAbility {
 	@Nonnull
-	private Method getArrowStackMethod = ReflectionHelper.findMethod(EntityArrow.class, "getArrowStack", "func_184550_j");
+	private final Method getArrowStackMethod = ReflectionHelper.findMethod(EntityArrow.class, "getArrowStack", "func_184550_j");
 
 	public MonkAbilityCatchArrows() {
 		super("catch_arrows");

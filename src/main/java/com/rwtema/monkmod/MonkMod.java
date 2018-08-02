@@ -42,7 +42,7 @@ public class MonkMod {
 	public static int MAX_LEVEL;
 	public static Logger logger;
 
-	public static int config_version = 2;
+	public static final int config_version = 2;
 
 	@Mod.Instance(value = MODID)
 	public static MonkMod instance;

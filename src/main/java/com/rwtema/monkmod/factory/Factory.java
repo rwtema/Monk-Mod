@@ -26,13 +26,13 @@ import java.util.stream.Stream;
 
 public class Factory<T> {
 	@Nonnull
-	public static Map<String, Factory<MonkAbility>> abilityFactories = new HashMap<>();
+	public static final Map<String, Factory<MonkAbility>> abilityFactories = new HashMap<>();
 	@Nonnull
-	public static Map<String, Factory<MonkRequirement>> requirementFactories = new HashMap<>();
+	public static final Map<String, Factory<MonkRequirement>> requirementFactories = new HashMap<>();
 	public static boolean shouldRegister = true;
 	public final String name;
 	public final Function<Parameters, ? extends T> function;
-	public List<Parameter> parameterList;
+	public final List<Parameter> parameterList;
 
 	public Factory(String name, Function<Parameters, ? extends T> function, List<Parameter> parameterList) {
 		this.name = name;
@@ -227,6 +227,7 @@ public class Factory<T> {
 
 	private static class ParameterLoader extends Parameters {
 		@Nonnull
+		final
 		List<Parameter> parameterList = new ArrayList<>();
 
 		@Override
@@ -288,7 +289,7 @@ public class Factory<T> {
 		@Nullable
 		public final String _default;
 
-		public Parameter(String name, Type type, String aDefault) {
+		public Parameter(String name, Type type, @Nullable String aDefault) {
 			this.name = name;
 			this.type = type;
 			_default = aDefault;

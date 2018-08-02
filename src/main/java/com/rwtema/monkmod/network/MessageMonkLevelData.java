@@ -20,7 +20,7 @@ public class MessageMonkLevelData extends MonkNetwork.MessageServerToClient {
 
 	}
 
-	private MessageMonkLevelData(NBTTagCompound data) {
+	private MessageMonkLevelData(@Nullable NBTTagCompound data) {
 		this.data = data;
 	}
 

@@ -119,9 +119,9 @@ public class CreateJSons {
 
 
 	public class AdvDummy {
-		DisplayDummy display;
+		final DisplayDummy display;
 		@Nonnull
-		HashMap<String, CriteriaDummy> criteria = new HashMap<>();
+		HashMap<String, CriteriaDummy> criteria;
 
 		public AdvDummy(int level) {
 			this.display = new DisplayDummy();
@@ -137,10 +137,13 @@ public class CreateJSons {
 
 		public class DisplayDummy {
 			@Nonnull
+			final
 			ItemDummy icon = new ItemDummy();
 			@Nonnull
+			final
 			StringDummy title = new StringDummy();
 			@Nonnull
+			final
 			StringDummy description = new StringDummy();
 			String parent;
 			boolean show_toast = true;

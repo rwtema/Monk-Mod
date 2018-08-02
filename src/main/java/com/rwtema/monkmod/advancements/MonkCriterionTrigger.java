@@ -17,6 +17,7 @@ import javax.annotation.Nonnull;
 public class MonkCriterionTrigger implements ICriterionTrigger<MonkCriterionTrigger.Instance> {
 	private static final ResourceLocation ID = new ResourceLocation(MonkMod.MODID, "levelup");
 	@Nonnull
+	final
 	HashMultimap<PlayerAdvancements, Listener<Instance>> instances = HashMultimap.create();
 
 	@Nonnull
@@ -56,7 +57,7 @@ public class MonkCriterionTrigger implements ICriterionTrigger<MonkCriterionTrig
 	}
 
 	public static class Instance extends AbstractCriterionInstance {
-		private int level;
+		private final int level;
 
 		public Instance(int level) {
 			super(ID);

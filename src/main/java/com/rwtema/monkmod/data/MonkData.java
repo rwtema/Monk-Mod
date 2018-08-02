@@ -70,16 +70,16 @@ public class MonkData implements INBTSerializable<NBTTagCompound>, ICapabilityPr
 		serializer.deserialize(this, nbt);
 	}
 
+	@SuppressWarnings("ConstantConditions")
 	@Override
 	public boolean hasCapability(@Nonnull Capability<?> capability, @Nullable EnumFacing facing) {
-		assert MONKLEVELDATA != null;
 		return capability == MONKLEVELDATA;
 	}
 
 	@Nullable
 	@Override
+	@SuppressWarnings("ConstantConditions")
 	public <T> T getCapability(@Nonnull Capability<T> capability, @Nullable EnumFacing facing) {
-		assert MONKLEVELDATA != null;
 		return capability == MONKLEVELDATA ? MONKLEVELDATA.cast(this) : null;
 	}
 
