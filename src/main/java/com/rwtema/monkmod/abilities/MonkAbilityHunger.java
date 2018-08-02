@@ -4,6 +4,7 @@ import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.util.FoodStats;
 import net.minecraftforge.fml.relauncher.ReflectionHelper;
 
+import javax.annotation.Nonnull;
 import java.lang.reflect.Field;
 import java.text.NumberFormat;
 import java.util.Locale;
@@ -18,7 +19,7 @@ public class MonkAbilityHunger extends MonkAbility {
 	}
 
 	@Override
-	public void tickServer(EntityPlayerMP player) {
+	public void tickServer(@Nonnull EntityPlayerMP player) {
 		super.tickServer(player);
 		FoodStats foodStats = player.getFoodStats();
 
@@ -35,6 +36,7 @@ public class MonkAbilityHunger extends MonkAbility {
 		}
 	}
 
+	@Nonnull
 	@Override
 	protected String[] args() {
 		return new String[]{NumberFormat.getPercentInstance(Locale.UK).format(1 - chance)};

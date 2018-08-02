@@ -6,13 +6,15 @@ import net.minecraft.entity.item.EntityBoat;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.util.math.Vec3d;
 
+import javax.annotation.Nonnull;
+
 public class MonkRequirementWaterMeditation extends MonkRequirementTick {
 	public MonkRequirementWaterMeditation(int stareTime) {
 		super("meditate_water_moon", stareTime);
 	}
 
 	@Override
-	protected void doTick(EntityPlayerMP player, MonkData monkData) {
+	protected void doTick(@Nonnull EntityPlayerMP player, @Nonnull MonkData monkData) {
 		Entity ridingEntity = player.getRidingEntity();
 		if (!(ridingEntity instanceof EntityBoat)) {
 			monkData.resetProgress();
@@ -27,10 +29,10 @@ public class MonkRequirementWaterMeditation extends MonkRequirementTick {
 			Vec3d sunDir = new Vec3d(-sunDist, sunHeight, 0);
 
 			if (sunDir.dotProduct(vec3d1) < -0.99) {
-				if (monkData.increase(1,requirementLimit)) {
+				if (monkData.increase(1, requirementLimit)) {
 					grantLevel(player);
 				}
-			}else{
+			} else {
 				monkData.resetProgress();
 			}
 		} else {

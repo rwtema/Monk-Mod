@@ -4,10 +4,11 @@ import com.rwtema.monkmod.MonkManager;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.passive.EntityAnimal;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.util.EnumActionResult;
 import net.minecraft.util.text.TextComponentTranslation;
 import net.minecraftforge.event.entity.player.PlayerInteractEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
+
+import javax.annotation.Nonnull;
 
 public class MonkAbilityTameAnimals extends MonkAbility {
 
@@ -17,7 +18,7 @@ public class MonkAbilityTameAnimals extends MonkAbility {
 
 
 	@SubscribeEvent
-	public void onRightClickAnimal(PlayerInteractEvent.EntityInteract event) {
+	public void onRightClickAnimal(@Nonnull PlayerInteractEvent.EntityInteract event) {
 		if (!event.getEntityPlayer().getHeldItem(event.getHand()).isEmpty()) return;
 		Entity entity = event.getTarget();
 		if (!(entity instanceof EntityAnimal)) return;

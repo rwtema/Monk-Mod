@@ -5,6 +5,7 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagInt;
 import net.minecraft.nbt.NBTTagString;
 
+import javax.annotation.Nonnull;
 import java.util.HashMap;
 import java.util.function.BiConsumer;
 import java.util.function.Function;
@@ -19,12 +20,13 @@ public class NBTSerializer<T> {
 		return new NBTSerializer<T>();
 	}
 
-	public NBTTagCompound serialize(T object, NBTTagCompound tag) {
+	@Nonnull
+	public NBTTagCompound serialize(T object, @Nonnull NBTTagCompound tag) {
 		map.forEach((key, tDataTag) -> tag.setTag(key, tDataTag.write(object)));
 		return tag;
 	}
 
-	public void deserialize(T object, NBTTagCompound tag) {
+	public void deserialize(T object, @Nonnull NBTTagCompound tag) {
 		map.forEach((key, datatag) -> {
 			if (tag.hasKey(key)) {
 				NBTBase base = tag.getTag(key);
@@ -33,16 +35,19 @@ public class NBTSerializer<T> {
 		});
 	}
 
+	@Nonnull
 	public <V, K extends NBTBase> NBTSerializer<T> add(String key, Function<T, V> getter, BiConsumer<T, V> setter, Function<V, K> toTag, Function<K, V> fromTag) {
 		DataTagGetterSetter<T, V, K> tvkDataTagGetterSetter = new DataTagGetterSetter<>(toTag, fromTag, getter, setter);
 		map.put(key, tvkDataTagGetterSetter);
 		return this;
 	}
 
+	@Nonnull
 	public NBTSerializer<T> addInteger(String key, Function<T, Integer> getter, BiConsumer<T, Integer> setter) {
 		return this.add(key, getter, setter, NBTTagInt::new, NBTTagInt::getInt);
 	}
 
+	@Nonnull
 	public NBTSerializer<T> addString(String key, Function<T, String> getter, BiConsumer<T, String> setter) {
 		return this.add(key, getter, setter, NBTTagString::new, NBTTagString::getString);
 	}

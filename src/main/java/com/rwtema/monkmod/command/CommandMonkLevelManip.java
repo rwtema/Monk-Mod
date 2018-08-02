@@ -65,7 +65,7 @@ public class CommandMonkLevelManip extends CommandTreeBase {
 				MonkMod.TRIGGER.trigger(entityplayer, amount);
 			}
 
-			private void revoke(EntityPlayerMP entityplayer, Advancement advancement) {
+			private void revoke(@Nonnull EntityPlayerMP entityplayer, Advancement advancement) {
 				for (Advancement child : advancement.getChildren()) {
 					revoke(entityplayer, child);
 				}

@@ -7,13 +7,15 @@ import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.gameevent.TickEvent;
 
+import javax.annotation.Nonnull;
+
 public abstract class MonkRequirementTick extends MonkRequirement {
 	public MonkRequirementTick(String name, int defaultRequirements) {
 		super(name, defaultRequirements);
 	}
 
 	@SubscribeEvent
-	public void walk(TickEvent.PlayerTickEvent event) {
+	public void walk(@Nonnull TickEvent.PlayerTickEvent event) {
 		if (event.phase == TickEvent.Phase.START) {
 			return;
 		}

@@ -6,11 +6,13 @@ import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.stats.StatList;
 import net.minecraft.stats.StatisticsManagerServer;
 
+import javax.annotation.Nonnull;
 import java.util.WeakHashMap;
 
 public abstract class MonkRequirementWalk extends MonkRequirementTick {
 	private final static int STEP_PER_BLOCK = 100;
 
+	@Nonnull
 	WeakHashMap<EntityPlayerMP, MutableInt> trackers = new WeakHashMap<>();
 
 	public MonkRequirementWalk(double numSteps, String name) {
@@ -18,7 +20,7 @@ public abstract class MonkRequirementWalk extends MonkRequirementTick {
 	}
 
 	@Override
-	protected void doTick(EntityPlayerMP player, MonkData monkData) {
+	protected void doTick(@Nonnull EntityPlayerMP player, @Nonnull MonkData monkData) {
 		if (satisfiesRequirements(player)) {
 			MutableInt mutableInt = trackers.computeIfAbsent(player, playerMP -> new MutableInt(getRunDist(playerMP)));
 
@@ -34,7 +36,7 @@ public abstract class MonkRequirementWalk extends MonkRequirementTick {
 
 	}
 
-	public int getRunDist(EntityPlayerMP playerMP) {
+	public int getRunDist(@Nonnull EntityPlayerMP playerMP) {
 		StatisticsManagerServer statFile = playerMP.getStatFile();
 		return statFile.readStat(StatList.SPRINT_ONE_CM) +
 				statFile.readStat(StatList.SNEAK_TIME) +
@@ -42,12 +44,13 @@ public abstract class MonkRequirementWalk extends MonkRequirementTick {
 				;
 	}
 
+	@Nonnull
 	@Override
 	protected Object[] args() {
 		return new Object[]{requirementLimit / 100F};
 	}
 
-	public boolean satisfiesRequirements(EntityPlayerMP player) {
+	public boolean satisfiesRequirements(@Nonnull EntityPlayerMP player) {
 		return MonkAbility.isUnarmored(player);
 	}
 

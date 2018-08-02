@@ -35,11 +35,11 @@ public class MonkNetwork {
 		registerServerToClientPacket(genericHandler, MessageProgress.class, 2);
 	}
 
-	private static <T extends MessageServerToClient> void registerServerToClientPacket(IMessageHandler<MessageBase, IMessage> genericHandler, Class<T> messageType, int discriminator) {
+	private static <T extends MessageServerToClient> void registerServerToClientPacket(@Nonnull IMessageHandler<MessageBase, IMessage> genericHandler, Class<T> messageType, int discriminator) {
 		net.registerMessage(genericHandler, messageType, discriminator, Side.CLIENT);
 	}
 
-	private static <T extends MessageClientToServer> void registerClientToServerPacket(IMessageHandler<MessageBase, IMessage> genericHandler, Class<T> messageType, int discriminator) {
+	private static <T extends MessageClientToServer> void registerClientToServerPacket(@Nonnull IMessageHandler<MessageBase, IMessage> genericHandler, Class<T> messageType, int discriminator) {
 		net.registerMessage(genericHandler, messageType, discriminator, Side.SERVER);
 	}
 

@@ -16,8 +16,10 @@ import javax.annotation.Nonnull;
 
 public class MonkCriterionTrigger implements ICriterionTrigger<MonkCriterionTrigger.Instance> {
 	private static final ResourceLocation ID = new ResourceLocation(MonkMod.MODID, "levelup");
+	@Nonnull
 	HashMultimap<PlayerAdvancements, Listener<Instance>> instances = HashMultimap.create();
 
+	@Nonnull
 	@Override
 	public ResourceLocation getId() {
 		return ID;
@@ -45,7 +47,7 @@ public class MonkCriterionTrigger implements ICriterionTrigger<MonkCriterionTrig
 		return new Instance(level);
 	}
 
-	public void trigger(EntityPlayerMP player, int level) {
+	public void trigger(@Nonnull EntityPlayerMP player, int level) {
 		for (Listener<Instance> listener : Lists.newArrayList(instances.get(player.getAdvancements()))) {
 			if (listener.getCriterionInstance().level <= level) {
 				listener.grantCriterion(player.getAdvancements());

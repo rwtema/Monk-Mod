@@ -7,13 +7,15 @@ import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraftforge.event.entity.living.LivingDeathEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 
+import javax.annotation.Nonnull;
+
 public abstract class MonkRequirementDeath extends MonkRequirement {
 	public MonkRequirementDeath(String name) {
 		super(name, -1);
 	}
 
 	@SubscribeEvent
-	public void onDeathAvoid(LivingDeathEvent event) {
+	public void onDeathAvoid(@Nonnull LivingDeathEvent event) {
 		if (event.getEntityLiving() instanceof EntityPlayerMP) {
 			EntityPlayerMP player = (EntityPlayerMP) event.getEntityLiving();
 			MonkData monkData = MonkManager.get(player);

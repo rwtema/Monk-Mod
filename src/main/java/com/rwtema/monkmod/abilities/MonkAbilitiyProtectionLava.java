@@ -6,13 +6,15 @@ import net.minecraft.init.MobEffects;
 import net.minecraft.potion.PotionEffect;
 import net.minecraft.util.DamageSource;
 
+import javax.annotation.Nonnull;
+
 public class MonkAbilitiyProtectionLava extends MonkAbilityProtection {
 	public MonkAbilitiyProtectionLava() {
 		super("lava_protection");
 	}
 
 	@Override
-	public float getAbsorbtion(DamageSource source, EntityPlayer player) {
+	public float getAbsorbtion(DamageSource source, @Nonnull EntityPlayer player) {
 		if (!player.isBurning()) {
 			if (player.world.isMaterialInBB(player.getEntityBoundingBox(), Material.LAVA)) {
 				player.addPotionEffect(new PotionEffect(MobEffects.FIRE_RESISTANCE, 20 * 4, 2));
@@ -24,7 +26,7 @@ public class MonkAbilitiyProtectionLava extends MonkAbilityProtection {
 	}
 
 	@Override
-	public boolean canHandle(EntityPlayer player, DamageSource source) {
+	public boolean canHandle(EntityPlayer player, @Nonnull DamageSource source) {
 		return source.isFireDamage();
 	}
 }

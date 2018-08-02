@@ -6,6 +6,8 @@ import net.minecraft.util.DamageSource;
 import net.minecraftforge.event.entity.living.LivingHurtEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 
+import javax.annotation.Nonnull;
+
 public abstract class MonkAbilityProtection extends MonkAbility {
 
 	public MonkAbilityProtection(String name) {
@@ -13,7 +15,7 @@ public abstract class MonkAbilityProtection extends MonkAbility {
 	}
 
 	@SubscribeEvent
-	public void onHurt(LivingHurtEvent event) {
+	public void onHurt(@Nonnull LivingHurtEvent event) {
 		if (!(event.getEntityLiving() instanceof EntityPlayer)) return;
 
 		EntityPlayer player = (EntityPlayer) event.getEntityLiving();

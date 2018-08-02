@@ -5,6 +5,7 @@ import net.minecraft.block.state.IBlockState;
 import net.minecraftforge.event.entity.player.PlayerEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 
+import javax.annotation.Nonnull;
 import java.util.Set;
 
 public class MonkAbilityMining extends MonkAbility {
@@ -21,7 +22,7 @@ public class MonkAbilityMining extends MonkAbility {
 	}
 
 	@SubscribeEvent
-	public void onMine(PlayerEvent.BreakSpeed event) {
+	public void onMine(@Nonnull PlayerEvent.BreakSpeed event) {
 		if (!MonkManager.getAbilityLevel(event.getEntityPlayer(), this)) {
 			return;
 		}
@@ -32,7 +33,7 @@ public class MonkAbilityMining extends MonkAbility {
 	}
 
 	@SubscribeEvent
-	public void onHarvest(PlayerEvent.HarvestCheck event) {
+	public void onHarvest(@Nonnull PlayerEvent.HarvestCheck event) {
 		if (!MonkManager.getAbilityLevel(event.getEntityPlayer(), this)) {
 			return;
 		}
@@ -48,11 +49,13 @@ public class MonkAbilityMining extends MonkAbility {
 		}
 	}
 
+	@Nonnull
 	@Override
 	public String getUnlocalized() {
 		return super.getUnlocalized() + "." + harvestLevel;
 	}
 
+	@Nonnull
 	@Override
 	protected String[] args() {
 		return new String[]{};

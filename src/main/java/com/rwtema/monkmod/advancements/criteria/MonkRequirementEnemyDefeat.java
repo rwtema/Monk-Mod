@@ -16,6 +16,7 @@ import net.minecraftforge.event.entity.living.LivingDeathEvent;
 import net.minecraftforge.fml.common.eventhandler.EventPriority;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 
+import javax.annotation.Nonnull;
 import java.util.Map;
 import java.util.WeakHashMap;
 
@@ -29,7 +30,7 @@ public class MonkRequirementEnemyDefeat extends MonkRequirementTick {
 	}
 
 	@Override
-	protected void doTick(EntityPlayerMP player, MonkData monkData) {
+	protected void doTick(@Nonnull EntityPlayerMP player, MonkData monkData) {
 		if (!entryTracker.isEmpty()) {
 			if (!MonkAbility.isUnarmored(player)) {
 				disqualifyPlayer(player);
@@ -37,7 +38,7 @@ public class MonkRequirementEnemyDefeat extends MonkRequirementTick {
 		}
 	}
 
-	private void disqualifyPlayer(EntityPlayerMP player) {
+	private void disqualifyPlayer(@Nonnull EntityPlayerMP player) {
 		if (entryTracker.values().removeIf(
 				m -> {
 					Entry remove = m.remove(player);
@@ -52,7 +53,7 @@ public class MonkRequirementEnemyDefeat extends MonkRequirementTick {
 	}
 
 	@SubscribeEvent
-	public void onDeath(LivingDeathEvent event) {
+	public void onDeath(@Nonnull LivingDeathEvent event) {
 		if (event.getEntity().world.isRemote || entryTracker.isEmpty() || !id.equals(EntityList.getKey(event.getEntity())))
 			return;
 		EntityLivingBase entityLiving = event.getEntityLiving();
@@ -74,7 +75,7 @@ public class MonkRequirementEnemyDefeat extends MonkRequirementTick {
 	}
 
 	@SubscribeEvent(priority = EventPriority.LOWEST)
-	public void onDamage(LivingDamageEvent event) {
+	public void onDamage(@Nonnull LivingDamageEvent event) {
 		if (!event.getEntity().world.isRemote && id.equals(EntityList.getKey(event.getEntity()))) {
 			DamageSource source = event.getSource();
 			Entity trueSource = source.getTrueSource();
@@ -96,15 +97,16 @@ public class MonkRequirementEnemyDefeat extends MonkRequirementTick {
 
 	}
 
+	@Nonnull
 	@Override
 	protected Object[] args() {
 		String s1 = EntityList.getTranslationName(id);
 
-		if (s1 == null){
+		if (s1 == null) {
 			s1 = "generic";
 		}
 
-		return new Object[]{requirementLimit, I18n.translateToLocal("entity." + s1 + ".name") };
+		return new Object[]{requirementLimit, I18n.translateToLocal("entity." + s1 + ".name")};
 	}
 
 	private class Entry {

@@ -5,6 +5,7 @@ import com.rwtema.monkmod.MonkMod;
 import com.rwtema.monkmod.advancements.JSonObjBuilder;
 import org.apache.commons.lang3.Validate;
 
+import javax.annotation.Nonnull;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -119,6 +120,7 @@ public class CreateJSons {
 
 	public class AdvDummy {
 		DisplayDummy display;
+		@Nonnull
 		HashMap<String, CriteriaDummy> criteria = new HashMap<>();
 
 		public AdvDummy(int level) {
@@ -134,14 +136,18 @@ public class CreateJSons {
 		}
 
 		public class DisplayDummy {
+			@Nonnull
 			ItemDummy icon = new ItemDummy();
+			@Nonnull
 			StringDummy title = new StringDummy();
+			@Nonnull
 			StringDummy description = new StringDummy();
 			String parent;
 			boolean show_toast = true;
 			boolean announce_to_chat = true;
 
 			public class ItemDummy {
+				@Nonnull
 				String icon = Validate.notNull(MonkMod.ITEM_MONK_BASE.getRegistryName()).toString();
 				int data;
 			}
@@ -152,6 +158,7 @@ public class CreateJSons {
 		}
 
 		public class CriteriaDummy {
+			@Nonnull
 			String trigger = "monk:levelup";
 			int level;
 		}

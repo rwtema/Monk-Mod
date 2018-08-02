@@ -12,25 +12,27 @@ import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
+import javax.annotation.Nonnull;
+
 public class MonkAbilitySpeed extends MonkAbilityAttribute {
 	public MonkAbilitySpeed(double increase) {
 		super("swift", SharedMonsterAttributes.MOVEMENT_SPEED, increase, 1);
 	}
 
 	@Override
-	public boolean canApply(EntityPlayer player) {
+	public boolean canApply(@Nonnull EntityPlayer player) {
 		return isUnarmored(player);
 	}
 
 	@Override
-	public double getAmount(EntityPlayer player) {
+	public double getAmount(@Nonnull EntityPlayer player) {
 		double amount = super.getAmount(player);
 		return player.isSprinting() ? amount * 2 : amount;
 	}
 
 	@SubscribeEvent
 	@SideOnly(Side.CLIENT)
-	public void overrideFOV(FOVUpdateEvent event) {
+	public void overrideFOV(@Nonnull FOVUpdateEvent event) {
 		EntityPlayerSP player = Minecraft.getMinecraft().player;
 		if (player == null) return;
 		if (!MonkManager.getAbilityLevel(player, this)) return;

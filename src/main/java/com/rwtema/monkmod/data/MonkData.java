@@ -18,6 +18,7 @@ import static com.rwtema.monkmod.MonkManager.NUMBER_OF_TIMES_TO_UPDATE;
 public class MonkData implements INBTSerializable<NBTTagCompound>, ICapabilityProvider {
 
 	public static final ResourceLocation LOCATION = new ResourceLocation(MonkMod.MODID, "monk_level_data");
+	@Nullable
 	@CapabilityInject(MonkData.class)
 	public static final Capability<MonkData> MONKLEVELDATA = null;
 	private static final NBTSerializer<MonkData> serializer =

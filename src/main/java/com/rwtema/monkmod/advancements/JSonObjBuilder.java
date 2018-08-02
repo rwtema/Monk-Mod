@@ -11,6 +11,7 @@ import java.io.FileWriter;
 import java.io.IOException;
 
 public class JSonObjBuilder {
+	@Nonnull
 	private JsonObject jsonObject = new JsonObject();
 
 	public static void writeJSon(@Nonnull File file, JsonObject model) {
@@ -29,36 +30,43 @@ public class JSonObjBuilder {
 		return new JSonObjBuilder();
 	}
 
+	@Nonnull
 	public JsonObject build() {
 		return jsonObject;
 	}
 
-	public JSonObjBuilder add(String property, JsonElement value) {
+	@Nonnull
+	public JSonObjBuilder add(@Nonnull String property, JsonElement value) {
 		jsonObject.add(property, value);
 		return this;
 	}
 
-	public JSonObjBuilder add(String property, JSonObjBuilder value) {
+	@Nonnull
+	public JSonObjBuilder add(@Nonnull String property, @Nonnull JSonObjBuilder value) {
 		jsonObject.add(property, value.build());
 		return this;
 	}
 
-	public JSonObjBuilder add(String property, String value) {
+	@Nonnull
+	public JSonObjBuilder add(@Nonnull String property, String value) {
 		jsonObject.addProperty(property, value);
 		return this;
 	}
 
-	public JSonObjBuilder add(String property, Number value) {
+	@Nonnull
+	public JSonObjBuilder add(@Nonnull String property, Number value) {
 		jsonObject.addProperty(property, value);
 		return this;
 	}
 
-	public JSonObjBuilder add(String property, Boolean value) {
+	@Nonnull
+	public JSonObjBuilder add(@Nonnull String property, Boolean value) {
 		jsonObject.addProperty(property, value);
 		return this;
 	}
 
-	public JSonObjBuilder add(String property, Character value) {
+	@Nonnull
+	public JSonObjBuilder add(@Nonnull String property, Character value) {
 		jsonObject.addProperty(property, value);
 		return this;
 	}

@@ -3,6 +3,7 @@ package com.rwtema.monkmod.abilities;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.DamageSource;
 
+import javax.annotation.Nonnull;
 import java.text.NumberFormat;
 import java.util.Locale;
 
@@ -21,11 +22,12 @@ public class MonkAbilityExplosionProof extends MonkAbilityProtection {
 	}
 
 	@Override
-	public boolean canHandle(EntityPlayer player, DamageSource source) {
+	public boolean canHandle(EntityPlayer player, @Nonnull DamageSource source) {
 		return source.isExplosion();
 	}
 
 
+	@Nonnull
 	@Override
 	protected String[] args() {
 		return new String[]{NumberFormat.getPercentInstance(Locale.UK).format(aFloat)};

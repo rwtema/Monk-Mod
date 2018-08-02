@@ -12,6 +12,7 @@ import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
 import net.minecraft.world.WorldServer;
 
+import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import java.util.List;
 import java.util.function.Predicate;
@@ -22,7 +23,7 @@ public class MonkRequirementStare extends MonkRequirementTick {
 	}
 
 	@Nullable
-	public static EntityLiving getStareEntity(EntityPlayerMP player, Predicate<EntityLiving> additionalPredicate, int distance) {
+	public static EntityLiving getStareEntity(EntityPlayerMP player, @Nonnull Predicate<EntityLiving> additionalPredicate, int distance) {
 		Vec3d look = player.getLook(1).normalize();
 		Vec3d startPos = new Vec3d(player.posX, player.posY + (double) player.getEyeHeight(), player.posZ);
 		Vec3d endPos = startPos.add(look.scale(distance));
@@ -69,7 +70,7 @@ public class MonkRequirementStare extends MonkRequirementTick {
 	}
 
 	@Override
-	protected void doTick(EntityPlayerMP player, MonkData monkData) {
+	protected void doTick(@Nonnull EntityPlayerMP player, @Nonnull MonkData monkData) {
 		World world = player.world;
 		if (!(world instanceof WorldServer)) return;
 		int progress = monkData.getProgress();

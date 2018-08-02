@@ -11,6 +11,8 @@ import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.entity.living.EnderTeleportEvent;
 import net.minecraftforge.fml.common.network.simpleimpl.MessageContext;
 
+import javax.annotation.Nonnull;
+
 public class MessageBlink extends MonkNetwork.MessageClientToServer {
 	private Vec3d target;
 
@@ -23,7 +25,7 @@ public class MessageBlink extends MonkNetwork.MessageClientToServer {
 	}
 
 	@Override
-	protected void runServer(MessageContext ctx, EntityPlayerMP player) {
+	protected void runServer(MessageContext ctx, @Nonnull EntityPlayerMP player) {
 		if (!MonkManager.getAbilityLevel(player, "blink")) {
 			return;
 		}
@@ -54,12 +56,12 @@ public class MessageBlink extends MonkNetwork.MessageClientToServer {
 	}
 
 	@Override
-	public void fromBytes(ByteBuf buf) {
+	public void fromBytes(@Nonnull ByteBuf buf) {
 		target = new Vec3d(buf.readFloat(), buf.readFloat(), buf.readFloat());
 	}
 
 	@Override
-	public void toBytes(ByteBuf buf) {
+	public void toBytes(@Nonnull ByteBuf buf) {
 		buf.writeFloat((float) target.x);
 		buf.writeFloat((float) target.y);
 		buf.writeFloat((float) target.z);

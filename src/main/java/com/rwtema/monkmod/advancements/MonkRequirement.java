@@ -10,10 +10,12 @@ import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.TextComponentTranslation;
 import net.minecraftforge.common.MinecraftForge;
 
+import javax.annotation.Nonnull;
+
 public class MonkRequirement implements IFactoryMade {
 	public final String name;
-	public int levelToGrant = -1;
 	public final int requirementLimit;
+	public int levelToGrant = -1;
 
 	public MonkRequirement(String name, int defaultRequirements) {
 		this.name = name;
@@ -39,14 +41,16 @@ public class MonkRequirement implements IFactoryMade {
 		return name;
 	}
 
-	protected boolean isWorkingToLevel(MonkData monkData) {
+	protected boolean isWorkingToLevel(@Nonnull MonkData monkData) {
 		return monkData.getLevel() == (this.levelToGrant - 1);
 	}
 
+	@Nonnull
 	public ITextComponent getDescriptionComponent() {
-		return new TextComponentTranslation("monk.advancements.requirement." + name, (Object[])args());
+		return new TextComponentTranslation("monk.advancements.requirement." + name, (Object[]) args());
 	}
 
+	@Nonnull
 	protected Object[] args() {
 		if (requirementLimit == -1) return new Object[0];
 		return new Object[]{requirementLimit};

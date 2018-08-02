@@ -17,6 +17,8 @@ import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 import org.lwjgl.opengl.GL11;
 
+import javax.annotation.Nonnull;
+
 public class HUDProgress {
 	public static final HUDProgress INSTANCE = new HUDProgress();
 	private static final int FADE_IN_TIME = 20;
@@ -29,11 +31,12 @@ public class HUDProgress {
 	private int maxprogress;
 	private int timeSinceLastUpdate = 10000;
 	private float transparency;
+	@Nonnull
 	private ResourceLocation location = new ResourceLocation(MonkMod.MODID, "textures/circle.png");
 
 	@SubscribeEvent
 	@SideOnly(Side.CLIENT)
-	public void clientTick(TickEvent.ClientTickEvent event) {
+	public void clientTick(@Nonnull TickEvent.ClientTickEvent event) {
 		if (!Minecraft.getMinecraft().isGamePaused() && event.phase == TickEvent.Phase.START) {
 
 			timeSinceLastUpdate++;
@@ -50,13 +53,13 @@ public class HUDProgress {
 
 	@SubscribeEvent
 	@SideOnly(Side.CLIENT)
-	public void hudDraw(RenderGameOverlayEvent.Post event) {
+	public void hudDraw(@Nonnull RenderGameOverlayEvent.Post event) {
 		if (event.getType() != RenderGameOverlayEvent.ElementType.CROSSHAIRS) return;
 		if (maxprogress < 0) return;
 		GuiIngameForge currentScreen = (GuiIngameForge) Minecraft.getMinecraft().ingameGUI;
 		ScaledResolution resolution = event.getResolution();
 		int size = resolution.getScaleFactor() * DISPLAY / 4;
-		int cx = resolution.getScaledWidth()  - size;
+		int cx = resolution.getScaledWidth() - size;
 		int cy = resolution.getScaledHeight() - size;
 
 		float partialTicks = event.getPartialTicks();
@@ -82,7 +85,7 @@ public class HUDProgress {
 //		GlStateManager.disableCull();
 
 		float target = (float) ((progress * Math.PI * 2) / maxprogress);
-		float dt =  target - displayAngle;
+		float dt = target - displayAngle;
 		float displayAngle2 = displayAngle + Math.min(Math.abs(dt), 0.1F) * Math.signum(dt);
 		float partialAngle = displayAngle + (displayAngle2 - displayAngle) * partialTicks;
 
@@ -95,9 +98,9 @@ public class HUDProgress {
 		buffer.begin(GL11.GL_QUADS, DefaultVertexFormats.POSITION_TEX_COLOR);
 
 		float r = 0, g = 0, b = 0.1F;
-		if(target < displayAngle){
+		if (target < displayAngle) {
 			r = 1;
-		}else{
+		} else {
 			g = 1;
 		}
 		for (int i = 0; i < 180; i++) {
@@ -109,10 +112,10 @@ public class HUDProgress {
 				angle2 = Math.max(target, partialAngle);
 			}
 			float t = baseTransparency * 1;
-			if(angle1 > target && angle1 <= partialAngle){
-				t *= 1-(angle1 - target)/ (partialAngle - target);
-			} else 			if(angle1 > partialAngle && angle1 < target){
-				t *= 1-(angle1 - partialAngle)/ (target- partialAngle);
+			if (angle1 > target && angle1 <= partialAngle) {
+				t *= 1 - (angle1 - target) / (partialAngle - target);
+			} else if (angle1 > partialAngle && angle1 < target) {
+				t *= 1 - (angle1 - partialAngle) / (target - partialAngle);
 			}
 
 

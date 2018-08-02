@@ -13,6 +13,7 @@ import net.minecraftforge.common.config.ConfigCategory;
 import net.minecraftforge.common.config.Property;
 
 import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 import java.util.*;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
@@ -49,7 +50,7 @@ public class MonkConfiguration {
 		register(0, "meditate", FactoryEntry.requirement("break_wood").setInt("number", 1));
 		register(1, "tree",
 				FactoryEntry.requirement("break_wood").setInt("number", 10),
-				FactoryEntry.ability("mining").setInt("harvest_level", 0).setInt("speed_increase", 0).setStringList("harvest_tools", new String[]{"", "shovel", "axe"}),
+				FactoryEntry.ability("mining").setInt("harvest_level", 0).setInt("speed_increase", 0).setStringList("harvest_tools", "", "shovel", "axe"),
 				FactoryEntry.ability("strength").setInt("damage", 1));
 
 		register(2, "sunrise",
@@ -138,11 +139,11 @@ public class MonkConfiguration {
 	}
 
 	@SafeVarargs
-	public static void register(int level, String texture, FactoryEntry<MonkRequirement> requirementFactoryEntry, FactoryEntry<MonkAbility>... toAdd) {
+	public static void register(int level, String texture, @Nonnull FactoryEntry<MonkRequirement> requirementFactoryEntry, @Nonnull FactoryEntry<MonkAbility>... toAdd) {
 		register(level, texture, requirementFactoryEntry, ImmutableList.copyOf(toAdd));
 	}
 
-	public static void register(int level, String texture, FactoryEntry<MonkRequirement> requirementFactoryEntry, List<FactoryEntry<MonkAbility>> toAdd, String... toRemove) {
+	public static void register(int level, String texture, FactoryEntry<MonkRequirement> requirementFactoryEntry, List<FactoryEntry<MonkAbility>> toAdd, @Nonnull String... toRemove) {
 		String baseCat = getCatName(level);
 		MonkMod.config.getString("texture", baseCat, MonkMod.MODID + ":icon/" + texture, "Texture");
 		requirementFactoryEntry.writeToConfig(baseCat + ".requirement");
@@ -161,8 +162,8 @@ public class MonkConfiguration {
 
 	public static void load() {
 		whitelist = Stream.of(MonkMod.config.get(MONK_WEAR_ITEMS, "whitelist", new String[]{"minecraft:pumpkin", "minecraft:skull"},
-						"Add an item registry name to this section to allow monks to wear/wield it without penalty", false, -1,
-						Pattern.compile("^[^:]+:[^:]+$")).getStringList())
+				"Add an item registry name to this section to allow monks to wear/wield it without penalty", false, -1,
+				Pattern.compile("^[^:]+:[^:]+$")).getStringList())
 				.map(ResourceLocation::new).
 						collect(ImmutableSet.toImmutableSet());
 
@@ -292,9 +293,13 @@ public class MonkConfiguration {
 
 
 	public static class LevelData {
+		@Nonnull
 		public List<MonkAbility> toAdd = new ArrayList<>();
+		@Nonnull
 		public List<String> toRemove = new ArrayList<>();
+		@Nullable
 		public MonkRequirement requirement = null;
+		@Nullable
 		public String texture = null;
 	}
 

@@ -13,6 +13,8 @@ import net.minecraft.world.World;
 import net.minecraftforge.event.world.GetCollisionBoxesEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 
+import javax.annotation.Nonnull;
+
 public class MonkAbilityWalkOnWater extends MonkAbility {
 
 	public MonkAbilityWalkOnWater() {
@@ -20,7 +22,7 @@ public class MonkAbilityWalkOnWater extends MonkAbility {
 	}
 
 	@SubscribeEvent
-	public void getCollisions(GetCollisionBoxesEvent event) {
+	public void getCollisions(@Nonnull GetCollisionBoxesEvent event) {
 		Entity entity = event.getEntity();
 		if (entity == null || entity.isInWater() || entity.isSneaking()) return;
 

@@ -12,6 +12,7 @@ import javax.annotation.Nullable;
 
 // Add to ItemStack capabilities to allow players to wear armor and items
 public interface MonkWear {
+	@Nullable
 	@CapabilityInject(MonkWear.class)
 	Capability<MonkWear> MONK_SAFE_CAPABILITY = null;
 

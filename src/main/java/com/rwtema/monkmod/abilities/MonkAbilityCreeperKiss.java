@@ -13,6 +13,7 @@ import net.minecraftforge.event.entity.EntityJoinWorldEvent;
 import net.minecraftforge.event.entity.player.PlayerInteractEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 
+import javax.annotation.Nonnull;
 import java.util.HashSet;
 
 public class MonkAbilityCreeperKiss extends MonkAbility {
@@ -37,7 +38,7 @@ public class MonkAbilityCreeperKiss extends MonkAbility {
 	}
 
 	@SubscribeEvent
-	public void onRightClickAnimal(PlayerInteractEvent.EntityInteract event) {
+	public void onRightClickAnimal(@Nonnull PlayerInteractEvent.EntityInteract event) {
 		Entity entity = event.getTarget();
 		if (!(entity instanceof EntityCreeper)) return;
 		EntityCreeper creeper = (EntityCreeper) entity;
@@ -66,7 +67,7 @@ public class MonkAbilityCreeperKiss extends MonkAbility {
 	}
 
 	@SubscribeEvent
-	public void onEntityJoinWorld(EntityJoinWorldEvent event) {
+	public void onEntityJoinWorld(@Nonnull EntityJoinWorldEvent event) {
 		if (event.getEntity() instanceof EntityCreeper) {
 			NBTTagCompound entityData = event.getEntity().getEntityData();
 			if (entityData.getBoolean("MonkTame")) {

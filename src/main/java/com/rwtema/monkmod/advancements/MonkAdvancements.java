@@ -28,7 +28,7 @@ public class MonkAdvancements {
 
 	private static final HashSet<String> keys = new HashSet<>();
 
-	public static void registerAdvancements(MinecraftServer server) {
+	public static void registerAdvancements(@Nonnull MinecraftServer server) {
 		if (MonkMod.debug)
 			keys.clear();
 		try {

@@ -8,12 +8,16 @@ import com.rwtema.monkmod.advancements.MonkRequirement;
 import gnu.trove.map.hash.TIntObjectHashMap;
 import net.minecraft.util.math.MathHelper;
 
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 import java.util.HashMap;
 import java.util.Set;
 
 public class MonkLevelManager {
 
+	public static final TIntObjectHashMap<MonkRequirement> requirements = new TIntObjectHashMap<>();
 	private static final HashMultimap<Integer, MonkAbility> abilities = HashMultimap.create();
+	@Nullable
 	private static HashMap<Integer, Set<MonkAbility>> cachedAbilities = null;
 
 	public static void register(int level, MonkAbility ability) {
@@ -21,9 +25,7 @@ public class MonkLevelManager {
 		abilities.put(level, ability);
 	}
 
-	public static final TIntObjectHashMap<MonkRequirement> requirements = new TIntObjectHashMap<>();
-
-	public static void registerRequirement(int level, MonkRequirement requirement){
+	public static void registerRequirement(int level, @Nonnull MonkRequirement requirement) {
 		requirements.put(level, requirement);
 		requirement.levelToGrant = level;
 	}

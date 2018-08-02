@@ -14,6 +14,7 @@ import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.entity.living.LivingDeathEvent;
 
+import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -24,7 +25,9 @@ import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 public class Factory<T> {
+	@Nonnull
 	public static Map<String, Factory<MonkAbility>> abilityFactories = new HashMap<>();
+	@Nonnull
 	public static Map<String, Factory<MonkRequirement>> requirementFactories = new HashMap<>();
 	public static boolean shouldRegister = true;
 	public final String name;
@@ -65,6 +68,7 @@ public class Factory<T> {
 		Factory.registerRequirement(parameters -> {
 			ResourceLocation resourceLocation = new ResourceLocation(parameters.getString("block"));
 			return new MonkRequirementBreakBlockBareHanded("break_block", (world, pos, state) -> resourceLocation.equals(state.getBlock().getRegistryName()), parameters.getInt("number")) {
+				@Nonnull
 				@Override
 				protected Object[] args() {
 					Block block = Block.REGISTRY.getObject(resourceLocation);
@@ -79,26 +83,26 @@ public class Factory<T> {
 
 		Factory.registerRequirement(parameters -> new MonkRequirementWalk(parameters.getInt("distance"), "sprint") {
 			@Override
-			public boolean satisfiesRequirements(EntityPlayerMP player) {
+			public boolean satisfiesRequirements(@Nonnull EntityPlayerMP player) {
 				return player.isSprinting() && super.satisfiesRequirements(player);
 			}
 		});
 
 		Factory.registerRequirement(parameters -> new MonkRequirementKill("kill_undead", parameters.getInt("kills")) {
 			@Override
-			protected boolean isValidEntity(LivingDeathEvent event) {
+			protected boolean isValidEntity(@Nonnull LivingDeathEvent event) {
 				return event.getEntityLiving().isEntityUndead();
 			}
 		});
 		Factory.registerRequirement(parameters -> new MonkRequirementWalk(parameters.getInt("distance"), "walk_fire") {
 			@Override
-			protected void onGrant(EntityPlayerMP player) {
+			protected void onGrant(@Nonnull EntityPlayerMP player) {
 				player.extinguish();
 				player.addPotionEffect(new PotionEffect(MobEffects.FIRE_RESISTANCE, 20 * 10, 2));
 			}
 
 			@Override
-			public boolean satisfiesRequirements(EntityPlayerMP player) {
+			public boolean satisfiesRequirements(@Nonnull EntityPlayerMP player) {
 				return ((player.isImmuneToFire() || player.isBurning()) && player.world.isFlammableWithin(player.getEntityBoundingBox()))
 						&& super.satisfiesRequirements(player);
 			}
@@ -114,18 +118,18 @@ public class Factory<T> {
 		Factory.registerRequirement(parameters -> new MonkRequirementBedrockSleep());
 		Factory.registerRequirement(parameters -> new MonkRequirementKill("kill_hostile", parameters.getInt("kills")) {
 			@Override
-			protected boolean isValidEntity(LivingDeathEvent event) {
+			protected boolean isValidEntity(@Nonnull LivingDeathEvent event) {
 				return event.getEntity() instanceof IMob;
 			}
 		});
 		Factory.registerRequirement(parameters -> new MonkRequirementKill("kill_blind", parameters.getInt("kills")) {
 			@Override
-			protected boolean isValidEntity(LivingDeathEvent event) {
+			protected boolean isValidEntity(@Nonnull LivingDeathEvent event) {
 				return event.getEntity() instanceof IMob;
 			}
 
 			@Override
-			protected void onGrant(EntityPlayerMP player) {
+			protected void onGrant(@Nonnull EntityPlayerMP player) {
 				super.onGrant(player);
 				player.removePotionEffect(MobEffects.BLINDNESS);
 			}
@@ -137,11 +141,11 @@ public class Factory<T> {
 
 	}
 
-	public static void registerAbility(Function<Parameters, MonkAbility> function) {
+	public static void registerAbility(@Nonnull Function<Parameters, MonkAbility> function) {
 		register(abilityFactories, function);
 	}
 
-	public static void registerRequirement(Function<Parameters, MonkRequirement> function) {
+	public static void registerRequirement(@Nonnull Function<Parameters, MonkRequirement> function) {
 		register(requirementFactories, function);
 	}
 
@@ -155,6 +159,7 @@ public class Factory<T> {
 		factoryMap.put(key, new Factory<>(key, function, parameterLoader.parameterList));
 	}
 
+	@Nonnull
 	@Override
 	public String toString() {
 		StringBuilder builder = new StringBuilder();
@@ -221,6 +226,7 @@ public class Factory<T> {
 	}
 
 	private static class ParameterLoader extends Parameters {
+		@Nonnull
 		List<Parameter> parameterList = new ArrayList<>();
 
 		@Override
@@ -247,24 +253,28 @@ public class Factory<T> {
 			return 0;
 		}
 
+		@Nonnull
 		@Override
 		public String getString(String key) {
 			parameterList.add(new Parameter(key, Type.STRING, null));
 			return "";
 		}
 
+		@Nonnull
 		@Override
 		public String getString(String key, String _default) {
 			parameterList.add(new Parameter(key, Type.STRING, _default));
 			return "";
 		}
 
+		@Nonnull
 		@Override
 		public String[] getStringList(String key) {
 			parameterList.add(new Parameter(key, Type.STRINGLIST, null));
 			return new String[0];
 		}
 
+		@Nonnull
 		@Override
 		public String[] getStringList(String key, String[] _defaults) {
 			parameterList.add(new Parameter(key, Type.STRINGLIST, Stream.of(_defaults).collect(Collectors.joining(","))));

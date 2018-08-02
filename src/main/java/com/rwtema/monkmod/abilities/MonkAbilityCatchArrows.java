@@ -11,9 +11,11 @@ import net.minecraftforge.event.entity.ProjectileImpactEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.relauncher.ReflectionHelper;
 
+import javax.annotation.Nonnull;
 import java.lang.reflect.Method;
 
 public class MonkAbilityCatchArrows extends MonkAbility {
+	@Nonnull
 	private Method getArrowStackMethod = ReflectionHelper.findMethod(EntityArrow.class, "getArrowStack", "func_184550_j");
 
 	public MonkAbilityCatchArrows() {
@@ -21,7 +23,7 @@ public class MonkAbilityCatchArrows extends MonkAbility {
 	}
 
 	@SubscribeEvent
-	public void onImpact(ProjectileImpactEvent.Arrow event) {
+	public void onImpact(@Nonnull ProjectileImpactEvent.Arrow event) {
 		EntityArrow arrow = event.getArrow();
 		if (event.getArrow().world.isRemote) return;
 

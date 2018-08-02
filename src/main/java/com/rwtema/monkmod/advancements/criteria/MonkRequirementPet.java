@@ -16,13 +16,15 @@ import net.minecraftforge.common.util.Constants;
 import net.minecraftforge.event.entity.player.PlayerInteractEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 
+import javax.annotation.Nonnull;
+
 public class MonkRequirementPet extends MonkRequirement {
 	public MonkRequirementPet(int defaultRequirements) {
 		super("pet", defaultRequirements);
 	}
 
 	@SubscribeEvent
-	public void onRightClickAnimal(PlayerInteractEvent.EntityInteract event) {
+	public void onRightClickAnimal(@Nonnull PlayerInteractEvent.EntityInteract event) {
 		Entity entity = event.getTarget();
 		if (!(entity instanceof EntityAnimal)) return;
 		EntityPlayer entityPlayer = event.getEntityPlayer();

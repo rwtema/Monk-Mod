@@ -18,13 +18,15 @@ import net.minecraftforge.event.entity.player.SleepingLocationCheckEvent;
 import net.minecraftforge.fml.common.eventhandler.Event;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 
+import javax.annotation.Nonnull;
+
 public class MonkRequirementBedrockSleep extends MonkRequirement {
 	public MonkRequirementBedrockSleep() {
 		super("bedrock_sleep", -1);
 	}
 
 	@SubscribeEvent
-	public void rightClickBedrock(PlayerInteractEvent.RightClickBlock event) {
+	public void rightClickBedrock(@Nonnull PlayerInteractEvent.RightClickBlock event) {
 		World world = event.getWorld();
 		BlockPos pos = event.getPos();
 		if (world.provider.canRespawnHere() && world.getBiome(pos) != Biomes.HELL) {
@@ -44,7 +46,7 @@ public class MonkRequirementBedrockSleep extends MonkRequirement {
 		}
 	}
 
-	private boolean checkPos(World world, BlockPos pos) {
+	private boolean checkPos(World world, @Nonnull BlockPos pos) {
 		IBlockState state = world.getBlockState(pos);
 		if (state.getBlock() != Blocks.BEDROCK || !world.isAirBlock(pos.up())) {
 			return false;
@@ -60,7 +62,7 @@ public class MonkRequirementBedrockSleep extends MonkRequirement {
 	}
 
 	@SubscribeEvent
-	public void awaken(PlayerWakeUpEvent event) {
+	public void awaken(@Nonnull PlayerWakeUpEvent event) {
 		EntityPlayer entityPlayer = event.getEntityPlayer();
 		if (entityPlayer instanceof EntityPlayerMP) {
 			MonkData monkData = MonkManager.get(entityPlayer);
@@ -73,7 +75,7 @@ public class MonkRequirementBedrockSleep extends MonkRequirement {
 	}
 
 	@SubscribeEvent
-	public void continueSleep(SleepingLocationCheckEvent event) {
+	public void continueSleep(@Nonnull SleepingLocationCheckEvent event) {
 		EntityPlayer entityPlayer = event.getEntityPlayer();
 		MonkData monkData = MonkManager.get(entityPlayer);
 		if (monkData.getLevel() == (this.levelToGrant - 1)) {

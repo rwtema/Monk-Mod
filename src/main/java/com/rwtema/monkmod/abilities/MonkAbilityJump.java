@@ -6,6 +6,7 @@ import net.minecraftforge.event.entity.living.LivingEvent;
 import net.minecraftforge.event.entity.living.LivingFallEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 
+import javax.annotation.Nonnull;
 import java.text.NumberFormat;
 import java.util.Locale;
 
@@ -19,7 +20,7 @@ public class MonkAbilityJump extends MonkAbility {
 	}
 
 	@SubscribeEvent
-	public void onFall(LivingFallEvent event) {
+	public void onFall(@Nonnull LivingFallEvent event) {
 		if (!(event.getEntityLiving() instanceof EntityPlayer)) return;
 
 		EntityPlayer player = (EntityPlayer) event.getEntityLiving();
@@ -30,7 +31,7 @@ public class MonkAbilityJump extends MonkAbility {
 
 
 	@SubscribeEvent
-	public void onJump(LivingEvent.LivingJumpEvent event) {
+	public void onJump(@Nonnull LivingEvent.LivingJumpEvent event) {
 		if (!(event.getEntityLiving() instanceof EntityPlayer)) return;
 
 		EntityPlayer player = (EntityPlayer) event.getEntityLiving();
@@ -40,6 +41,7 @@ public class MonkAbilityJump extends MonkAbility {
 		player.motionY *= jumpLevel;
 	}
 
+	@Nonnull
 	@Override
 	protected String[] args() {
 		return new String[]{NumberFormat.getPercentInstance(Locale.UK).format(jumpLevel - 1)};

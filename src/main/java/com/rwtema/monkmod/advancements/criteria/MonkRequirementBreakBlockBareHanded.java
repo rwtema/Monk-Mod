@@ -5,9 +5,10 @@ import com.rwtema.monkmod.advancements.MonkRequirement;
 import com.rwtema.monkmod.data.MonkData;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
-import net.minecraftforge.event.entity.player.PlayerEvent;
 import net.minecraftforge.event.world.BlockEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
+
+import javax.annotation.Nonnull;
 
 public class MonkRequirementBreakBlockBareHanded extends MonkRequirement {
 	final StatePredicate states;
@@ -19,7 +20,7 @@ public class MonkRequirementBreakBlockBareHanded extends MonkRequirement {
 	}
 
 	@SubscribeEvent
-	public void onBreak(BlockEvent.BreakEvent event) {
+	public void onBreak(@Nonnull BlockEvent.BreakEvent event) {
 		if (!event.getWorld().isRemote && states.test(event.getWorld(), event.getPos(), event.getState())) {
 			EntityPlayer player = event.getPlayer();
 			if (player instanceof EntityPlayerMP && player.getHeldItemMainhand().isEmpty()) {

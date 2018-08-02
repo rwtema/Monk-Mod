@@ -25,15 +25,13 @@ import net.minecraftforge.fml.common.Mod.EventHandler;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLServerAboutToStartEvent;
 import net.minecraftforge.fml.common.event.FMLServerStartingEvent;
-import net.minecraftforge.fml.common.network.NetworkCheckHandler;
 import net.minecraftforge.fml.common.registry.ForgeRegistries;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 import org.apache.logging.log4j.Logger;
 
+import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
-import java.util.Map;
-import java.util.Set;
 
 @Mod(modid = MonkMod.MODID, name = MonkMod.NAME)
 public class MonkMod {
@@ -63,9 +61,8 @@ public class MonkMod {
 	}
 
 
-
 	@EventHandler
-	public void preInit(FMLPreInitializationEvent event) {
+	public void preInit(@Nonnull FMLPreInitializationEvent event) {
 		logger = event.getModLog();
 
 		config = new Configuration(event.getSuggestedConfigurationFile());
@@ -73,12 +70,12 @@ public class MonkMod {
 		CapabilityManager.INSTANCE.register(MonkData.class, new Capability.IStorage<MonkData>() {
 			@Nullable
 			@Override
-			public NBTBase writeNBT(Capability<MonkData> capability, MonkData instance, EnumFacing side) {
+			public NBTBase writeNBT(Capability<MonkData> capability, @Nonnull MonkData instance, EnumFacing side) {
 				return instance.serializeNBT();
 			}
 
 			@Override
-			public void readNBT(Capability<MonkData> capability, MonkData instance, EnumFacing side, NBTBase nbt) {
+			public void readNBT(Capability<MonkData> capability, @Nonnull MonkData instance, EnumFacing side, NBTBase nbt) {
 				instance.deserializeNBT((NBTTagCompound) nbt);
 			}
 		}, () -> {
@@ -113,12 +110,12 @@ public class MonkMod {
 
 
 	@EventHandler
-	public void onServerAboutToStartEvent(FMLServerAboutToStartEvent event) {
+	public void onServerAboutToStartEvent(@Nonnull FMLServerAboutToStartEvent event) {
 		MonkAdvancements.registerAdvancements(event.getServer());
 	}
 
 	@EventHandler
-	public void onServerStart(FMLServerStartingEvent event) {
+	public void onServerStart(@Nonnull FMLServerStartingEvent event) {
 		event.registerServerCommand(new CommandMonkLevelManip());
 
 	}

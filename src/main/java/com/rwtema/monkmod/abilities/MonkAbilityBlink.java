@@ -20,6 +20,7 @@ import net.minecraftforge.fml.common.gameevent.TickEvent;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
+import javax.annotation.Nullable;
 import java.util.Random;
 
 public class MonkAbilityBlink extends MonkAbility {
@@ -32,7 +33,7 @@ public class MonkAbilityBlink extends MonkAbility {
 
 	@SideOnly(Side.CLIENT)
 	@SubscribeEvent
-	public void onClientTick(TickEvent.ClientTickEvent event) {
+	public void onClientTick(@Nullable TickEvent.ClientTickEvent event) {
 		if (Minecraft.getMinecraft().isGamePaused()) {
 			return;
 		}

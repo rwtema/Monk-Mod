@@ -6,6 +6,7 @@ import com.rwtema.monkmod.advancements.MonkRequirement;
 import com.rwtema.monkmod.factory.Factory;
 import net.minecraftforge.common.config.Property;
 
+import javax.annotation.Nonnull;
 import java.util.HashMap;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
@@ -49,31 +50,36 @@ public class FactoryEntry<T> {
 		}
 	}
 
+	@Nonnull
 	public FactoryEntry<T> setString(String key, String value) {
 		values.put(getParam(key, Factory.Type.STRING), value);
 		return this;
 	}
 
-	public FactoryEntry<T> setInt(String key, Integer value) {
+	@Nonnull
+	public FactoryEntry<T> setInt(String key, @Nonnull Integer value) {
 		values.put(getParam(key, Factory.Type.INTEGER), value.toString());
 		return this;
 	}
 
-	public FactoryEntry<T> setFloat(String key, Float value) {
+	@Nonnull
+	public FactoryEntry<T> setFloat(String key, @Nonnull Float value) {
 		values.put(getParam(key, Factory.Type.FLOAT), value.toString());
 		return this;
 	}
 
+	@Nonnull
 	public FactoryEntry<T> setStringList(String key, String... value) {
 		values.put(getParam(key, Factory.Type.STRINGLIST), Stream.of(value).collect(Collectors.joining(",")));
 		return this;
 	}
 
 
+	@Nonnull
 	public Factory.Parameter getParam(String key, Factory.Type expectedType) {
 		for (Factory.Parameter parameter : factory.parameterList) {
 			if (parameter.name.equals(key)) {
-				if (parameter.type != expectedType && !(parameter.type == Factory.Type.FLOAT && expectedType == Factory.Type.INTEGER) ) {
+				if (parameter.type != expectedType && !(parameter.type == Factory.Type.FLOAT && expectedType == Factory.Type.INTEGER)) {
 					throw new IllegalArgumentException(key + " does not match expected type " + expectedType);
 				}
 				return parameter;

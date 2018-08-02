@@ -5,6 +5,8 @@ import io.netty.buffer.ByteBuf;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraftforge.fml.common.network.simpleimpl.MessageContext;
 
+import javax.annotation.Nonnull;
+
 public class MessageProgress extends MonkNetwork.MessageServerToClient {
 	private int progress;
 	private int max;
@@ -24,13 +26,13 @@ public class MessageProgress extends MonkNetwork.MessageServerToClient {
 	}
 
 	@Override
-	public void fromBytes(ByteBuf buf) {
+	public void fromBytes(@Nonnull ByteBuf buf) {
 		progress = buf.readInt();
 		max = buf.readInt();
 	}
 
 	@Override
-	public void toBytes(ByteBuf buf) {
+	public void toBytes(@Nonnull ByteBuf buf) {
 		buf.writeInt(progress);
 		buf.writeInt(max);
 	}

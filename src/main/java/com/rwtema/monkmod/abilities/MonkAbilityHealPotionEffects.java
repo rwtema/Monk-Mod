@@ -4,6 +4,7 @@ import com.google.common.collect.Lists;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.potion.PotionEffect;
 
+import javax.annotation.Nonnull;
 import java.util.Collection;
 
 public class MonkAbilityHealPotionEffects extends MonkAbility {
@@ -12,7 +13,7 @@ public class MonkAbilityHealPotionEffects extends MonkAbility {
 	}
 
 	@Override
-	public void tickServer(EntityPlayerMP player) {
+	public void tickServer(@Nonnull EntityPlayerMP player) {
 		Collection<PotionEffect> activePotionEffects = Lists.newArrayList(player.getActivePotionEffects());
 		for (PotionEffect potionEffect : activePotionEffects) {
 			if (potionEffect.getPotion().isBadEffect()) {

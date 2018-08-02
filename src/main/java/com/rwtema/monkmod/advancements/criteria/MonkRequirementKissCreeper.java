@@ -13,6 +13,8 @@ import net.minecraft.util.text.TextComponentTranslation;
 import net.minecraftforge.event.entity.player.PlayerInteractEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 
+import javax.annotation.Nonnull;
+
 public class MonkRequirementKissCreeper extends MonkRequirement {
 	public MonkRequirementKissCreeper() {
 		super("kiss_creeper", -1);
@@ -20,7 +22,7 @@ public class MonkRequirementKissCreeper extends MonkRequirement {
 
 
 	@SubscribeEvent
-	public void onRightClickAnimal(PlayerInteractEvent.EntityInteract event) {
+	public void onRightClickAnimal(@Nonnull PlayerInteractEvent.EntityInteract event) {
 		Entity entity = event.getTarget();
 		if (!(entity instanceof EntityCreeper)) return;
 		EntityPlayer entityPlayer = event.getEntityPlayer();

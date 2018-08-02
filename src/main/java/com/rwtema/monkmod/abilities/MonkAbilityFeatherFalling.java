@@ -3,6 +3,7 @@ package com.rwtema.monkmod.abilities;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.DamageSource;
 
+import javax.annotation.Nonnull;
 import java.text.NumberFormat;
 import java.util.Locale;
 
@@ -26,6 +27,7 @@ public class MonkAbilityFeatherFalling extends MonkAbilityProtection {
 	}
 
 
+	@Nonnull
 	@Override
 	protected String[] args() {
 		return new String[]{NumberFormat.getPercentInstance(Locale.UK).format(1 - aFloat)};

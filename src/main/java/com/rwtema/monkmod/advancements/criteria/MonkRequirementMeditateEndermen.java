@@ -5,6 +5,8 @@ import net.minecraft.entity.monster.EntityEnderman;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.util.math.AxisAlignedBB;
 
+import javax.annotation.Nonnull;
+
 public class MonkRequirementMeditateEndermen extends MonkRequirementTick {
 
 	public MonkRequirementMeditateEndermen(int time) {
@@ -12,7 +14,7 @@ public class MonkRequirementMeditateEndermen extends MonkRequirementTick {
 	}
 
 	@Override
-	protected void doTick(EntityPlayerMP player, MonkData monkData) {
+	protected void doTick(@Nonnull EntityPlayerMP player, @Nonnull MonkData monkData) {
 		AxisAlignedBB entityBoundingBox = player.getEntityBoundingBox();
 		AxisAlignedBB grow = entityBoundingBox.grow(20);
 		for (EntityEnderman enderman : player.world.getEntitiesWithinAABB(EntityEnderman.class, grow)) {

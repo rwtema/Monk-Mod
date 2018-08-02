@@ -9,13 +9,15 @@ import net.minecraft.init.MobEffects;
 import net.minecraft.potion.PotionEffect;
 import net.minecraft.util.DamageSource;
 
+import javax.annotation.Nonnull;
+
 public class MonkAbilityWitheringStare extends MonkAbility {
 	public MonkAbilityWitheringStare() {
 		super("withering_stare");
 	}
 
 	@Override
-	public void tickServer(EntityPlayerMP player) {
+	public void tickServer(@Nonnull EntityPlayerMP player) {
 		EntityLiving stareEntity = MonkRequirementStare.getStareEntity(player, EntityLivingBase::isEntityUndead, 20);
 		if (stareEntity != null) {
 			stareEntity.addPotionEffect(new PotionEffect(new PotionEffect(MobEffects.WITHER, 200)));

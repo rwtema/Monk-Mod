@@ -20,6 +20,7 @@ import net.minecraft.util.text.TextComponentTranslation;
 import net.minecraft.util.text.TextFormatting;
 import net.minecraftforge.common.MinecraftForge;
 
+import javax.annotation.Nonnull;
 import java.util.Set;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
@@ -37,11 +38,11 @@ public abstract class MonkAbility implements IFactoryMade {
 			MinecraftForge.EVENT_BUS.register(this);
 	}
 
-	public static boolean isUnarmed(EntityPlayer player) {
+	public static boolean isUnarmed(@Nonnull EntityPlayer player) {
 		return checkForContraband(player, HELD_SLOTS, DAMAGE_MODIFIERS);
 	}
 
-	private static boolean checkForContraband(EntityPlayer player, EntityEquipmentSlot[] slots, Set<String> illegalModifiers) {
+	private static boolean checkForContraband(@Nonnull EntityPlayer player, EntityEquipmentSlot[] slots, @Nonnull Set<String> illegalModifiers) {
 		for (EntityEquipmentSlot slot : slots) {
 			ItemStack itemStack = player.getItemStackFromSlot(slot);
 			if (itemStack.isEmpty()) continue;
@@ -66,7 +67,7 @@ public abstract class MonkAbility implements IFactoryMade {
 		return true;
 	}
 
-	public static boolean isUnarmored(EntityPlayer player) {
+	public static boolean isUnarmored(@Nonnull EntityPlayer player) {
 		return checkForContraband(player, ARMOR_SLOTS, ARMOR_MODIFIERS);
 	}
 
@@ -83,6 +84,7 @@ public abstract class MonkAbility implements IFactoryMade {
 		return name;
 	}
 
+	@Nonnull
 	public ITextComponent getTextComponent() {
 		TextComponentTranslation iTextComponents = new TextComponentTranslation(getUnlocalized());
 		iTextComponents.getStyle().setColor(TextFormatting.AQUA);

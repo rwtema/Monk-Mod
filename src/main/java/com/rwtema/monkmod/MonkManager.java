@@ -20,6 +20,8 @@ import net.minecraftforge.fml.common.gameevent.TickEvent;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 import java.util.Set;
 import java.util.UUID;
 
@@ -38,6 +40,7 @@ public class MonkManager {
 			return false;
 		}
 	};
+	@Nonnull
 	public static MonkData clientData = new MonkData();
 
 	@SubscribeEvent
@@ -66,7 +69,7 @@ public class MonkManager {
 		updatePlayer(player, get(player));
 	}
 
-	private static void updatePlayer(EntityPlayerMP player, MonkData monkData) {
+	private static void updatePlayer(@Nonnull EntityPlayerMP player, MonkData monkData) {
 		int level = monkData.getLevel();
 		for (int i = 0; i < level; i++) {
 			MonkMod.TRIGGER.trigger(player, level);
@@ -90,7 +93,7 @@ public class MonkManager {
 
 
 		if (monkData.dirty > 0) {
-			if(monkData.dirty == NUMBER_OF_TIMES_TO_UPDATE || (monkData.dirty % 6)  == 0)
+			if (monkData.dirty == NUMBER_OF_TIMES_TO_UPDATE || (monkData.dirty % 6) == 0)
 				updatePlayer(playerMP, monkData);
 			monkData.dirty--;
 		}
@@ -115,7 +118,8 @@ public class MonkManager {
 
 	}
 
-	public static MonkData get(EntityPlayer player) {
+	@Nullable
+	public static MonkData get(@Nonnull EntityPlayer player) {
 		if (isClient.apply(player)) {
 			return clientData;
 		}
@@ -123,11 +127,11 @@ public class MonkManager {
 		return player.getCapability(MonkData.MONKLEVELDATA, null);
 	}
 
-	public static boolean getAbilityLevel(EntityPlayer player, MonkAbility ability) {
+	public static boolean getAbilityLevel(@Nonnull EntityPlayer player, MonkAbility ability) {
 		return MonkLevelManager.getAbilities(get(player).getLevel()).contains(ability);
 	}
 
-	public static boolean getAbilityLevel(EntityPlayer player, String key) {
+	public static boolean getAbilityLevel(@Nonnull EntityPlayer player, String key) {
 		return MonkLevelManager.getAbilities(get(player).getLevel()).stream().anyMatch(a -> a.name.equals(key));
 	}
 }

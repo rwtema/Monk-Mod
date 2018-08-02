@@ -9,6 +9,8 @@ import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraftforge.event.entity.living.LivingDeathEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 
+import javax.annotation.Nonnull;
+
 public abstract class MonkRequirementKill extends MonkRequirement {
 
 	public MonkRequirementKill(String name, int num_kills) {
@@ -16,7 +18,7 @@ public abstract class MonkRequirementKill extends MonkRequirement {
 	}
 
 	@SubscribeEvent
-	public void onEntityDeath(LivingDeathEvent event) {
+	public void onEntityDeath(@Nonnull LivingDeathEvent event) {
 		if (!event.getEntity().world.isRemote && isValidEntity(event)) {
 			Entity trueSource = event.getSource().getTrueSource();
 			if (trueSource instanceof EntityPlayerMP) {

@@ -13,6 +13,7 @@ import net.minecraftforge.event.entity.EntityJoinWorldEvent;
 import net.minecraftforge.event.entity.ProjectileImpactEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 
+import javax.annotation.Nonnull;
 import java.util.Collection;
 import java.util.LinkedList;
 import java.util.WeakHashMap;
@@ -25,7 +26,7 @@ public class MonkRequirementArrow extends MonkRequirementTick {
 	}
 
 	@Override
-	protected void doTick(EntityPlayerMP player, MonkData monkData) {
+	protected void doTick(@Nonnull EntityPlayerMP player, @Nonnull MonkData monkData) {
 		Collection<EntityArrow> entityArrows = arrows.get(player);
 		if (entityArrows == null) return;
 
@@ -56,7 +57,7 @@ public class MonkRequirementArrow extends MonkRequirementTick {
 	}
 
 	@SubscribeEvent
-	public void onImpact(ProjectileImpactEvent.Arrow event) {
+	public void onImpact(@Nonnull ProjectileImpactEvent.Arrow event) {
 		if (event.getArrow().world.isRemote) return;
 
 		RayTraceResult rayTraceResult = event.getRayTraceResult();
@@ -73,7 +74,7 @@ public class MonkRequirementArrow extends MonkRequirementTick {
 
 
 	@SubscribeEvent
-	public void onEntityJoinWorld(EntityJoinWorldEvent event) {
+	public void onEntityJoinWorld(@Nonnull EntityJoinWorldEvent event) {
 		Entity entity = event.getEntity();
 		if (!entity.world.isRemote && entity instanceof EntityArrow) {
 			EntityArrow arrow = (EntityArrow) entity;

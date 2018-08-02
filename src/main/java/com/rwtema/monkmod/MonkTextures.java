@@ -43,8 +43,8 @@ import static com.rwtema.monkmod.MonkMod.ITEM_MONK_BASE;
 @SideOnly(Side.CLIENT)
 public class MonkTextures {
 	static final String MEDITATE = MonkMod.MODID + ":icon/meditate";
-	private static TextureMap map;
 	public static KeyBinding blink;
+	private static TextureMap map;
 
 	public static void init() {
 		blink = new KeyBinding("Blink", Keyboard.KEY_F, "Monk Mod");
@@ -95,6 +95,7 @@ public class MonkTextures {
 	}
 
 	private static class Model implements IBakedModel {
+		@Nonnull
 		Map<String, IBakedModel> modelMap = new HashMap<>();
 
 		@Nonnull
@@ -148,14 +149,17 @@ public class MonkTextures {
 	}
 
 	private static class MyIBakedModel implements IBakedModel {
+		@Nonnull
 		final TextureAtlasSprite sprite;
+		@Nonnull
 		final List<BakedQuad> quads;
 
-		private MyIBakedModel(TextureAtlasSprite sprite) {
+		private MyIBakedModel(@Nonnull TextureAtlasSprite sprite) {
 			this.sprite = sprite;
 			quads = ItemLayerModel.getQuadsForSprite(0, sprite, DefaultVertexFormats.ITEM, Optional.of(TRSRTransformation.identity()));
 		}
 
+		@Nonnull
 		@Override
 		public List<BakedQuad> getQuads(@Nullable IBlockState state, @Nullable EnumFacing side, long rand) {
 			return quads;
