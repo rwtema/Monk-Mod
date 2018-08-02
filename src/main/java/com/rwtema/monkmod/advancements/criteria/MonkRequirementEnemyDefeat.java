@@ -3,6 +3,7 @@ package com.rwtema.monkmod.advancements.criteria;
 import com.rwtema.monkmod.MonkManager;
 import com.rwtema.monkmod.abilities.MonkAbility;
 import com.rwtema.monkmod.data.MonkData;
+import com.rwtema.monkmod.helper.TranslateHelper;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityList;
 import net.minecraft.entity.EntityLivingBase;
@@ -10,7 +11,6 @@ import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.util.DamageSource;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.text.TextComponentTranslation;
-import net.minecraft.util.text.translation.I18n;
 import net.minecraftforge.event.entity.living.LivingDamageEvent;
 import net.minecraftforge.event.entity.living.LivingDeathEvent;
 import net.minecraftforge.fml.common.eventhandler.EventPriority;
@@ -107,7 +107,7 @@ public class MonkRequirementEnemyDefeat extends MonkRequirementTick {
 		}
 
 		//noinspection deprecation
-		return new Object[]{requirementLimit, I18n.translateToLocal("entity." + s1 + ".name")};
+		return new Object[]{requirementLimit, TranslateHelper.translateKey("entity." + s1 + ".name")};
 	}
 
 	private class Entry {

@@ -5,11 +5,11 @@ import com.google.gson.JsonParser;
 import com.rwtema.monkmod.MonkMod;
 import com.rwtema.monkmod.abilities.MonkAbility;
 import com.rwtema.monkmod.config.MonkConfiguration;
+import com.rwtema.monkmod.helper.TranslateHelper;
 import com.rwtema.monkmod.levels.MonkLevelManager;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.TextComponentTranslation;
-import net.minecraft.util.text.translation.I18n;
 import net.minecraft.world.storage.SaveFormatOld;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.lang3.Validate;
@@ -38,7 +38,7 @@ public class MonkAdvancements {
 		}
 		if (MonkMod.debug) {
 			//noinspection deprecation
-			MonkMod.logger.info(keys.stream().sorted().map(s -> s + "=" + (I18n.canTranslate(s) ? I18n.translateToLocal(s) : "")).collect(Collectors.joining("\n", "Keys::\n", "\n")));
+			MonkMod.logger.info(keys.stream().sorted().map(s -> s + "=" + (TranslateHelper.canTranslate(s) ? TranslateHelper.translateKey(s) : "")).collect(Collectors.joining("\n", "Keys::\n", "\n")));
 		}
 	}
 
