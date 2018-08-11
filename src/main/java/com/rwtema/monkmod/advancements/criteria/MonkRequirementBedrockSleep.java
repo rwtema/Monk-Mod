@@ -20,33 +20,13 @@ import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 
 import javax.annotation.Nonnull;
 
-public class MonkRequirementBedrockSleep extends MonkRequirement {
+public class MonkRequirementBedrockSleep extends MonkRequirementSleep {
 	public MonkRequirementBedrockSleep() {
 		super("bedrock_sleep", -1);
 	}
 
-	@SubscribeEvent
-	public void rightClickBedrock(@Nonnull PlayerInteractEvent.RightClickBlock event) {
-		World world = event.getWorld();
-		BlockPos pos = event.getPos();
-		if (world.provider.canRespawnHere() && world.getBiome(pos) != Biomes.HELL) {
-			EntityPlayer player = event.getEntityPlayer();
-			MonkData monkData = MonkManager.get(player);
-			if (monkData.getLevel() == (this.levelToGrant - 1)) {
-				if (!checkPos(world, pos)) return;
 
-				event.setCancellationResult(EnumActionResult.SUCCESS);
-				event.setCanceled(true);
-				if (world.isRemote) {
-					return;
-				}
-
-				player.trySleep(pos.up());
-			}
-		}
-	}
-
-	private boolean checkPos(World world, @Nonnull BlockPos pos) {
+	protected boolean checkPos(World world, @Nonnull BlockPos pos) {
 		IBlockState state = world.getBlockState(pos);
 		if (state.getBlock() != Blocks.BEDROCK || !world.isAirBlock(pos.up())) {
 			return false;
@@ -61,28 +41,5 @@ public class MonkRequirementBedrockSleep extends MonkRequirement {
 		return false;
 	}
 
-	@SubscribeEvent
-	public void awaken(@Nonnull PlayerWakeUpEvent event) {
-		EntityPlayer entityPlayer = event.getEntityPlayer();
-		if (entityPlayer instanceof EntityPlayerMP) {
-			MonkData monkData = MonkManager.get(entityPlayer);
-			if (monkData.getLevel() == (this.levelToGrant - 1)) {
-				if (checkPos(entityPlayer.world, entityPlayer.bedLocation.down())) {
-					grantLevel((EntityPlayerMP) entityPlayer);
-				}
-			}
-		}
-	}
-
-	@SubscribeEvent
-	public void continueSleep(@Nonnull SleepingLocationCheckEvent event) {
-		EntityPlayer entityPlayer = event.getEntityPlayer();
-		MonkData monkData = MonkManager.get(entityPlayer);
-		if (monkData.getLevel() == (this.levelToGrant - 1)) {
-			if (checkPos(entityPlayer.world, event.getSleepingLocation().down())) {
-				event.setResult(Event.Result.ALLOW);
-			}
-		}
-	}
 
 }
