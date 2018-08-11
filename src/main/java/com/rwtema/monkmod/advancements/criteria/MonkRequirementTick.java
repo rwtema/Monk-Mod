@@ -15,7 +15,7 @@ public abstract class MonkRequirementTick extends MonkRequirement {
 	}
 
 	@SubscribeEvent
-	public void walk(@Nonnull TickEvent.PlayerTickEvent event) {
+	public void tick(@Nonnull TickEvent.PlayerTickEvent event) {
 		if (event.phase == TickEvent.Phase.START) {
 			return;
 		}
