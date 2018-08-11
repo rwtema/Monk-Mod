@@ -33,10 +33,11 @@ import org.apache.logging.log4j.Logger;
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
-@Mod(modid = MonkMod.MODID, name = MonkMod.NAME)
+@Mod(modid = MonkMod.MODID, name = MonkMod.NAME, version = MonkMod.VERSION)
 public class MonkMod {
 	public static final String MODID = "monk";
-	public static final String NAME = "Monk";
+	public static final String NAME = "Monk Mod";
+	public static final String VERSION = "1.4";
 	public static final MonkCriterionTrigger TRIGGER = CriteriaTriggers.register(new MonkCriterionTrigger());
 	public static final ItemMonkBase ITEM_MONK_BASE = new ItemMonkBase();
 	public static int MAX_LEVEL;
