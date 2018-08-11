@@ -34,9 +34,11 @@ public class MonkConfiguration {
 
 	@SuppressWarnings("unchecked")
 	public static void genDefaultConfig() {
-		ConfigCategory category = MonkMod.config.getCategory(MONK_LEVEL_DATA);
-		category.clear();
-		ImmutableList.copyOf(category.getChildren()).forEach(category::removeChild);
+		{
+			ConfigCategory category = MonkMod.config.getCategory(MONK_LEVEL_DATA);
+			MonkMod.config.removeCategory(category);
+		}
+//		ImmutableList.copyOf(category.getChildren()).forEach(category::removeChild);
 
 		MonkMod.config.get(MONK_LEVEL_DATA, "Max Level", 20, "Number of Levels").getInt();
 
@@ -47,6 +49,7 @@ public class MonkConfiguration {
 				"\n\n\n" +
 				"Requirements:\n\n" +
 				Factory.requirementFactories.values().stream().sorted(Comparator.comparing(f -> f.name)).map(Object::toString).collect(Collectors.joining("\n"));
+		ConfigCategory category = MonkMod.config.getCategory(MONK_LEVEL_DATA);
 		category.setComment(comment);
 		MonkMod.config.save();
 
