@@ -5,10 +5,12 @@ import com.google.gson.JsonParser;
 import com.rwtema.monkmod.MonkMod;
 import com.rwtema.monkmod.abilities.MonkAbility;
 import com.rwtema.monkmod.config.MonkConfiguration;
+import com.rwtema.monkmod.factory.Factory;
 import com.rwtema.monkmod.helper.TranslateHelper;
 import com.rwtema.monkmod.levels.MonkLevelManager;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.util.text.ITextComponent;
+import net.minecraft.util.text.TextComponentString;
 import net.minecraft.util.text.TextComponentTranslation;
 import net.minecraft.world.storage.SaveFormatOld;
 import org.apache.commons.io.FileUtils;
@@ -29,8 +31,19 @@ public class MonkAdvancements {
 	private static final HashSet<String> keys = new HashSet<>();
 
 	public static void registerAdvancements(@Nonnull MinecraftServer server) {
-		if (MonkMod.debug)
+		if (MonkMod.debug) {
 			keys.clear();
+			for (Factory<MonkRequirement> value : Factory.requirementFactories.values()) {
+				MonkRequirement requirement = value.function.apply(new NullParameters());
+				serializeTextComponent(requirement.getDescriptionComponent());
+			}
+			for (Factory<MonkAbility> value : Factory.abilityFactories.values()) {
+				MonkAbility requirement = value.function.apply(new NullParameters());
+				serializeTextComponent(requirement.getTextComponent());
+			}
+
+		}
+
 		try {
 			loadData(server);
 		} catch (IOException e) {
@@ -153,4 +166,45 @@ public class MonkAdvancements {
 		return new JsonParser().parse(ITextComponent.Serializer.componentToJson(component));
 	}
 
+	private static class NullParameters extends Factory.Parameters {
+		@Override
+		public float getFloat(String key) {
+			return 0;
+		}
+
+		@Override
+		public float getFloat(String key, float _default) {
+			return 0;
+		}
+
+		@Override
+		public int getInt(String key) {
+			return 0;
+		}
+
+		@Override
+		public int getInt(String key, int _default) {
+			return 0;
+		}
+
+		@Override
+		public String getString(String key) {
+			return "";
+		}
+
+		@Override
+		public String getString(String key, String _default) {
+			return "";
+		}
+
+		@Override
+		public ITextComponent getTextComponent(String key) {
+			return new TextComponentString("");
+		}
+
+		@Override
+		public ITextComponent getTextComponent(String desc, ITextComponent _default) {
+			return new TextComponentString("");
+		}
+	}
 }
