@@ -11,6 +11,8 @@ import net.minecraft.init.MobEffects;
 import net.minecraft.item.ItemStack;
 import net.minecraft.potion.PotionEffect;
 import net.minecraft.util.ResourceLocation;
+import net.minecraft.util.text.ITextComponent;
+import net.minecraft.util.text.TextComponentString;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.entity.living.LivingDeathEvent;
 
@@ -116,6 +118,7 @@ public class Factory<T> {
 		Factory.registerRequirement(parameters -> new MonkRequirementStare(parameters.getInt("stare_time")));
 		Factory.registerRequirement(parameters -> new MonkRequirementMeditateEndermen(parameters.getInt("time", 30 * 20)));
 		Factory.registerRequirement(parameters -> new MonkRequirementBedrockSleep());
+		Factory.registerRequirement(parameters -> new MonkRequirementAdvancement(new ResourceLocation(parameters.getString("advancement_resource_location")), parameters.getTextComponent("achievement_name", new TextComponentString("Achievement Name")) ) );
 		Factory.registerRequirement(parameters -> new MonkRequirementKill("kill_hostile", parameters.getInt("kills")) {
 			@Override
 			protected boolean isValidEntity(@Nonnull LivingDeathEvent event) {
@@ -199,7 +202,8 @@ public class Factory<T> {
 		INTEGER,
 		FLOAT,
 		STRING,
-		STRINGLIST
+		STRINGLIST,
+		TEXT_COMPONENT
 	}
 
 	public static abstract class Parameters {
@@ -219,6 +223,10 @@ public class Factory<T> {
 			String string = getString(key);
 			return string.split(",");
 		}
+
+		public abstract ITextComponent getTextComponent(String key);
+
+		public abstract ITextComponent getTextComponent(String desc, ITextComponent _default);
 
 		public String[] getStringList(String key, String[] _defaults) {
 			return getString(key, Stream.of(_defaults).collect(Collectors.joining(","))).split(",");
@@ -273,6 +281,18 @@ public class Factory<T> {
 		public String[] getStringList(String key) {
 			parameterList.add(new Parameter(key, Type.STRINGLIST, null));
 			return new String[0];
+		}
+
+		@Override
+		public ITextComponent getTextComponent(String key) {
+			parameterList.add(new Parameter(key, Type.TEXT_COMPONENT, ITextComponent.Serializer.componentToJson(new TextComponentString("Example"))));
+			return new TextComponentString("");
+		}
+
+		@Override
+		public ITextComponent getTextComponent(String key, ITextComponent _default) {
+			parameterList.add(new Parameter(key, Type.TEXT_COMPONENT, ITextComponent.Serializer.componentToJson(_default)));
+			return new TextComponentString("");
 		}
 
 		@Nonnull

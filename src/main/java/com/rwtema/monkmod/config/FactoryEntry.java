@@ -46,6 +46,9 @@ public class FactoryEntry<T> {
 				case STRINGLIST:
 					MonkMod.config.getStringList(parameter.name, categoryName, s.split(","), null);
 					break;
+				case TEXT_COMPONENT:
+					MonkMod.config.get(categoryName, parameter.name, s, null, Property.Type.STRING).getString();
+					break;
 			}
 		}
 	}
@@ -71,6 +74,12 @@ public class FactoryEntry<T> {
 	@Nonnull
 	public FactoryEntry<T> setStringList(String key, String... value) {
 		values.put(getParam(key, Factory.Type.STRINGLIST), Stream.of(value).collect(Collectors.joining(",")));
+		return this;
+	}
+
+	@Nonnull
+	public FactoryEntry<T> setTextComponent(String key, String value) {
+		values.put(getParam(key, Factory.Type.TEXT_COMPONENT), value);
 		return this;
 	}
 

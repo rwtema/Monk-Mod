@@ -3,12 +3,15 @@ package com.rwtema.monkmod.config;
 import com.google.common.collect.HashBiMap;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableSet;
+import com.google.gson.JsonParseException;
 import com.rwtema.monkmod.MonkMod;
 import com.rwtema.monkmod.abilities.MonkAbility;
 import com.rwtema.monkmod.advancements.MonkRequirement;
 import com.rwtema.monkmod.factory.Factory;
 import com.rwtema.monkmod.levels.MonkLevelManager;
 import net.minecraft.util.ResourceLocation;
+import net.minecraft.util.text.ITextComponent;
+import net.minecraft.util.text.TextComponentString;
 import net.minecraftforge.common.config.ConfigCategory;
 import net.minecraftforge.common.config.Property;
 
@@ -281,6 +284,29 @@ public class MonkConfiguration {
 			public String[] getStringList(String key) {
 				checkKey(key);
 				return category.get(key).getStringList();
+			}
+
+			@Override
+			public ITextComponent getTextComponent(String key) {
+				String string = getString(key);
+				return getTextComponentFromString(string);
+			}
+
+			ITextComponent getTextComponentFromString(String string) {
+				ITextComponent component = null;
+
+				try {
+					component = ITextComponent.Serializer.fromJsonLenient(string);
+				} catch (JsonParseException error) {
+					component = new TextComponentString(string);
+				}
+				return component;
+			}
+
+			@Override
+			public ITextComponent getTextComponent(String desc, ITextComponent _default) {
+				String string = getString(desc, ITextComponent.Serializer.componentToJson(_default));
+				return getTextComponentFromString(string);
 			}
 
 			@Override
