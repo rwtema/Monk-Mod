@@ -8,6 +8,7 @@ import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.init.MobEffects;
 import net.minecraft.potion.PotionEffect;
 import net.minecraft.util.DamageSource;
+import net.minecraft.util.EntityDamageSource;
 
 import javax.annotation.Nonnull;
 
@@ -23,7 +24,7 @@ public class MonkAbilityWitheringStare extends MonkAbility {
 			stareEntity.addPotionEffect(new PotionEffect(new PotionEffect(MobEffects.WITHER, 200)));
 			if (stareEntity instanceof EntityWither) {
 				if (!((EntityWither) stareEntity).isArmored()) {
-					stareEntity.attackEntityFrom(DamageSource.WITHER, 20);
+					stareEntity.attackEntityFrom(new EntityDamageSource("wither", player), 5);
 				}
 			}
 		}
