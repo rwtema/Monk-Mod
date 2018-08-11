@@ -3,6 +3,7 @@ package com.rwtema.monkmod.factory;
 import com.google.common.collect.Sets;
 import com.rwtema.monkmod.abilities.*;
 import com.rwtema.monkmod.advancements.MonkRequirement;
+import com.rwtema.monkmod.advancements.MonkRequirementAdvancement;
 import com.rwtema.monkmod.advancements.criteria.*;
 import net.minecraft.block.Block;
 import net.minecraft.entity.monster.IMob;
@@ -52,6 +53,7 @@ public class Factory<T> {
 		Factory.registerAbility(parameters -> new MonkAbilityExplosionProof(parameters.getFloat("multiplier")));
 		Factory.registerAbility(parameters -> new MonkAbilityFeatherFalling(parameters.getFloat("multiplier")));
 		Factory.registerAbility(parameters -> new MonkAbilityFly());
+		Factory.registerAbility(parameters -> new MonkAbilityGlassTouch());
 		Factory.registerAbility(parameters -> new MonkAbilityHealPotionEffects());
 		Factory.registerAbility(parameters -> new MonkAbilityHealth(parameters.getFloat("health_increase")));
 		Factory.registerAbility(parameters -> new MonkAbilityHunger(parameters.getFloat("hunger_chance")));
@@ -60,6 +62,7 @@ public class Factory<T> {
 		Factory.registerAbility(parameters -> new MonkAbilityProtectionFire(parameters.getFloat("multiplier")));
 		Factory.registerAbility(parameters -> new MonkAbilitiyProtectionLava());
 		Factory.registerAbility(parameters -> new MonkAbilitySpeed(parameters.getFloat("increase")));
+		Factory.registerAbility(parameters -> new MonkAbilityStepUp());
 		Factory.registerAbility(parameters -> new MonkAbilityStrength(parameters.getFloat("damage")));
 		Factory.registerAbility(parameters -> new MonkAbilityTameAnimals());
 		Factory.registerAbility(parameters -> new MonkAbilityWalkOnWater());

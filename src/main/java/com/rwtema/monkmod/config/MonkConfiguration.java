@@ -85,7 +85,8 @@ public class MonkConfiguration {
 		register(8, "skeleton",
 				FactoryEntry.requirement("arrow_dodge").setInt("dodges", 5),
 				FactoryEntry.ability("catch_arrows"),
-				FactoryEntry.ability("swift").setFloat("increase", 0.8F));
+				FactoryEntry.ability("swift").setFloat("increase", 0.8F),
+				FactoryEntry.ability("step_up"));
 
 		register(9, "iron_golem",
 				FactoryEntry.requirement("break_block").setString("block", "minecraft:iron_block").setInt("number", 4), FactoryEntry.ability("mining").setInt("harvest_level", 2).setFloat("speed_increase", 5F));
