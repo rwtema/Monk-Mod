@@ -121,6 +121,7 @@ public class Factory<T> {
 		Factory.registerRequirement(parameters -> new MonkRequirementStare(parameters.getInt("stare_time")));
 		Factory.registerRequirement(parameters -> new MonkRequirementMeditateEndermen(parameters.getInt("time", 30 * 20)));
 		Factory.registerRequirement(parameters -> new MonkRequirementBedrockSleep());
+		Factory.registerRequirement(parameters -> new MonkRequirementSleepCactus());
 		Factory.registerRequirement(parameters -> new MonkRequirementAdvancement(new ResourceLocation(parameters.getString("advancement_resource_location")), parameters.getTextComponent("achievement_name", new TextComponentString("Achievement Name")) ) );
 		Factory.registerRequirement(parameters -> new MonkRequirementKill("kill_hostile", parameters.getInt("kills")) {
 			@Override
