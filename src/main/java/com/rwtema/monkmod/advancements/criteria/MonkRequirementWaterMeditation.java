@@ -2,7 +2,6 @@ package com.rwtema.monkmod.advancements.criteria;
 
 import com.rwtema.monkmod.data.MonkData;
 import net.minecraft.entity.Entity;
-import net.minecraft.entity.item.EntityBoat;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.util.math.Vec3d;
 
@@ -16,7 +15,7 @@ public class MonkRequirementWaterMeditation extends MonkRequirementTick {
 	@Override
 	protected void doTick(@Nonnull EntityPlayerMP player, @Nonnull MonkData monkData) {
 		Entity ridingEntity = player.getRidingEntity();
-		if (!(ridingEntity instanceof EntityBoat)) {
+		if (ridingEntity == null || !(ridingEntity.getClass().getName().equals("net.minecraft.entity.item.EntityBoat"))) {
 			monkData.resetProgress();
 			return;
 		}
